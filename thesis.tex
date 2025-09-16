@@ -58,52 +58,52 @@ if only an average contribution to the potential from the other electrons (with 
 retrieving an \textbf{effective one-electron potential}.\\
 The resulting Hamiltonian for the single independent electron is:
 \begin{equation}
-    \mathrm{H}\psi(r)=\left(-\frac{\hbar^2}{2m}\nabla^2+V(r)\right)\psi(r)=E\psi(r),
+    \mathrm{H}\psi(\mathbf{r})=\left(-\frac{\hbar^2}{2m}\nabla^2+V(\mathbf{r})\right)\psi(\mathbf{r})=E\psi(\mathbf{r}),
     \label{eq_0_00}
 \end{equation}
 where $V(r)$ is a periodic potential with the lattice periodicity, given a lattice translation vector
 \begin{equation}
-    \mathbf{T}=n_1\mathbf{a_1}+n_2\mathbf{a_2}+n_3\mathbf{a_3},\hspace{1cm}n_1,n_2,n_3\hspace{0.5cm}\mathrm{integers},
+    \mathbf{T}=n_1\mathbf{a}_1+n_2\mathbf{a}_2+n_3\mathbf{a}_3,\hspace{1cm}n_1,n_2,n_3\hspace{0.5cm}\mathrm{integers},
 \end{equation}
-with $\mathbf{a_1}$, $\mathbf{a_2}$ and $\mathbf{a_3}$ primitive translation vectors.
+with $\mathbf{a}_1$, $\mathbf{a}_2$ and $\mathbf{a}_3$ primitive translation vectors.
 Therefore, we have
 \begin{equation}
-    V(r+T)=V(r)
+    V(\mathbf{r}+\mathbf{T})=V(\mathbf{r})
 \end{equation}
 This means that the potential can be expanded in Fourier series
 \begin{equation}
-    V(r)=\sum_KV_Ke^{iK\cdot r},
+    V(\mathbf{K})=\sum_\mathbf{K}V_\mathbf{K}e^{i\mathbf{K}\cdot \mathbf{r}},
 \end{equation}
 and is consequently useful to expand the wavefunction in the same way. For this reason the Born-von Karman boundary conditions
 are applied \cite{Ashcroft76}
 \begin{equation}
-    \psi(r+N_ia_i)=\psi(r),\hspace{1cm}i=1,2,3.
+    \psi(\mathbf{r}+N_i\mathbf{a}_i)=\psi(\mathbf{r}),\hspace{1cm}i=1,2,3.
 \end{equation}
-where $N_ia_i$ is a chosen vector such that $V(r+N_ia_i)=V(r)$ (it is a translation vector for the lattice). This is a normalizing
+where $N_i\mathbf{a}_i$ is a chosen vector such that $V(r+N_ia_i)=V(\mathbf{r})$ (it is a translation vector for the lattice). This is a normalizing
 condition for the wavefunction which corresponds to taking $N_i$ unit cell in each direction and periodically repeating them. In this 
 way it is possible to write the wavefunction in the following way:
 \begin{equation}
-    \psi(r)=\sum_qc_qe^{iq\cdot r}.
+    \psi(\mathbf{r})=\sum_\mathbf{q}c_\mathbf{q}e^{i\mathbf{q}\cdot\mathbf{r}}.
     \label{eq_0_01}
 \end{equation}
-Going back to the periodic potential $U(r)$ we observe that the Fourier terms $U_K$ are related to $U(r)$ by
+Going back to the periodic potential $U(\mathbf{r})$ we observe that the Fourier terms $U_\mathbf{K}$ are related to $U(\mathbf{r})$ by
 \begin{equation}
-    U_K=\frac{1}{v}\int_{cell}dre^{-iK\cdot r}U(r)
+    U_\mathbf{K}=\frac{1}{V}\int_{cell}dre^{-i\mathbf{K}\cdot\mathbf{r}}U(\mathbf{r})
 \end{equation}
-with $v$ unit cell volume and $K$ reciprocal lattice vector (vector in k-space such that $e^{iK\cdot a_i}=1$). If it is 
-assumed that the potential $V(r)$ is real and $V(-r)=V(r)$ (valid for every Bravais lattice) it follows that the coefficients 
-$U_K$ are real.\\
+with $V$ unit cell volume and $\mathbf{K}$ reciprocal lattice vector (vector in k-space such that $e^{i\mathbf{K}\cdot \mathbf{a}_i}=1$). If it is 
+assumed that the potential $V(\mathbf{r})$ is real and $V(-\mathbf{r})=V(\mathbf{r})$ (valid for every Bravais lattice) it follows that the coefficients 
+$U_\mathbf{K}$ are real.\\
 Substituting in \ref{eq_0_00} we obtain:
 \begin{equation}
-    (\mathrm{H}-E)\psi(r)=\sum_q\left(\frac{\hbar^2}{2m}q^2-E\right)c_qe^{iq\cdot r}+\sum_{Kq'}U_Kc_{q'-K}e^{iq'\cdot r}=0,
+    (\mathrm{H}-E)\psi(\mathbf{r})=\sum_\mathbf{q}\left(\frac{\hbar^2}{2m}q^2-E\right)c_\mathbf{q}e^{i\mathbf{q}\cdot\mathbf{r}}+\sum_{\mathbf{K}\mathbf{q}'}U_\mathbf{K}c_{\mathbf{q}'-\mathbf{K}}e^{i\mathbf{q}'\cdot\mathbf{r}}=0,
 \end{equation}
 which yields the following result:
 \begin{equation}
-    \left(\frac{\hbar^2}{2m}(k-K)^2-E\right)c_{k-K}+\sum_{K'}c_{K'-K}c_{k-K'}=0.
+    \left(\frac{\hbar^2}{2m}(\mathbf{k}-\mathbf{K})^2-E\right)c_{\mathbf{k}-\mathbf{K}}+\sum_{\mathbf{K}'}c_{\mathbf{K}'-\mathbf{K}}c_{\mathbf{k}-\mathbf{K}'}=0.
 \end{equation}
-From this equation it becomes clear that for a fixed $k$ only the coefficients $c_k,c_{k-K},...$ whose wavevector differs from 
-$k$ by a reciprocal lattice vector are coupled. In this way the original problem has been divided in $N$ independent equations for 
-each allowed value of $k$ (in the first Brillouin zone, the primitive unit cell in the reciprocal space).\\
+From this equation it becomes clear that for a fixed $k$ only the coefficients $c_\mathbf{k},c_{\mathbf{k}-\mathbf{K}},...$ whose wavevector differs from 
+$\mathbf{k}$ by a reciprocal lattice vector are coupled. In this way the original problem has been divided in $N$ independent equations for 
+each allowed value of $\mathbf{k}$ (in the first Brillouin zone, the primitive unit cell in the reciprocal space).\\
 Going back to the expansion \ref{eq_0_01} the wavefunction now becomes:
 \begin{equation}
     \psi_k(r)=\sum_{K}c_{k-K}e^{i(k-K)\cdot r},
@@ -114,41 +114,41 @@ which can be recast as
 \end{equation}
 in this form it is easy to recognize that 
 \begin{equation}
-    u_k(r)=\sum_Kc_{k-K}e^{-iK\cdot R}
+    u_\mathbf{k}(\mathbf{r})=\sum_\mathbf{K}c_{\mathbf{k}-\mathbf{K}}e^{-i\mathbf{K}\cdot\mathbf{R}}
 \end{equation}
 has the periodicity of the (reciprocal) Bravais lattice.\\
 The shape of the Bloch wavefunction as stated in the Bloch theorem is thus retrieved
 \begin{equation}
-    \psi_k(r)=e^{ik\cdot r}u_k(r)
+    \psi_\mathbf{k}(\mathbf{r})=e^{i\mathbf{k}\cdot \mathbf{r}}u_\mathbf{k}(\mathbf{r})
 \end{equation}
-and its square modulus (from which important properties such as charge distribution follow) $|\psi(k)|^2$ has the periodicity of the
+and its square modulus (from which important properties such as charge distribution follow) $|\psi_\mathbf{k}(\mathbf{r})|^2$ has the periodicity of the
 lattice.\\
 The new Hamiltonian eigenvalues equation using Bloch wavefunction reads
 \begin{equation}
-    \mathrm{H}_k u_{nk}=\left(\frac{\hbar^2}{2m}\left(\frac{1}{i}\nabla+k\right)^2+U(r)\right)u_{nk}(r)=E_{nk}u_{nk}(r),
+    \mathrm{H}_\mathbf{k} u_{n\mathbf{k}}=\left(\frac{\hbar^2}{2m}\left(\frac{1}{i}\nabla+\mathbf{k}\right)^2+U(\mathbf{r})\right)u_{n\mathbf{k}}(\mathbf{r})=E_{n\mathbf{k}}u_{n\mathbf{k}}(\mathbf{r}),
 \end{equation}
-which yields a different energy eigenvalue for each $k$ in the first Brillouin zone. The index $n$ arises from the fact that for 
-each $k$ value infinite discrete solutions to the eigenvalue equation exist, in the same as in the particle in a box problem. Going 
+which yields a different energy eigenvalue for each $\mathbf{k}$ in the first Brillouin zone. The index $n$ arises from the fact that for 
+each $\mathbf{k}$ value infinite discrete solutions to the eigenvalue equation exist, in the same as in the particle in a box problem. Going 
 to the thermodynamic limit ($N_i\to\infty$ for each component $i$) the entire first Brillouin zone is sampled and the typical band 
 structure of the solids is recovered.\\
 All the methods employed in solid state calculations rely on this "simple" equation to determine band structures, granted 
-analytical form of the periodic potential $U(r)$ can be retrieved.\\
+analytical form of the periodic potential $U(\mathbf{r})$ can be retrieved.\\
 The most used and effective computation method is \textbf{Density Functional Theory} \cite{thijssen2007computational} or \textbf{DFT} 
 for short, which does not directly compute the eigenvalue equation for each single $k$ and $n$ value, which would be impossible since 
-the potential $U(r)$ is a many-body object that includes electron-electon interactions, but rather computes all the physical quantities of 
-interest starting from the ground state charge density $\rho_0(r)$. This is made possible by the two Hohenberg-Kohn theorems \cite{hohenberg1964inhomogeneous}, 
-which respectively state that the external potential (the periodic $U(r)$ from the electron point of view) is uniquely determined 
-up to a constant by the ground state charge density $\rho_0(r)$ and that this density can be computed variationally by minimizing a suitable 
+the potential $U(\mathbf{r})$ is a many-body object that includes electron-electon interactions, but rather computes all the physical quantities of 
+interest starting from the ground state charge density $\rho_0(\mathbf{r})$. This is made possible by the two Hohenberg-Kohn theorems \cite{hohenberg1964inhomogeneous}, 
+which respectively state that the external potential (the periodic $U(\mathbf{r})$ from the electron point of view) is uniquely determined 
+up to a constant by the ground state charge density $\rho_0(\mathbf{r})$ and that this density can be computed variationally by minimizing a suitable 
 functional $F[\rho]$.\\
-Nevertheless, the functional $F[n]$ exact form is unknown: for this reason the \textbf{Kohn-Sham scheme} \cite{PhysRev.140.A1133} 
+Nevertheless, the functional $F[\rho]$ exact form is unknown: for this reason the \textbf{Kohn-Sham scheme} \cite{PhysRev.140.A1133} 
 is used. The idea at the basis of this practical setup is to substitute the real interacting system (many-body) with an auxiliary non-interacting
-one (single particle) which has the same ground state as the original. In this system the total potential $V(r)=V_{ion}(r)+V_{ee}(r)$ is 
-replaced with an effective potential $V_{eff}(r)$ defined as
+one (single particle) which has the same ground state as the original. In this system the total potential $V(\mathbf{r})=V_{ion}(\mathbf{r})+V_{ee}(\mathbf{r})$ is 
+replaced with an effective potential $V_{eff}(\mathbf{r})$ defined as
 \begin{equation}
-    U_{eff}(r)=U_{ion}(r)+U_H(r)+U_{xc}(r),
+    U_{eff}(\mathbf{r})=U_{ion}(\mathbf{r})+U_H(\mathbf{r})+U_{xc}(\mathbf{r}),
 \end{equation}
-where $U_{ion}$ is the ionic potential, often modelled using pseudopotentials \cite{kerker1980non}, $U_H(r)$ is the Hartree term, the electrostatic 
-potential due to the mean field distribution of all the other electrons, and $U_{xc}$ the exchange-correlation term, an approximate potential 
+where $U_{ion}$ is the ionic potential, often modelled using pseudopotentials \cite{kerker1980non}, $U_H(\mathbf{r})$ is the Hartree term, the electrostatic 
+potential due to the mean field distribution of all the other electrons, and $U_{xc}(\mathbf{r})$ the exchange-correlation term, an approximate potential 
 which includes Pauli exclusion principle (exchange), higher order electron-electron interactions (correlation) and many body corrections to kinetic energy. The exchange-correlation 
 term is usually computed using \textbf{LDA} (Local Density Approximation) or \textbf{GGA} (Generalized Gradient Approximation), both based on the the Uniform Electron 
 Gas (UEG) \cite{ziesche1998density}.
@@ -162,7 +162,7 @@ with few drawbacks, such as inaccurate gap estimations in insulators and semicon
 \end{figure}
 As it can be seen in Figure \ref{fig:GaAs_Wurtzite_structure} for GaAs, at the band extrema (at the edge between the allowed band states 
 and the forbidden gap) the bands have a quadratic dispersion akin to that of a free electron: an electron in these regions only feel a 
-very weak external potential $U(r)$ and can be considered as free provided that the free electron mass $m$ is substituted with an effective mass 
+very weak external potential $U(\mathbf{r})$ and can be considered as free provided that the free electron mass $m$ is substituted with an effective mass 
 $m^*$ which takes into account the potential acting on it.\\
 In a general case the effective mass is a tensorial quantity (bands are anisotropic in general with respect to the wavevector) and 
 their value can be computed with
@@ -178,12 +178,12 @@ dynamics. This is the so-called \textbf{Born-Oppenheimer approximation}, which a
 slow compared to the fast dynamics of the electrons (the characteristic time are of the order of $ps$ for ions and $fs$ for 
 electrons). As a result, electrons are considered to respond instantaneously to changes in the positions of the ions, allowing 
 the separation of electronic and ionic degrees of freedom in the analysis. Given $M$ ions and $n$ electrons the wavefunction 
-$\Psi(R_1,...,R_M,r_1,...,r_n)$ with $R_\alpha$ ionic positions and $r_i$ electron positions can be decomposed in the following way:
+$\Psi(\mathbf{R}_1,...,\mathbf{R}_M,\mathbf{r}_1,...,\mathbf{r}_n)$ with $\mathbf{R}_\alpha$ ionic positions and $\mathbf{r}_i$ electron positions can be decomposed in the following way:
 \begin{equation}
-    \Psi(R_1,...,R_M,r_1,...,r_n)=\chi(R_1,...,R_M)\psi(r_1,...,r_n),
+    \Psi(\mathbf{R}_1,...,\mathbf{R}_M,\mathbf{r}_1,...,\mathbf{r}_n)=\chi(\mathbf{R}_1,...,\mathbf{R}_M)\psi(\mathbf{r}_1,...,\mathbf{r}_n),
 \end{equation}
-and only the electronic wavefunction $\psi(r_1,...,r_n)$ is taken into consideration, decoupling ionic degrees of freedom and treating 
-ionic potential as a constant energy surface $U_{ion}(r)$.\\
+and only the electronic wavefunction $\psi(\mathbf{r}_1,...,\mathbf{r}_n)$ is taken into consideration, decoupling ionic degrees of freedom and treating 
+ionic potential as a constant energy surface $U_{ion}(\mathbf{r})$.\\
 This approximation, although extremely effective in computing electronic bands, fails by design to describe systems where there is a 
 strong coupling between electrons and ions (for example electron-phonon interaction).\\
 Such is the case of polar crystals: in these materials single electrons at the bottom of the conduction band (or holes at the top of 
@@ -201,35 +201,35 @@ where the effective mass $m^*$ encapsulates all the interactions due to crystal 
 considering a negative effective mass).\\
 Given the fact that we are dealing with the large polaron model, it is possible to treat the material as an homogeneous continuum 
 which is polarized by the excess charge (the conduction electron). We also assume that the material is isotropic.
-Let $P(r)$ be the electric polarization at the point $r$, the total electric field is then:
+Let $\mathbf{P}(\mathbf{r})$ be the electric polarization at the point $\mathbf{r}$, the total electric field is then:
 \begin{equation}
 \begin{split}
-    &D(r)=\epsilon_0E(r)+4\pi P(r),\\
-    &D(r)=\epsilon E(r).
+    &\mathbf{D}(\mathbf{r})=\epsilon_0\mathbf{E}(\mathbf{r})+4\pi \mathbf{P}(\mathbf{r}),\\
+    &\mathbf{D}(\mathbf{r})=\epsilon \mathbf{E}(\mathbf{r}).
 \end{split}
 \end{equation} 
-The only free charge present in the material is the conduction electron in excess, this means that $D(r)$ is completely determined by it:
+The only free charge present in the material is the conduction electron in excess, this means that $\mathbf{D}(\mathbf{r})$ is completely determined by it:
 \begin{equation}
 \begin{split}
-    &D(r,r_{el})=-\nabla\frac{e}{|r-r_{el}|}, \\
-    &\nabla\cdot D(r,r_{el})=4\pi\delta(r-r_{el}),
+    &D(\mathbf{r},\mathbf{r}_{el})=-\nabla\frac{e}{|\mathbf{r}-\mathbf{r}_{el}|}, \\
+    &\nabla\cdot \mathbf{D}(\mathbf{r},\mathbf{r}_{el})=4\pi\delta(\mathbf{r}-\mathbf{r}_{el}),
 \end{split}
 \end{equation}
-with $r_{el}$ the coordinate of the conduction electron. Developing the equations the following relation is obtained:
+with $\mathbf{r}_{el}$ the coordinate of the conduction electron. Developing the equations the following relation is obtained:
 \begin{equation}
-    4\pi P(r) = \left(1-\frac{1}{\epsilon}\right)D(r).
+    4\pi \mathbf{P}(\mathbf{r}) = \left(1-\frac{1}{\epsilon}\right)\mathbf{D}(\mathbf{r}).
 \end{equation}
-$P(r)$ is the total polarization, which has the contribution both from electrons and from ionic displacements, since only the second 
+$\mathbf{P}(\mathbf{r})$ is the total polarization, which has the contribution both from electrons and from ionic displacements, since only the second 
 contribution is relevant in our treatment, a method to tell apart this two contributions is needed.\\
 To obtain this we imagine a system where a field is slowly applied and then rapidly switched off \cite{haken1976quantum}: only 
-electrons are able to keep up with the variation of the field. A formula connecting polarization and $D$ (dropping the $r$ dependence 
+electrons are able to keep up with the variation of the field. A formula connecting polarization and $\mathbf{D}$ (dropping the $\mathbf{r}$ dependence for simplicity 
 since an isotropic and homogeneous medium is assumed) is then retrieved as
 \begin{equation}
-    4\pi \delta P = -\left(1-\frac{1}{\epsilon_\infty}\right)D,
+    4\pi \delta \mathbf{P} = -\left(1-\frac{1}{\epsilon_\infty}\right)\mathbf{D},
 \end{equation}
 it is then obtained the lattice contribution to the polarization:
 \begin{equation}
-    4\pi P_{lat} = 4\pi(P-\delta P) = \left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)D.
+    4\pi \mathbf{P}_{lat} = 4\pi(\mathbf{P}-\delta \mathbf{P}) = \left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)\mathbf{D}.
     \label{eq_polarization_lattice}
 \end{equation}
 We know consider a model for the polar crystal lattice: we assume it to be constituted of individual oscillating discrete dipoles 
@@ -240,7 +240,7 @@ located at fixed sites of the crystal with characteristic frequency $\omega$. Th
 The next step is to move from a discrete set of fixed oscillators to a continuum of dipoles: it is assumed that the dipoles are not 
 coupled. Defining the effective charge as $e^*$, the following substitution is made:
 \begin{equation}
-    e^*q_n\to \mathbf{P}_{lat}(r),
+    e^*\mathbf{q}_n\to \mathbf{P}_{lat}(\mathbf{r}),
 \end{equation}
 which relates the dipole moment to the polarization field. We also write the following relation:
 \begin{equation}
@@ -301,6 +301,7 @@ using the second quantization formalism with field operators, then the electron 
 If we use a suitable basis for the field operator
 \begin{equation}
     \psi(\mathbf{r})=\frac{1}{\sqrt{V}}\sum_\mathbf{k}c_\mathbf{k}e^{i\mathbf{k}\cdot\mathbf{r}}
+    \label{from_r_to_k_electron_field_operator}
 \end{equation}
 with $V$ (unit cell) volume, then \ref{el_kinetic_hamiltonian_r_formalism} becomes
 \begin{equation}
@@ -317,19 +318,57 @@ where $\mathbf{\Pi}(\mathbf{r})$ is the conjugate momentum to $\mathbf{P}(\mathb
 Using the canonical substitution for the operator $\mathbf{P}(\mathbf{r})$ 
 \begin{equation}
     \mathbf{P}(\mathbf{r})=\frac{1}{\sqrt{V}}\sum_{\mathbf{q}}\sqrt{\frac{\hbar}{2\gamma\omega}}\frac{\mathbf{q}}{q}e^{i\mathbf{q}\cdot\mathbf{r}}(a_\mathbf{q}-a_\mathbf{-q}^\dagger)
+     \label{P_expansion_quantum}
 \end{equation}
 and the corresponding one for $\mathbf{\Pi}(\mathbf{r})$ we obtain the equation for a quantum harmonic oscillator:
 \begin{equation}
-    H_{ph}=\hbar\omega\sum_\mathbf{q} a^\dagger_\mathbf{q}a_\mathbf{q}
+    H_{ph}=\hbar\omega\sum_\mathbf{q} a^\dagger_\mathbf{q}a_\mathbf{q},
 \end{equation}
-
-The Froehlich model provides a quantum mechanical description of this phenomenon, focusing on the interaction between an electron 
-and the longitudinal optical (LO) phonons in an ionic crystal. The Froehlich Hamiltonian is given by:
+with $a^\dagger_\mathbf{q}$ and $a_\mathbf{q}$ bosonic phononic creation and annihilation operators.\\ 
+Using the same formalism, the interaction term is instead written in the following way:
 \begin{equation}
-    H = \frac{p^2}{2m^*} + \sum_{\mathbf{q}} \hbar \omega_{LO} a^\dagger_{\mathbf{q}} a_{\mathbf{q}} + \sum_{\mathbf{q}} \left( V_{\mathbf{q}} e^{i\mathbf{q}\cdot\mathbf{r}} a_{\mathbf{q}} + V^*_{\mathbf{q}} e^{-i\mathbf{q}\cdot\mathbf{r}} a^\dagger_{\mathbf{q}} \right),
+    H_{EPC}=\iint\psi^\dagger(\mathbf{r})\psi(\mathbf{r})\frac{e}{|\mathbf{r}-\mathbf{r}'|}(-\nabla_{\mathbf{r}'}\cdot\mathbf{P})(\mathbf{r}')d^3rd^3r',
 \end{equation}
-where $p$ is the electron momentum, $m^*$ is the effective mass, $a^\dagger_{\mathbf{q}}$ and $a_{\mathbf{q}}$ are the creation and annihilation operators for LO phonons of wavevector $\mathbf{q}$ and frequency $\omega_{LO}$, and $V_{\mathbf{q}}$ describes the electron-phonon coupling strength.
+using the same substitution in \ref{P_expansion_quantum} for $\mathbf{P}(\mathbf{r})$ the following form is obtained:
+\begin{equation}
+    H_{EPC}=\int \psi^\dagger(\mathbf{r})\psi(\mathbf{r})\left[4\pi i \left(\frac{e^2\hbar}{2\gamma\omega V}\right)^{1/2}\sum_\mathbf{q}\frac{1}{q}(a^\dagger_\mathbf{q}e^{-i\mathbf{q}\cdot\mathbf{r}}-a_\mathbf{q}e^{i\mathbf{q}\cdot\mathbf{r}})d^3r\right].
+\end{equation}
+The term is simplified even more if we substitute the electron field operator using \ref{P_expansion_quantum}, then the final form of 
+the coupling term is reached
+\begin{equation}
+    H_{EPC}=\sum_{\mathbf{k},\mathbf{q}}(V_\mathbf{w}c^\dagger_\mathbf{k+q}c_\mathbf{k}a_\mathbf{w}+V^*_\mathbf{w}c^\dagger_\mathbf{k-q}c_\mathbf{k}a^\dagger_\mathbf{q}),
+\end{equation}
+where the coupling parameter is given as 
+\begin{equation}
+    V_\mathbf{q}=-4\pi i\left(\frac{e^2}{2\hbar\gamma\omega V}\right)^{1/2}\frac{1}{q}.
+\end{equation}
+It is possible to rewrite the coupling parameter in terms of the dimensionless coupling strength $\alpha$:
+\begin{equation}
+\begin{split}
+    &V_\mathbf{q}=i\left(\frac{4\pi\alpha}{V}\right)^{1/2}\frac{1}{q},\\
+    &\alpha=\frac{2\pi e^2}{\hbar\gamma\omega}\sqrt{\frac{2m^*\omega}{\hbar}}=\frac{1}{2}\left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)\frac{e^2}{\hbar\omega}\sqrt{\frac{2m^*\omega}{\hbar}}.
+\end{split}
+\end{equation}
+If we now identify $\omega$ with $\omega_{LO}$ angular frequency of the longitudinal optical phonon modes (the modes that effectively 
+couple with the electron), we obtain the final form of the \text{Froehlich Hamiltonian}:
+\begin{equation}
+    H^{Fr}=\sum_\mathbf{k}\frac{k^2}{2m^*}c^\dagger_{\mathbf{k}}c_\mathbf{k}+\hbar\omega_{LO}\sum_\mathbf{q}a^\dagger_\mathbf{q}a_\mathbf{q}+\sum_{\mathbf{k},\mathbf{q}}(V_qc^\dagger_{\mathbf{k}+\mathbf{q}}c_\mathbf{k}a_\mathbf{q}+V_q^*c_{\mathbf{k}-\mathbf{q}}c_\mathbf{k}a^\dagger_\mathbf{q}),
+\end{equation}
+where we have dropped the coupling parameter dependence on $\mathbf{q}$ direction since it only depends on its modulus.\\
+The main assumptions of this model are:
+\begin{itemize}
+    \item Free electron with quadratic dispersion (up to a \textit{scalar} effective mass $m^*$).
+    \item Dispersionless optical mode with frequency $\omega_{LO}$.
+    \item "Large" polaron, with characteristic dimension $d$ much greater than lattice parameter $a$ (continuum approximation).
+\end{itemize}
+In this form the model correctly describes only a handful of real materials and it mainly serves as a toy model (we will breafly mention  
+how it can be solved at weak coupling with perturbation theory and at strong coupling variationally), however we will focus 
+on the \textbf{Diagrammatic Monte Carlo Method}, a computational method that is capable of solving the polaron problem using some tricks. 
+We will also see how some of the main limitations of the model (namely the scalar effective mass $m^*$ and the single phonon mode $\omega_{LO}$) 
+can be lifted without lifting the main assumption (the large polaron approximation). It will be illustrated in particular the case of an 
+anisotropic band with effective mass $m^*(\hat{\mathbf{k}})$ and multiple dispersionless optical modes $\omega_{LO_j}$, already capable of 
+modelling valence band minima in a wide range of materials.
 
-This model captures the essential physics of large polarons, where the electron is dressed by a cloud of virtual phonons, leading to a renormalization of its mass and mobility. The strength of the electron-phonon interaction is characterized by the dimensionless Froehlich coupling constant $\alpha$, which determines the degree of polaronic effects in the material.
 \printbibliography
+
 \end{document}
