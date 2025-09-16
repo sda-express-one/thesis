@@ -39,7 +39,7 @@
 
 \maketitle
 
-\chapter{Frohlich Polaron}
+\chapter{Froehlich Polaron}
 \section{Electrons in crystals}
 The study of electrons inside a solid crystal is an important field due to their role in the determination of transport
 and optical properties of such materials.\\
@@ -168,9 +168,168 @@ In a general case the effective mass is a tensorial quantity (bands are anisotro
 their value can be computed with
 \begin{equation}
     m^{*-1}_{ij}=\frac{1}{\hbar^2}\frac{\partial^2 E}{\partial k_i \partial k_j},
+    \label{eq_effective_mass}
 \end{equation}
 provided that the quadratic approximation is valid. This approximation is really useful when calculating quantities near band extrema, 
 providing an effective description of an otherwise complex interaction.
-\section{The polaron problem: the Frohlich model}
+\section{The polaron problem: the Froehlich model}
+The treatment described up until now for electrons in solids relies on a basic assumption: electro dynamics is much faster than ion 
+dynamics. This is the so-called \textbf{Born-Oppenheimer approximation}, which assumes that the motion of the much heavier ions is 
+slow compared to the fast dynamics of the electrons (the characteristic time are of the order of $ps$ for ions and $fs$ for 
+electrons). As a result, electrons are considered to respond instantaneously to changes in the positions of the ions, allowing 
+the separation of electronic and ionic degrees of freedom in the analysis. Given $M$ ions and $n$ electrons the wavefunction 
+$\Psi(R_1,...,R_M,r_1,...,r_n)$ with $R_\alpha$ ionic positions and $r_i$ electron positions can be decomposed in the following way:
+\begin{equation}
+    \Psi(R_1,...,R_M,r_1,...,r_n)=\chi(R_1,...,R_M)\psi(r_1,...,r_n),
+\end{equation}
+and only the electronic wavefunction $\psi(r_1,...,r_n)$ is taken into consideration, decoupling ionic degrees of freedom and treating 
+ionic potential as a constant energy surface $U_{ion}(r)$.\\
+This approximation, although extremely effective in computing electronic bands, fails by design to describe systems where there is a 
+strong coupling between electrons and ions (for example electron-phonon interaction).\\
+Such is the case of polar crystals: in these materials single electrons at the bottom of the conduction band (or holes at the top of 
+the valence band) couple to the strongly polarized ions and distort the unit cell: an electron-phonon interaction is thus present 
+in the lattice and the electron properties (such as energy and effective mass) are renormalized due to this coupling \cite{frohlich1954electrons}.\\
+The basic assumption of the Froehlich model is that the polaron is "large", namely the characteristic size of the polaron (electron together 
+with its phonon cloud) is much larger than the lattice constant $a$. In this way it is possible to ignore the atomic details of the actual 
+material and treat it as a uniform dielectric medium.\\
+It is assumed that the electron which takes part in the formation of the polaron lies at the bottom of the valence band, in this way it is 
+expected to have a quadratic energy dispersion characterized (as already seen in \ref{eq_effective_mass}) by an effective mass
+\begin{equation}
+    \epsilon(k)=\frac{\hbar^2k^2}{2m^*},
+\end{equation}
+where the effective mass $m^*$ encapsulates all the interactions due to crystal structure (for a hole polaron the dispersion is similar 
+considering a negative effective mass).\\
+Given the fact that we are dealing with the large polaron model, it is possible to treat the material as an homogeneous continuum 
+which is polarized by the excess charge (the conduction electron). We also assume that the material is isotropic.
+Let $P(r)$ be the electric polarization at the point $r$, the total electric field is then:
+\begin{equation}
+\begin{split}
+    &D(r)=\epsilon_0E(r)+4\pi P(r),\\
+    &D(r)=\epsilon E(r).
+\end{split}
+\end{equation} 
+The only free charge present in the material is the conduction electron in excess, this means that $D(r)$ is completely determined by it:
+\begin{equation}
+\begin{split}
+    &D(r,r_{el})=-\nabla\frac{e}{|r-r_{el}|}, \\
+    &\nabla\cdot D(r,r_{el})=4\pi\delta(r-r_{el}),
+\end{split}
+\end{equation}
+with $r_{el}$ the coordinate of the conduction electron. Developing the equations the following relation is obtained:
+\begin{equation}
+    4\pi P(r) = \left(1-\frac{1}{\epsilon}\right)D(r).
+\end{equation}
+$P(r)$ is the total polarization, which has the contribution both from electrons and from ionic displacements, since only the second 
+contribution is relevant in our treatment, a method to tell apart this two contributions is needed.\\
+To obtain this we imagine a system where a field is slowly applied and then rapidly switched off \cite{haken1976quantum}: only 
+electrons are able to keep up with the variation of the field. A formula connecting polarization and $D$ (dropping the $r$ dependence 
+since an isotropic and homogeneous medium is assumed) is then retrieved as
+\begin{equation}
+    4\pi \delta P = -\left(1-\frac{1}{\epsilon_\infty}\right)D,
+\end{equation}
+it is then obtained the lattice contribution to the polarization:
+\begin{equation}
+    4\pi P_{lat} = 4\pi(P-\delta P) = \left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)D.
+    \label{eq_polarization_lattice}
+\end{equation}
+We know consider a model for the polar crystal lattice: we assume it to be constituted of individual oscillating discrete dipoles 
+located at fixed sites of the crystal with characteristic frequency $\omega$. The energy of each one of these oscillators is 
+\begin{equation}
+    \frac{M}{2}(\dot{q}^2+\omega^2q^2).
+\end{equation}
+The next step is to move from a discrete set of fixed oscillators to a continuum of dipoles: it is assumed that the dipoles are not 
+coupled. Defining the effective charge as $e^*$, the following substitution is made:
+\begin{equation}
+    e^*q_n\to \mathbf{P}_{lat}(r),
+\end{equation}
+which relates the dipole moment to the polarization field. We also write the following relation:
+\begin{equation}
+    \frac{M}{e^{*2}}=\gamma d^3r,
+\end{equation}
+where $M=nd^3r$ is the mass density of the medium.\\
+It is now possible to define the kinetic and potential energy of the freely oscillating polarization field:
+\begin{equation}
+\begin{split}
+    &T=\int \frac{\gamma}{2}\dot{\mathbf{P}}_{lat}^2(\mathbf{r})d^3r,\\
+    &V=\int \frac{\gamma\omega^2}{2}\mathbf{P}_{lat}^2(\mathbf{r})d^3r.
+\end{split}
+\end{equation}
+We identify $\omega$ with the optical phonon frequency $\omega_{LO}$, but the constant $\gamma$ has not yet been given a physical 
+definition. For this reason we consider the interaction between electrons and dipole moment, which is given by 
+\begin{equation}
+    e\frac{\mathbf{r}-\mathbf{r}'}{|\mathbf{r}-\mathbf{r}'|^3}\mathbf{P}_{lat},
+\end{equation}
+which, using a continuous charge distribution and the polarization field, becomes
+\begin{equation}
+    \rho(\mathbf{r})d^3r\frac{\mathbf{r}-\mathbf{r}'}{|\mathbf{r}-\mathbf{r}'|^3}\mathbf{P}_{lat}(\mathbf{r}')d^3r'.
+\end{equation}
+The interaction energy $E_I$ is thus
+\begin{equation}
+    E_I=\iint \rho(\mathbf{r})\frac{\mathbf{r}-\mathbf{r}'}{|\mathbf{r}-\mathbf{r}'|^3}\mathbf{P}_{lat}(\mathbf{r}')d^3rd^3r'.
+\end{equation}
+The Lagrangian is then built as follows:
+\begin{equation}
+    L=T-U-E_I
+\end{equation}
+and the equation of motion are found solving the Lagrange equations
+\begin{equation}
+    \frac{d}{dt}\frac{\delta L}{\delta \dot{P}_{lat_i}}-\frac{\delta L}{\delta P_{lat_i}}=0
+\end{equation}
+for $i=1,2,3$. The explicit formula of the equation of motion is:
+\begin{equation}
+    \gamma(\ddot{\mathbf{P}}_{lat}(\mathbf{r}')+\omega^2\mathbf{P}_{lat}(\mathbf{r}'))=-\int \frac{\mathbf{r}-\mathbf{r}'}{|\mathbf{r}-\mathbf{r'}|^3}\rho(\mathbf{r})d^3r
+\end{equation}
+keeping fixed $\rho(\mathbf{r})$. The term on the right side is simply the dielectric displacement $\mathbf{D}(\mathbf{r}')$ and, in the 
+static limit, the equation simplifies to
+\begin{equation}
+    \gamma\omega^2\mathbf{P}_{lat}(\mathbf{r}')=\mathbf{D}(\mathbf{r}').
+\end{equation}
+Comparing this equation with \ref{eq_polarization_lattice}, the value of $\gamma$ is obtained:
+\begin{equation}
+    \gamma = \frac{4\pi}{\omega^2}\left(\frac{1}{\epsilon_\infty-\frac{1}{\epsilon_0}}\right)^{-1}.
+\end{equation}
+It is now time to define the full complete polaron Hamiltonian. We start by defining the free electron term (the interaction lies inside 
+the effective mass $m^*$), considering that the electron charge density operator is defined as:
+\begin{equation}
+    \rho(\mathbf{r})=-e\psi^\dagger(\mathbf{r})\psi(\mathbf{r})
+\end{equation}
+using the second quantization formalism with field operators, then the electron kinetic term is
+\begin{equation}
+    H_{el}=\int\psi^\dagger(\mathbf{r})\left(-\frac{\hbar^2}{2m^*}\nabla^2\right)\psi(\mathbf{r})d^3r.
+    \label{el_kinetic_hamiltonian_r_formalism}
+\end{equation}
+If we use a suitable basis for the field operator
+\begin{equation}
+    \psi(\mathbf{r})=\frac{1}{\sqrt{V}}\sum_\mathbf{k}c_\mathbf{k}e^{i\mathbf{k}\cdot\mathbf{r}}
+\end{equation}
+with $V$ (unit cell) volume, then \ref{el_kinetic_hamiltonian_r_formalism} becomes
+\begin{equation}
+    H_{el}=\sum_\mathbf{k}\frac{k^2}{2m^*}c^\dagger_\mathbf{k}c_\mathbf{k},
+    \label{el_kinetic_hamiltonian_k_formalism}
+\end{equation}
+with $c^\dagger_\mathbf{k}$ and $c_\mathbf{k}$ creation and annihilation operators for the free electron.\\
+We now turn our attention to the polarization field, taking into account that it can be modelled as an harmonic oscillator a 
+form similar to \ref{el_kinetic_hamiltonian_r_formalism} can be recovered ($P_{lat}$ is substituted by $P$ in the following equations):
+\begin{equation}
+    H_{ph}=\int\left(\frac{1}{2\gamma}\mathbf{\Pi}^2(\mathbf{r})+\frac{\gamma}{2}\omega^2\mathbf{P}^2(\mathbf{r})\right)d^3r,
+\end{equation}
+where $\mathbf{\Pi}(\mathbf{r})$ is the conjugate momentum to $\mathbf{P}(\mathbf{r})$.\\
+Using the canonical substitution for the operator $\mathbf{P}(\mathbf{r})$ 
+\begin{equation}
+    \mathbf{P}(\mathbf{r})=\frac{1}{\sqrt{V}}\sum_{\mathbf{q}}\sqrt{\frac{\hbar}{2\gamma\omega}}\frac{\mathbf{q}}{q}e^{i\mathbf{q}\cdot\mathbf{r}}(a_\mathbf{q}-a_\mathbf{-q}^\dagger)
+\end{equation}
+and the corresponding one for $\mathbf{\Pi}(\mathbf{r})$ we obtain the equation for a quantum harmonic oscillator:
+\begin{equation}
+    H_{ph}=\hbar\omega\sum_\mathbf{q} a^\dagger_\mathbf{q}a_\mathbf{q}
+\end{equation}
+
+The Froehlich model provides a quantum mechanical description of this phenomenon, focusing on the interaction between an electron 
+and the longitudinal optical (LO) phonons in an ionic crystal. The Froehlich Hamiltonian is given by:
+\begin{equation}
+    H = \frac{p^2}{2m^*} + \sum_{\mathbf{q}} \hbar \omega_{LO} a^\dagger_{\mathbf{q}} a_{\mathbf{q}} + \sum_{\mathbf{q}} \left( V_{\mathbf{q}} e^{i\mathbf{q}\cdot\mathbf{r}} a_{\mathbf{q}} + V^*_{\mathbf{q}} e^{-i\mathbf{q}\cdot\mathbf{r}} a^\dagger_{\mathbf{q}} \right),
+\end{equation}
+where $p$ is the electron momentum, $m^*$ is the effective mass, $a^\dagger_{\mathbf{q}}$ and $a_{\mathbf{q}}$ are the creation and annihilation operators for LO phonons of wavevector $\mathbf{q}$ and frequency $\omega_{LO}$, and $V_{\mathbf{q}}$ describes the electron-phonon coupling strength.
+
+This model captures the essential physics of large polarons, where the electron is dressed by a cloud of virtual phonons, leading to a renormalization of its mass and mobility. The strength of the electron-phonon interaction is characterized by the dimensionless Froehlich coupling constant $\alpha$, which determines the degree of polaronic effects in the material.
 \printbibliography
 \end{document}
