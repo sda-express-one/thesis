@@ -25,6 +25,7 @@
 \usepackage{xcolor}
 \usepackage{xparse}
 \usepackage{siunitx}
+\usepackage{braket}
 
 \addbibresource{thesis.bib}
 
@@ -157,7 +158,7 @@ with few drawbacks, such as inaccurate gap estimations in insulators and semicon
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{a-Calculated-low-temperature-band-structure-for-GaAs-in-WZ-phase-b-Calculated-DOS.png}
-    \caption{DFT calculated low-temperature GaAs Wurtzite structure with relative DOS \cite{GaAs_wurtzite_structure}}
+    \caption{DFT calculated low-temperature GaAs Wurtzite structure with relative DOS \cite{GaAs_wurtzite_structure}.}
     \label{fig:GaAs_Wurtzite_structure}
 \end{figure}
 As it can be seen in Figure \ref{fig:GaAs_Wurtzite_structure} for GaAs, at the band extrema (at the edge between the allowed band states 
@@ -352,7 +353,8 @@ It is possible to rewrite the coupling parameter in terms of the dimensionless c
 If we now identify $\omega$ with $\omega_{LO}$ angular frequency of the longitudinal optical phonon modes (the modes that effectively 
 couple with the electron), we obtain the final form of the \text{Froehlich Hamiltonian}:
 \begin{equation}
-    H^{Fr}=\sum_\mathbf{k}\frac{k^2}{2m^*}c^\dagger_{\mathbf{k}}c_\mathbf{k}+\hbar\omega_{LO}\sum_\mathbf{q}a^\dagger_\mathbf{q}a_\mathbf{q}+\sum_{\mathbf{k},\mathbf{q}}(V_qc^\dagger_{\mathbf{k}+\mathbf{q}}c_\mathbf{k}a_\mathbf{q}+V_q^*c_{\mathbf{k}-\mathbf{q}}c_\mathbf{k}a^\dagger_\mathbf{q}),
+    H^{Fr}=\sum_\mathbf{k}\frac{k^2}{2m^*}c^\dagger_{\mathbf{k}}c_\mathbf{k}+\hbar\omega_{LO}\sum_\mathbf{q}a^\dagger_\mathbf{q}a_\mathbf{q}+\sum_{\mathbf{k},\mathbf{q}}(V_qc^\dagger_{\mathbf{k}+\mathbf{q}}c_\mathbf{k}a_\mathbf{q}+V_q^*c_{\mathbf{k}-\mathbf{q}}c_\mathbf{k}a^\dagger_\mathbf{q})
+    \label{Froehlich_Hamiltonian_second}
 \end{equation}
 where we have dropped the coupling parameter dependence on $\mathbf{q}$ direction since it only depends on its modulus.\\
 The main assumptions of this model are:
@@ -368,7 +370,139 @@ We will also see how some of the main limitations of the model (namely the scala
 can be lifted without lifting the main assumption (the large polaron approximation). It will be illustrated in particular the case of an 
 anisotropic band with effective mass $m^*(\hat{\mathbf{k}})$ and multiple dispersionless optical modes $\omega_{LO_j}$, already capable of 
 modelling valence band minima in a wide range of materials.
-
+\section{Weak coupling limit: perturbation theory}
+In the weak coupling regime it is possible to apply perturbation theory to the Froehlich Hamiltonian, for this treatment a slightly modified 
+Hamiltonian with respect to the one seen in \ref{Froehlich_Hamiltonian_second} will be used \cite{alexandrov2010advances}:
+\begin{equation}
+    H^{Fr}=-\frac{\nabla^2}{2m^*}+\omega_{LO}\sum_{\mathbf{q}}(a_\mathbf{q}^\dagger a_\mathbf{q})+\sum_{\mathbf{q}}(V_\mathbf{q}a_\mathbf{q}e^{i\mathbf{q}\cdot\mathbf{r}}+V^*_\mathbf{q}a^\dagger_\mathbf{q}e^{-i\mathbf{q}\cdot\mathbf{r}}).
+\end{equation}
+We will respectively define the non-interacting Hamiltonian $H_0^{Fr}$ and the interaction term $H_I^{Fr}$ as
+\begin{equation}
+\begin{split}
+    &H_0^{Fr}=-\frac{\nabla^2}{2m^*}+\omega_{LO}\sum_{\mathbf{q}}(a_\mathbf{q}^\dagger a_\mathbf{q}),\\
+    &H_I^{Fr}=\sum_{\mathbf{q}}(V_\mathbf{q}a_\mathbf{q}e^{i\mathbf{q}\cdot\mathbf{r}}+V^*_\mathbf{q}a^\dagger_\mathbf{q}e^{-i\mathbf{q}\cdot\mathbf{r}}).
+\end{split}
+\end{equation}
+The quantum state of the non-interacting electron is described by $|\mathbf{k}\rangle=\frac{1}{\sqrt{V}}e^{i\mathbf{k}\cdot\mathbf{r}}$, 
+while for the non interacting phonons it is possible to define the average number of excitations $\langle a^\dagger_\mathbf{q}a_\mathbf{q}\rangle=\langle n_\mathbf{q}\rangle$, 
+which is equal to 0 at the ground state
+The total wavefunction of the non-interacting system then becomes:
+\begin{equation}
+    |{\mathbf{k},0}\rangle=e^{i\mathbf{k}\cdot\mathbf{r}}|0\rangle.
+\end{equation}
+The first excited state to which the ground non-interacting state can jump to is the one with electron wavevector $\mathbf{k}-\mathbf{q}$ and 
+one phonon $n_\mathbf{q}=1$, total energy is:
+\begin{equation}
+    \frac{(\mathbf{k}+\mathbf{q})^2}{2m^*}+\omega_{LO}=\frac{k^2}{2m^*},
+\end{equation}
+the corresponding wavefunction is
+\begin{equation}
+    |\mathbf{k}-\mathbf{q},1\rangle =e^{i(\mathbf{k}-\mathbf{q})\cdot \mathbf{r}}|1\rangle.
+\end{equation}
+At first order perturbation theory there is no correction to the energy, we then need to go to second order. We consider 
+the matrix element
+\begin{equation}
+    \langle\mathbf{k}-\mathbf{q},1|H_I^{Fr}|\mathbf{k},0\rangle=V^*_\mathbf{q},
+\end{equation}
+second order perturbation theory energy then becomes:
+\begin{equation}
+    E_{\mathbf{k}P}=\frac{k^2}{2m^*}-\sum_{\mathbf{q}}\frac{|V_\mathbf{q}|^2}{(\mathbf{k}-\mathbf{q})^2/2m^*+\omega_{LO}-k^2/2m^*},
+\end{equation}
+evaluating the sum over the $q$ wavevectors we arrive at 
+\begin{equation}
+    E_{\mathbf{k}P}=\frac{k^2}{2m^*}-\frac{\alpha\omega_{LO}\sqrt{2m^*\omega_{LO}}}{k}\arcsin{\frac{k}{\sqrt{2m^*\omega_{LO}}}},
+\end{equation}
+which for $k\ll\sqrt{2m^*\omega_{LO}}$ yields
+\begin{equation}
+    E_{\mathbf{k}P}=\frac{k^2}{2m^*}-\alpha\omega_{LO}.
+\end{equation}
+The polaron effective mass $m^*_P$ is given by:
+\begin{equation}
+    m^*_P=\frac{m^*}{\left(1-\frac{\alpha}{6}\right)}.
+\end{equation}
+From the equation it clearly results that the polaron effective mass diverges for $\alpha\to 6^-$ and is negative for $\alpha>6$. This 
+clearly signals that perturbation theory does not correctly describe the physical system at strong couplings.
+\section{Strong coupling limit: variational treatment}
+For the strong coupling case a different approach is taken: the main assumption of this model is a localized polaron wavefunction with 
+a gaussian form \cite{mahan2013many}, the Froehlich Hamiltonian is recast in order to write the phonon operators as displacement and 
+conjugate moment operators:
+\begin{equation}
+    Q_\mathbf{q}=\frac{1}{\sqrt{2}}\left(a_\mathbf{q}+a^\dagger_{-\mathbf{q}}\right),\hspace{1cm}P_\mathbf{q}=-\frac{i}{\sqrt{2}}\left(a_\mathbf{q}-a^\dagger_{-\mathbf{q}}\right),
+\end{equation}
+so that the Hamiltonian in \ref{Froehlich_Hamiltonian_second} can be rewritten as
+\begin{equation}
+    H^{Fr}=\frac{p^2}{2m^*}+\frac{\omega_{LO}}{2}\sum_{\mathbf{q}}\left(P^2_\mathbf{q}+Q^2_\mathbf{q}\right)+\sum_\mathbf{q}V_\mathbf{q}Q_\mathbf{q}e^{i\mathbf{q}\cdot\mathbf{r}}.
+\end{equation}
+A wavefunction with dependence both on the electron position $\mathbf{r}$ and the lattice displacement $Q_\mathbf{q}$ is needed, for 
+this reason the following gaussian ansatz is used:
+\begin{equation}
+\begin{split}
+    &\Phi(\mathbf{r},Q_\mathbf{q})=\phi(\mathbf{r})\Psi_n(Q_\mathbf{q}+\delta Q_\mathbf{q}),\\
+    &\phi(r)=\left(\frac{\beta}{\sqrt{\pi}}\right)^{3/2}e^{-\frac{\beta^2}{2}r^2},
+\end{split}
+\end{equation}
+with $\beta$ variational parameter, $\Psi_n$ the harmonic oscillator wavefunction and $\delta Q_\mathbf{q}$ displacement to be 
+calculated.\\
+We now need to take the expectation value of the Hamiltonian operator:
+\begin{equation}
+    H(Q_\mathbf{q})=\langle \phi(r)|H|\phi^*(r)\rangle=\int \phi(r)H\phi(r)d^3r,
+\end{equation}
+the terms with $\mathbf{r}$ dependence are respectively evaluated as:
+\begin{equation}
+\begin{split}
+    &\int\phi^*(\mathbf{r})\frac{p^2}{2m^*}\phi(\mathbf{r})d^3r=\frac{3\beta^2}{4m^*},\\
+    &\int \phi^*(\mathbf{r})e^{i\mathbf{q}\cdot\mathbf{r}}\phi(\mathbf{r})d^3r=e^{-q^2/4\beta^2}.
+\end{split}
+\end{equation}
+The following result is thus obtained:
+\begin{equation}
+    H(Q_\mathbf{q})=\frac{3\beta^2}{4m^*}+\frac{\omega_{LO}}{2}\sum_\mathbf{q}(P_\mathbf{q}^2+Q_\mathbf{q}^2)+\sum_\mathbf{q}L_\mathbf{q}Q_\mathbf{q},\hspace{1cm}L_\mathbf{q}=V_\mathbf{q}e^{-q^2/4\beta^2}.
+\end{equation}
+To cancel out the linear term in $Q_\mathbf{q}$ it is important to choose the right equilibrium displacement $\delta Q_\mathbf{q}$ as
+\begin{equation}
+    \delta Q_\mathbf{q}=\frac{L_\mathbf{q}}{\omega_{LO}},
+\end{equation}
+which yields the Hamiltonian
+\begin{equation}
+\begin{split}
+    H(Q_\mathbf{q})&=\frac{\omega_{LO}}{2}\sum_\mathbf{q}\left[P^2_\mathbf{q}+(Q_\mathbf{q}+\delta Q_\mathbf{q})^2\right]+\frac{3\beta}{4m^*}-\frac{1}{2\omega_{LO}}\sum_\mathbf{q}L^2_\mathbf{q}\\
+    &=\frac{\omega_{LO}}{2}\sum_\mathbf{q}\left[P^2_\mathbf{q}+\left(Q_\mathbf{q}+\delta Q_\mathbf{q}\right)^2\right]+E(\beta).
+\end{split}
+\end{equation}
+The three different terms have precise physical meanings: the first term describes the harmonic oscillation of phonons around their new 
+equilibrium position ($Q_\mathbf{q}+\delta Q_\mathbf{q}$), the second term represents the kinetic energy of the electron in the gaussian 
+formalism, the third one the interaction energy between the electron and the phonons. To variationally retrieve the lowest energy the 
+$\beta$ parameter is minimized, we have:
+\begin{equation}
+\begin{split}
+    \frac{1}{2\omega_{LO}}\sum_\mathbf{q}L^2_\mathbf{q}=\alpha\left(\frac{\beta^2\omega_{LO}}{m^*\pi}\right)^{1/2},\\
+    E(\beta)=\frac{3\beta^2}{4m^*}-\alpha\left(\frac{\beta^2\omega_{LO}}{m^*\pi}\right)^{1/2}.
+\end{split}
+\end{equation}
+If we calculate the derivative with respect to $\beta$ and we minimize it the following result is obtained:
+\begin{equation}
+    \frac{dE}{d\beta}=\frac{3\beta}{2m^*}-\alpha\left(\frac{\omega_{LO}}{m^*\pi}\right)^{1/2}=0,
+\end{equation}
+which yields a value for $\beta_0$:
+\begin{equation}
+    \beta_0=\frac{\alpha}{3}2m^*\left(\frac{\omega_{LO}}{m^*\pi}\right)^{1/2}.
+\end{equation}
+Using this result the minimum energy $E(\beta_0)$ is:
+\begin{equation}
+    E(\beta_0)=-\frac{\alpha^2\omega_{LO}}{3\pi}=-0.106\alpha^2\omega_{LO},
+\end{equation}
+with a quadratic dependence on the coupling strength $\alpha$ different from that found using perturbation theory (linear).\\
+A more refined treatment of the strong coupling limit \cite{miyake1976ground} yields the following result:
+\begin{equation}
+    \lim_{a\to\infty}E_0(\alpha)=-\omega_{LO}\left[-0.1085\alpha^2+2.836+O(1/\alpha^2)\right],
+\end{equation}
+not so different from our obtained result.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1.0]{Feynman-polaron-energy-as-a-function-of-a-the-all-coupling-theory.png}
+    \caption{Computed polaron energy using perturbation theory, strong coupling theory and Diagrammatic 
+    Monte Carlo \cite{article_coupling}.}
+    \label{fig:coupling_strength_Froehlich}
+\end{figure}
 \printbibliography
-
 \end{document}
