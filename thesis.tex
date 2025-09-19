@@ -562,6 +562,7 @@ strength simplifies to:
 and the full Hamiltonian reads:
 \begin{equation}
     H^{cFr}=\sum_{\mathbf{k}}\frac{\sigma k^2}{2m^*(\hat{k})}c^\dagger_\mathbf{k}c_\mathbf{k}+\sum_{\mathbf{q}j}\hbar\omega_{jLO}a^\dagger_{\mathbf{q}j}a_{\mathbf{q}j}+\sum_{\mathbf{k},\mathbf{q}j}c^\dagger_{\mathbf{k}+\mathbf{q}}c_\mathbf{k}\left[V^{cFr}(qj)a_\mathbf{q}+V^{*cFr}(qj)a^\dagger_\mathbf{-q}\right].
+    \label{Froehlich_cubic_k_anisotropic}
 \end{equation}
 The effective mass $m^*(\hat{k})$ dependence on the wavevector $\mathbf{q}$ direction is expressed in the following way:
 \begin{equation}
@@ -574,6 +575,225 @@ Alternatively, the following formula for the electron energy as a function of $k
     \epsilon(\mathbf{k})=\frac{\sigma}{2}\left(\frac{k^2_x}{m^*_x}+\frac{k_y^2}{m^*_y}+\frac{k_z^2}{m^*_z}\right).
 \end{equation}
 \section{The Froehlich polaron: Feynman diagrams}
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+In order to deeply understand a many-body system such as the Froehlich polaron it is necessary to use a more powerful formalism 
+derived from quantum field theory, we will first breafly describe Green's functions as an effective mean to describe meaningful quantities of 
+our system and we will then shift to the \textbf{Matsubara imaginary time} formalism, much more useful in the context of Diagrammatic Monte Carlo.
+At the end of this journey the connection between the Froehlich polaron and Feynman diagrams will be explicated. In this section of the thesis 
+we will use the convention $\hbar=1$.
+\subsection{Green's function formalism}
+Green functions are useful objects to perturbatively solve systems that are really hard to correctly treat in any other way \cite{bruus2004many}.\\
+If we take for example a time-dependent Schroedinger equation in the following way:
+\begin{equation}
+    \left[i\partial_t - H_0(\mathbf{r})-V(\mathbf{r})\right]\psi(\mathbf{r},t)=0,
+    \label{Schroedinger_eq_hamiltonian}
+\end{equation}
+with the non-interacting diagonizable term $H_0$ and the perturbation $V$. It is possible to define the corresponding Green's functions as:
+\begin{equation}
+\begin{split}
+    \left[i\partial_t -H_0(\mathbf{r})\right]G_0(\mathbf{r},\mathbf{r}';t,t')&=\delta(\mathbf{r}-\mathbf{r}')\delta(t-t'),\\
+    \left[i\partial_t -H_0(\mathbf{r})-V(\mathbf{r})\right]G(\mathbf{r},\mathbf{r}';t,t')&=\delta(\mathbf{r}-\mathbf{r}')\delta(t-t').
+\end{split}
+    %\left[E-H_0(\mathbf{r})\right]G_0(\mathbf{r},\mathbf{r}',E)=\delta(\mathbf{r}-\mathbf{r'}),\hspace{0.5cm}with\hspace{0.5cm}G_0(\mathbf{r},\mathbf{r}')=G_0(\mathbf{r}',\mathbf{r}).
+\end{equation}
+We can define $G_0^{-1}(\mathbf{r};t')$ and $G^{-1}(\mathbf{r};t)$ as:
+\begin{equation}
+\begin{split}
+    &G_0^{-1}(\mathbf{r};t)=i\partial_t-H_0(\mathbf{r}),\\
+    &G^{-1}(\mathbf{r};t)=i\partial_t-H_0(\mathbf{r})-V(\mathbf{r}),
+\end{split}
+\label{GF_solving_eq}
+\end{equation}
+%and thus
+%\begin{equation}
+%    G_0^{-1}(\mathbf{r},E)G_0(\mathbf{r},\mathbf{r}',E)=\delta(\mathbf{r},\mathbf{r}').
+%\end{equation}
+The Schroedinger equation can then be recast as
+\begin{equation}
+    \left[G^{-1}_0(\mathbf{r},t)-V(\mathbf{r})\right]\psi(\mathbf{r},t)=0
+\end{equation}
+and it is possible to rewrite the system as an integral equation
+\begin{equation}
+    \psi(\mathbf{r},t)=\psi^0(\mathbf{r},t)+\int d^3r'\int dt' G_0(\mathbf{r},\mathbf{r}';t,t')V(\mathbf{r}')\psi(\mathbf{r}',t')
+    \label{GF_expansion_integral}
+\end{equation}
+which can be solved iteratively. In fact:
+\begin{equation}
+\begin{split}
+    %\psi_E(\mathbf{r})=\psi^0_E(\mathbf{r})+\int d^3 r'G_0(\mathbf{r},\mathbf{r}',E)V(\mathbf{r}')\psi_E^0(\mathbf{r}')+O(V^2).
+    \psi&= \psi^0+G_0V\psi^0+G_0VG_0V\psi^0+G_0VG_0VG_0V\psi^0+...\\
+    &= \psi^0+(G_0+G_0VG_0+G_0VG_0VG_0+...)V\psi_0.
+\end{split}
+\label{expansion_G}
+\end{equation}
+Noting that \ref{GF_expansion_integral} can be also written as:
+\begin{equation}
+    \psi(\mathbf{r},t)=\psi^0(\mathbf{r},t)+\int d^3r'\int dt' G(\mathbf{r},\mathbf{r}';t,t')V(\mathbf{r}')\psi^0(\mathbf{r}',t'),
+\end{equation}
+it is possible to identify $G$ with
+\begin{equation}
+\begin{split}
+    G&=G_0+G_0VG_0+G_0VG_0VG_0+...\\
+    &=G_0+G_0V(G_0+G_0VG_0+...),
+\end{split}
+\end{equation}
+and the well-known \textbf{Dyson equation} is retrieved:
+\begin{equation}
+    G=G_0+G_0VG.
+    \label{Dyson_Eq}
+\end{equation}
+The one described above is the \textbf{single particle Green's function}, also called propagator since it "propagates" the wavefunction: in fact,
+if the wavefunction is known at time $t'$ the wavefunction at a later time can be obtained in the following way:
+\begin{equation}
+    \psi(\mathbf{r},t)=\int d^3r'\int dt' G(\mathbf{r}t,\mathbf{r}'t')\psi(\mathbf{r}'t'),
+\end{equation}
+which is a solution to \ref{GF_solving_eq}.
+The Green's function can also be written as
+\begin{equation}
+    G(\mathbf{r}t,\mathbf{r}'t')=-\theta(t-t')\langle \mathbf{r}|e^{-iH(t-t')}|\mathbf{r}'\rangle,
+\end{equation}
+and is more precisely known as the \textbf{retarded Green's function}.\\
+Focusing now on a many-body system the Green's function is defined as
+\begin{equation}
+    G^R(\mathbf{r}\sigma t,\mathbf{r}'\sigma't')=-i\theta(t-t')\langle[\psi_\sigma(\mathbf{r},t),\psi^\dagger_{\sigma'}(\mathbf{r}',t')]_{B,F}\rangle,
+\end{equation}
+where $[,]_{B,F}$ is the commutator $[,]$ for bosons and the anticommutator $\{,\}$ for fermions.\\
+In the case of translation-invariant system (such as lattices) Green's functions can only depend on $\mathbf{r}-\mathbf{r}'$ and 
+it is natural to adopt the usual $\mathbf{k}$ formalism:
+\begin{equation}
+\begin{split}
+    G^R(\mathbf{r}-\mathbf{r}',\sigma t,\sigma' t')&=\frac{1}{V}\sum_\mathbf{k}e^{i\mathbf{k}\cdot(\mathbf{r}-\mathbf{r}')}G^R(\mathbf{k},\sigma t,\sigma' t'),\\
+    G^R(\mathbf{k},\sigma t,\sigma' t')&=-i\theta (t-t')\langle [a_{\mathbf{k}\sigma},a^\dagger_{\mathbf{k}'\sigma'}]_{B,F}\rangle.
+\end{split}
+    \label{GF_momentum_space}
+\end{equation}
+The goal is now to find explicit expressions for the various Green's function of relevance, in the special case of a free electron 
+the Hamiltonian assumes the simple form
+\begin{equation}
+    H=\sum_{\mathbf{k}\sigma}\epsilon(k)c^\dagger_{\mathbf{k}\sigma}c_{\mathbf{k}\sigma},
+\end{equation}
+and the time dependence of the creation/annihilation operators is simply defined as
+\begin{equation}
+    c_{\mathbf{k}\sigma}(t)=e^{iHt}c_{\mathbf{k}\sigma}e^{-iHt}=c_{\mathbf{k}\sigma}e^{-i\xi_kt}.
+\end{equation}
+The retarded Green's function then becomes:
+\begin{equation}
+    G^R(\mathbf{k}\sigma,t-t')=-i\theta(t-t')e^{-i\xi_k(t-t')}.
+\end{equation}
+\subsection{Matsubara formalism for imaginary time Green's functions}
+The usual Green's functions are complex objects that are not fit to be used in the Diagrammatic Monte Carlo method since they provides 
+negative values that cannot be easily sampled from a distribution without losing precision.\\
+For this reason we now describe the imaginary time formalism for Green's functions, which is also useful to evaluate system that are 
+at non-zero temperature. The relevant substitution is:
+\begin{equation}
+    it\to \tau,
+    \label{imaginary_time_substitution}
+\end{equation}
+%it is important to stress that this imaginary time formalism does not have any physical meaning and is just an useful mathematical framework.\\
+the retarded Green's function previously defined in \ref{GF_momentum_space} thus becomes:
+\begin{equation}
+    G^R(\mathbf{k},\sigma\tau,\sigma'\tau')=-\theta(\tau-\tau')\langle [a_{\mathbf{k}\sigma},a^\dagger_{\mathbf{k}'\sigma'}]_{B,F}\rangle
+\end{equation}
+where the thermal average $\langle A(\tau)B(\tau')\rangle$ is defined as:
+\begin{equation}
+\begin{split}
+    &\langle \Psi_0|A(\tau)B(\tau')|\Psi_0\rangle\hspace{1.75cm}T=0,\\
+    &\frac{1}{Z}Tr\left[e^{-\beta H}A(\tau)B(\tau')\right]\hspace{0.8cm}T>0.
+\end{split}
+\end{equation}
+where $\Psi_0$ is the ground state and $Z$ the partition function.\\
+Given a system with a Hamiltonian characterized by a diagonizable term $H_0$ and a perturbation $V(\tau)$, we can define the imaginary time 
+Heisenberg picture for an operator $A$ as 
+\begin{equation}
+    A(\tau)=e^{-\tau H}Ae^{\tau H},
+\end{equation}
+and similarly the imaginary time interaction picture as
+\begin{equation}
+    A_I(\tau)=e^{\tau H_0}Ae^{-\tau H_0}.
+\end{equation}
+We can define the imaginary time time-evolution operator in the interaction picture as 
+\begin{equation}
+    U_I(\tau,\tau')=e^{\tau H_0}e^{-(\tau-\tau')H}e^{-\tau'H_0},
+\end{equation}
+an explicit expression for the interaction picture time-evolution operator in the imaginary time formalism is found in analogy with 
+the real time counterpart
+\begin{equation}
+    \partial_\tau U_I(\tau,\tau')=e^{\tau H_0}(H_0-H)e^{-(\tau-\tau')H}e^{-\tau'H_0}=-V_I(\tau)U_I(\tau,\tau'),
+\end{equation}
+which can be solved iteratively:
+\begin{equation}
+\begin{split}
+    U_I(\tau,\tau')&=\sum_{n=0}^\infty\frac{1}{n!}(-1)^n\int_{\tau'}^{\tau}d\tau_1...\int{\tau'}^{\tau}d\tau_nT_\tau\left[V_I(\tau_1)...V_I(\tau_n)\right]\\
+    &=T_\tau\exp{\left(-\int_{\tau'}^\tau d\tau_1V_I(\tau_1)\right)},
+\end{split}
+\end{equation}
+where $T_\tau$ is the $\tau$ ordering operator.\\
+It is also important to stress that the partition function $Z$ is naturally treated in the imaginary time formalism, in fact:
+\begin{equation}
+    e^{-\beta H}=e^{-\beta H_0}U_I(\beta,0)=e^{-\beta H_0}T_\tau exp{\left(-\int_{0}^{\beta}d\tau_1V_I(\tau_1)\right)},
+\end{equation}
+and we have
+\begin{equation}
+\begin{split}
+    \langle T_\tau A(\tau)B(\tau')\rangle &= \frac{1}{Z}Tr\left[e^{-\beta H}T_\tau(A(\tau)B(\tau'))\right]\\
+    &=\frac{1}{Z}Tr\left[e^{-\beta H_0}U_I(\beta,0)T_\tau(U_I(0,\tau)A_I(\tau)U_I(\tau,\tau')B_I(\tau')U_I(\tau',0)) \right]\\
+    &=\frac{1}{Z}Tr\left[e^{-\beta H_0}T_\tau(U_I(\beta,0)A_I(\tau)B_I(\tau'))\right]\\
+    &=\frac{\langle T_\tau U_I(\beta,0)A_I(\tau)B_I(\tau')\rangle_0}{\langle U_I(\beta,0)\rangle_0}.
+\end{split}
+\end{equation}
+We now go back to the definition of single particle Green's functions in imaginary time formalism, we can define them both in real space 
+and in $\mathbf{k}$ space:
+\begin{equation}
+\begin{split}
+    &G(\mathbf{r}t,\mathbf{r}'t')=-\langle T_\tau\left(\psi(\mathbf{r},\tau),\psi^\dagger(\mathbf{r}',\tau')\right)\rangle,\\
+    &G(\mathbf{k}\tau,\mathbf{k}'\tau')=-\langle T_\tau\left(c_{\mathbf{k}}(\tau)c^\dagger_{\mathbf{k}'}(\tau')\right)\rangle,
+\end{split}
+\end{equation}
+neglecting the spin $\sigma$ degree of freedom (not relevant for our treatment).\\
+In the non-interacting case the Matsubara single particle Green's functions can be valued in the same way as the retarded Green's functions, 
+in fact:
+\begin{equation}
+    H_0=\sum_{\mathbf{k}}\xi_\mathbf{k}c^\dagger_\mathbf{k}c_\mathbf{k},
+\end{equation}
+and the creation/annihilation operators in the Heisenberg picture read
+\begin{equation}
+    c_\mathbf{k}(\tau)=e^{\tau H_0}c_\mathbf{k}e^{-\tau H_0}=c_\mathbf{k}e^{-\xi_\mathbf{k}\tau},\hspace{1cm}c^\dagger_\mathbf{k}(\tau)=e^{\tau H_0}c^\dagger_\mathbf{k}e^{-\tau H_0}=c^\dagger_\mathbf{k}e^{\xi_\mathbf{k}\tau}.
+\end{equation}
+The non-interacting Matsubara Green's function is then defined as 
+\begin{equation}
+\begin{split}
+    G_0(\mathbf{k},\tau,\tau')&=-\langle T_\tau\left(c_\mathbf{k}(\tau)c^\dagger_\mathbf{k}(\tau')\right)\rangle\\
+    &=-\theta(\tau-\tau')\langle c_\mathbf{k}(\tau)c^\dagger_\mathbf{k}(\tau')\rangle-(\pm)_{B,F}\theta(\tau'-\tau)\langle c^\dagger_\mathbf{k}(\tau')c_\mathbf{k}(\tau)\rangle\\
+    &=-\left[\theta(\tau-\tau')\langle c_\mathbf{k}c^\dagger_\mathbf{k}\rangle-(\pm)_{B,F}\theta(\tau'-\tau)\langle c_\mathbf{k}^\dagger c_\mathbf{k}\rangle\right]e^{-\xi_\mathbf{k}(\tau-\tau')}.
+    \label{free_propagator}
+\end{split}
+\end{equation}
+We may now consider the Froehlich Hamiltonian previously defined in \ref{Froehlich_cubic_k_anisotropic} using the new imaginary time formalism,
+defining the non-interacting Hamiltonian $H^{cFr}_0$ as 
+\begin{equation}
+    H^{cFr}_0=\sum_\mathbf{k}\frac{\sigma k^2}{2m(\hat{k})}c^\dagger_{\mathbf{k}}c_\mathbf{k}+\sum_{\mathbf{q}j}\omega_{LO}a^\dagger_{\mathbf{q}j}a_{\mathbf{q}j}.
+    \label{polaron_non-interacting}
+\end{equation}
+Since our model consists of a single electron (hole) in the minimum (maximum) of the conduction (valence) band interacting with a cloud of phonon, we may 
+consider our system to be at zero temperature and the ground state wavefunction $|\Psi_0\rangle$ to be the vacuum:
+\begin{equation}
+    |\Psi_0\rangle=|0\rangle,\hspace{1cm}\langle \cdot \rangle=\langle 0|\cdot|0\rangle
+\end{equation}
+It is then possible to explicitely compute the electron free propagator using \ref{free_propagator}:
+\begin{equation}
+\begin{split}
+    G_0(\mathbf{k},\tau,\tau')&=-\left[\theta(\tau-\tau')\langle 0| c_\mathbf{k}c^\dagger_\mathbf{k}|0\rangle+\theta(\tau'-\tau)\langle 0 | c^\dagger_\mathbf{k}c_\mathbf{k}|0\rangle\right]e^{k^2/2m(\hat{k})(\tau-\tau')}\\
+    &=-\theta(\tau-\tau')e^{(k^2/2m(\hat{k}))(\tau-\tau')},
+\end{split}
+\end{equation}
+which for $\tau'=0$ becomes
+\begin{equation}
+    G_0(\mathbf{k},\tau)=-e^{(k^2/2m(\hat{k}))\tau},\hspace{1cm}\tau\ge0.
+\end{equation}
+The Matsubara Green function for a free electron propagator assumes the simple form of an exponential function, which can be easily sampled.\\
+In the same way, it is possible to find an explicit form for the phonon free propagator:
+\begin{equation}
+    D_0(\mathbf{q}j,\tau)=-e^{\omega_{jLO}\tau},\hspace{1cm}\tau\ge0,
+\end{equation}
+which is again a simple exponential function.
 \printbibliography
 \end{document}
