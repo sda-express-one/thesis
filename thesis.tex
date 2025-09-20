@@ -2,6 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsfonts, amssymb, amsmath}
+\usepackage{mathtools}
 \usepackage{csquotes}
 \usepackage[english]{babel}
 \usepackage{newlfont}
@@ -767,6 +768,105 @@ The non-interacting Matsubara Green's function is then defined as
     \label{free_propagator}
 \end{split}
 \end{equation}
+\subsection{Equation of motion and Wick's theorem}
+For a general Green's function the process to find its expression goes through the equation of motion technique, for a general 
+operator in the imaginary time formalism the time derivative is
+\begin{equation}
+    \partial_\tau A(\tau)= \partial(\tau)\left(e^{\tau H}Ae^{-\tau H}\right)=e^{\tau H}[H,A]e^{-\tau H}=[H,A](\tau),
+\end{equation}
+if we derivate with respect to imaginary time a Matsubara Green's function the following result is obtained:
+\begin{equation}
+    -\frac{\partial}{\partial\tau}\left(T_\tau\langle A(\tau)B(\tau')\rangle\right)=\delta(\tau-\tau')\langle(AB-(\pm)_{B,F}BA\rangle)+\langle T_\tau\left([H,A](\tau)B(\tau')\right)\rangle,
+\end{equation}
+which for the single particle Green's function in momentum space becomes
+\begin{equation}
+    -\frac{\partial}{\partial \tau} G(\mathbf{k}\tau,\mathbf{k}'\tau')=\delta(\tau-\tau')\delta_{\mathbf{k}\mathbf{k}'}+\langle T_\tau\left([H,c_\mathbf{k}](\tau)c^\dagger_{\mathbf{k}'}(\tau')\right)\rangle.
+\end{equation}
+In the case of a Green's function for a non-interacting system $G_0$ with an Hamiltonian $H_0=\sum_{\mathbf{kk}'}t_{\mathbf{kk}'}c^\dagger_\mathbf{k}c_{\mathbf{k}'}$ this equation simplifies to
+\begin{equation}
+    -\frac{\partial}{\partial\tau}G_0(\mathbf{k}\tau,\mathbf{k}'\tau')=\delta(\tau-\tau')\delta_{\mathbf{k}\mathbf{k}'}+\sum_{\mathbf{k}''}t_{\mathbf{kk}''}G_0(\mathbf{k}''\tau,\mathbf{k}'\tau'),
+\end{equation}
+and the solution is found as previously defined.\\
+We now introduce \textbf{Wick's theorem}, an important result which states that higher order (greater than 1) Green's functions for non-interacting 
+systems $G_0^{(n)}$ can be factorized into products of single particle Green's functions $G_0$.\\
+The $n$-particle Green's function is defined as:
+\begin{equation}
+    G_0^{(n)}(\nu_1\tau_1,\cdots,\nu_n\tau_n;\nu_1'\tau_1',\cdots\nu_n'\tau_n')=(-1)^n\langle T_\tau \left[c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n'}(\tau_n')\cdots c^\dagger_{I\nu_1'}(\tau_1')\right]\rangle. 
+    \label{G_0_n-order}
+\end{equation}
+This expression is quite complicated and difficult to handle, we first define an easier notation to handle all the operators:
+\begin{equation}
+    l_j(\gamma_j) = 
+    \begin{cases}
+        c_{I\nu_j}(\tau_j)\hspace{2.95cm}\in[0,n], \\
+        c^\dagger_{I\nu_{2n+1-j}'}(\tau_{2n+1-j}')\hspace{0.9cm}\in[n+1,2n],
+    \end{cases}
+    \label{eq:signfunction}
+\end{equation}
+and we define the permutation of the $2n$ operators as:
+\begin{equation}
+    P(l_1(\gamma_1)\cdots l_{2n}(\gamma_{2n}))=l_{P1}(\gamma_{P1})\cdots l_{P_{2n}}(\gamma_{P_{2n}}),
+\end{equation}
+with $P_j$ j-th variable in the permutation $P$.\\
+The correct order of permutation depends on the the time arguments ordering, for this reason it is possible to rewrite \ref{G_0_n-order} 
+taking into account these considerations:
+\begin{equation}
+        G^{(n)}_0(j_1\cdots j_{2n})=(-1)^n\sum_{P\in S_{2n}}(\pm)^{P}_{B,F}\theta(\gamma_{P_1}-\gamma_{P_2})\cdots\theta(\gamma_{P_{n-1}}-\gamma_{P_n})\times\langle l_{P_1}(\gamma_{P_1})\cdots l_{P_{2n}}(\gamma_{P_{2n}})\rangle.
+        \label{G_permutations}
+\end{equation}
+We can now take the derivative with respect to one of the time variables of $G^{(n)}_0$ and use the equation of motion:
+\begin{equation}
+    \left[-\frac{\partial}{\partial\tau_1}G^{(n)_0}\right]_{2nd-term}=-(-1)^n\langle T_\tau\left[H_0,c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n}(\tau_n')\cdots c^\dagger_{I\nu_1}(\tau_1')\right]\rangle
+\end{equation}
+\\
+We know focus on the case where $\tau_i$ is next to $\tau_j'$, two terms like this are present in \ref{G_permutations}, one where $\tau_i<\tau_j'$ and one where 
+$\tau_i>\tau_j'$ (the permutation order is obviously different).\\
+The Green's function is written as 
+\begin{equation}
+\begin{split}
+    G_0^{(n)}=&\left[\cdots \theta(\tau_i-\tau_j')\cdots\right]\langle \cdots c_{I\nu_i}(\tau_i)c^\dagger_{I\nu_j'}(\tau_j')\cdots\rangle \\
+    &(\pm)_{B,F}[\cdots \theta(\tau_j'-\tau_i)\cdots]\langle \cdots c^\dagger_{I\nu_j'}(\tau_j')c_{I\nu_i}(\tau_i)\rangle.
+\end{split}
+\end{equation}
+Differentiating these two terms with respect to $\tau_i$ gives two contributions from the heavyside function $\theta(\cdot)$:
+\begin{equation}
+\begin{split}
+    -\left[\frac{\partial}{\partial\tau_iG_0^{(n)}}\right]_{1st-term}=&\left([\cdots]\langle \cdots c_{I\nu_i}(\tau_I)c^\dagger_{I\nu_j'}(\tau_j')\cdots\rangle \right.\\
+    &\left. (\mp)_{B,F}[\cdots]\langle \cdots c^\dagger_{\nu_j'}(\tau_j')c_{\nu_i}(\tau_i)\cdots\rangle \right)\delta(\tau_i-\tau_j').
+\end{split}
+\end{equation}
+We now observe that
+\begin{equation}
+    \left[c_{\nu_i}(\tau_i),c^\dagger_{\nu_j'}(\tau_i)\right]_{B,F}=\delta_{\nu_i,\nu_j'},
+\end{equation}
+in the same way, for a couple of terms $c_{\nu_i}(\tau_i)$ and $c_{\nu_j}(\tau_i)$:
+\begin{equation}
+    \left[c_{\nu_i}(\tau_i),c_{\nu_j}(\tau_i)\right]_{B,F}=0,
+\end{equation}
+and the same is true for two creation operators.\\
+In this way the number of creation and annihilation operators has been reduced by one each and we have demonstrated that a $n$ order Green's function 
+can written in terms of a $n-1$ Green's functions (which is a sum of different terms). For fermionic Green's functions, the sign of $G_0^{n-1}$ 
+depends on the specific $\tau_j'$. Apart from that, the equation of motion is now:
+\begin{equation}
+    G^{-1}_{0i}G^{(n)}_0=\sum_{j=1}^n\delta_{\nu_i,\nu_j'}\delta(\tau_i-\tau_j')(\pm1)^x_{B,F}G_0^{(n-1)}(\underbracket[1.5pt][3pt]{\nu_1\tau_1,\cdots,\nu_n\tau_n}_{\mathclap{\text{without $i$}}};\underbracket[1.5pt][3pt]{\nu_1'\tau_1',\cdots,\nu_n'\tau_n'}_{\mathclap{\text{without $j$}}}).
+\end{equation}
+The sign $(-1)^x$ for fermions is determined as $(-1)^{n-i+n-j}=(-1)^{-(i+j)}=(-1)^{i+j}$ due to the fact that it is required that the annihilation operator $c_{I\nu_i}(\tau_i)$ 
+is moved $i$ positions to the right while the creation operator $c^\dagger_{\nu_j'}(\tau_j')$ is moved $j$ positions to the left.\\
+It is now possible to write the explicit decomposition of the $n$-order Green's function into a sum of $n$ $(n-1)$-order ones:
+\begin{equation}
+    G_0^{(n)}=\sum_{i=0}^{n}(\pm)^{i+j}_{B,F}G_0(\nu_1\tau_1,\nu_j'\tau_j')G_0^{(n-1)}(\underbracket[1.5pt][3pt]{\nu_1\tau_1,\cdots,\nu_n\tau_n}_{\mathclap{\text{without $i$}}};\underbracket[1.5pt][3pt]{\nu_1'\tau_1',\cdots,\nu_n'\tau_n'}_{\mathclap{\text{without $j$}}}).
+\end{equation}
+It is clear from the obtained result that this method can be naturally generalized to iteratively obtain any non-interacting $n$-order Green's function as sum of terms only 
+containing products of single particle non-interacting Green's functions, the final result of Wick's theorem is thus obtained:
+\begin{equation}
+    G_0^{(n)}(1,\cdots,n;n',\cdots,1')=\begin{vmatrix}
+        G_0(1,1') & \cdots & G_0(1,n') \\
+        \vdots & \ddots & \vdots \\
+        G_0(n,1') & \cdots & G_0(n,n') \\
+    \end{vmatrix}_{B,F},\hspace{1.5cm}\text{$i$ $\equiv$ $(\nu_i,\tau_i)$}
+\end{equation}
+where the result is given as a determinant for fermions and as a permanent for bosons.
+\subsection{Green's functions for the Froehlich Hamiltonian}
 We may now consider the Froehlich Hamiltonian previously defined in \ref{Froehlich_cubic_k_anisotropic} using the new imaginary time formalism,
 defining the non-interacting Hamiltonian $H^{cFr}_0$ as 
 \begin{equation}
@@ -789,7 +889,7 @@ which for $\tau'=0$ becomes
 \begin{equation}
     G_0(\mathbf{k},\tau)=-e^{(k^2/2m(\hat{k}))\tau},\hspace{1cm}\tau\ge0.
 \end{equation}
-The Matsubara Green function for a free electron propagator assumes the simple form of an exponential function, which can be easily sampled.\\
+The Matsubara Green's function for a free electron propagator assumes the simple form of an exponential function, which can be easily sampled.\\
 In the same way, it is possible to find an explicit form for the phonon free propagator:
 \begin{equation}
     D_0(\mathbf{q}j,\tau)=-e^{\omega_{jLO}\tau},\hspace{1cm}\tau\ge0,
