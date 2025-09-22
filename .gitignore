@@ -9,3 +9,10 @@
 *run.xml
 *synctex.gz
 *.bbl-SAVE-ERROR
+*json
+
+*.pdf
+!thesis.pdf
+
+*.tex
+!thesis.tex
