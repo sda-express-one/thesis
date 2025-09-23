@@ -44,14 +44,19 @@
 \setlength{\headheight}{14pt}
 
 \pagestyle{headings}
-
+\parindent 0pt
 
 \begin{document}
+
+
+% Number equations and figures within sections
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
 
 % geometry settings for title page 
     \newgeometry{left=20mm, top=25mm, right=15mm, bottom=35mm}
 % The title page settings can be changed in titlepage.tex document
-    \input{Title page/titlepage}
+    \input{Title_page/titlepage}
 
     \restoregeometry % goes back to default geometry
 
@@ -101,15 +106,15 @@
 \pagenumbering{arabic} % Sets page numbering to arabic (1, 2, 3, ...)
 \setcounter{page}{1} % Specifies the starting page number
 
-\input{Chapters/Chapter one/chapter_1}
+\input{Chapters/Chapter_01/chapter_1}
 
 \newpage
 
-\input{Chapters/Chapter two/chapter_2}
+\input{Chapters/Chapter_02/chapter_2}
 
 \newpage
 
-%\input{Chapters/Chapter three/chapter_3}
+\input{Chapters/Chapter_03/chapter_3}
 
 \newpage
 

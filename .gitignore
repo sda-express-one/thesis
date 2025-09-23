@@ -9,5 +9,9 @@
 *run.xml
 *synctex.gz
 *.bbl-SAVE-ERROR
+*.lof
+*.lot
+*.toc
 *json
+diagram.tex
 

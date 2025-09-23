@@ -1,9 +1,78 @@
-\section{Chapter Three}
-\subsection{Title 3.1}
-\lipsum[1]
-
-\subsection{Title 3.2}
+\section{Diagrammatic Monte Carlo}
+\subsection{The Monte Carlo sampling method}
+The Monte Carlo method is not a specific technique, but rather a wide set of similar methods which employs probability to solve problems 
+that are otherwise too complex for an analytic solution and too resource demanding to solve with a numerical method.\\
+The basic idea behind Monte Carlo is to use a statistical approach in the resolution of difficult integral and differential equations 
+\cite{metropolis1949monte} by the means of a precisely defined set of rules and a random number generator.\\
+This method is an \textit{iterative stochastic procedure}, or in layman terms, a procedure that is iterative: it needs to be applied many times in 
+order to produce an extremely large number of measurements from which it is possible to build an estimate for a determined quantity 
+using the \textbf{central limit theorem} and the law of large numbers, and stochastic: it uses random numbers to obtain all sorts of distributions, 
+usually through a precisely defined set of rules using a \textbf{Markov chain}.\\
+It is in fact possible, using a Monte Carlo method, to estimate the ground state of the time-independent Schroedinger equation \cite{benedict2019quantum}
+\begin{equation}
+    -\nabla^2\psi(x,y,z)=\left[E-U(x,y,z)\right]\psi(x,y,z)
+\end{equation}
+using the following ansatz for the wavefunction:
+\begin{equation}
+    u(x,y,z,\tau)=\psi(x,y,z)e^{-E\tau},
+\end{equation}
+thus introducing a fictitious imaginary time-dependence. In this way $u(x,y,z,t)$ follows the diffusion equation
+\begin{equation}
+    \frac{\partial u}{\partial \tau}=\nabla^2u-Uu,
+\end{equation}
+which can be framed in a Monte Carlo representation as a set of weighted particles which independently perform a random walk with an 
+exponential decay in imaginary time with a rate governed by the energy eigenvalue $E$, together with a particle distribution which can be used 
+to determine an estimate for the wavefunction $\psi(x,y,z)$.\\
+Note that the transformation performed on the wavefunction (first done by Fermi) is exactly the already seen transformation used for the Matsubara Green's 
+functions \ref{imaginary_time_substitution}, which turns the standard time-dependent Schroedinger equation
+\begin{equation}
+    i\frac{\partial \psi}{\partial t}=-\nabla^2\psi+U\psi
+\end{equation}
+into
+\begin{equation}
+    \frac{\partial\psi}{\partial \tau}=\nabla^2\psi-U\psi.
+\end{equation}
+This observation already stresses the importance of imaginary time in our computation.
+We list three main types of Monte Carlo simulations \cite{thijssen2007computational}:
+\begin{itemize}
+    \item \textbf{Direct Monte Carlo}, where the generation of random numbers directly models a physical system (usually with a random walk) 
+    without directly defining the complexities which characterizes it. An example is the aforementioned model to solve the ground state of 
+    the Schroedinger equation.
+    \item \textbf{Monte Carlo integration}, a method that is specifically used to compute hard integrals using random numbers.
+    \item \textbf{Markov chain Monte Carlo}, which generates the distribution of a system using a Markov chain. This method is used to study the properties of classical and quantum systems.
+\end{itemize}
+\subsection{Direct Monte Carlo}
+In direct Monte Carlo the expectation value $\langle I\rangle$ of a variable is estimated, which means that we compute its mean. In 
+order to do so the deterministic problem must be recast in a probabilistic form. $\langle I\rangle$ is a number, in particular it can be seen as 
+the result of an integral.\\
+Given $X$ a random variable defined on a set $\Omega$, we can define $\langle I\rangle$ as the expectation value $E(X)$ of the random variable.
+In statistics, the expectation value $E(X)$ and the variance $\sigma^2(X)$ have the following definitions:
+\begin{equation}
+\langle I\rangle=E(X)=\int_\Omega dp X,\hspace{1cm}\sigma^2_I=\sigma^2(X)=\int_\Omega dp (X-E(X))^2,
+\end{equation}
+where $p$ is the probability measure \cite{fehske2007computational}.\\
+An approximate estimate for the value $I$ is obtained by producing an independent sequence of random event $\omega_i$ according to the probability 
+law $p$ with value
+\begin{equation}
+    I_N=E(X_N)=\frac{1}{N}\sum_{i=1}^NX(\omega_i),
+\end{equation}
+with $I_N$ the arithmetic mean of $N$ random events.\\
+Given the fact that $I_N$ is just an estimate of the expectation value $\langle I \rangle$, it is important to estimate its deviation 
+from the exact value, to this reason we introduce the \textbf{Chebyshev's inequality} \cite{becca2017quantum}, which states that no more 
+than $1/k^2$ of the distribution values can be more than $k$ standard deviations from the mean value:
+\begin{equation}
+    P(|x-\langle x\rangle|> k\sigma)\le\frac{1}{k^2}.
+\end{equation}
+Chebyshev's inequality makes no assumptions on the distribution and is thus very general, yet it provides an upper bound for the probability 
+to find random values far from the mean.\\
+In the case of $N$ independent random variable for which 
+\begin{equation}
+    P(x_1,x_2,...,x_N)=P(x_1)P(x_2)...P(x_N)
+\end{equation}
+holds true, 
+\subsection{Monte Carlo integration}
 \lipsum[2]
 
-\subsection{Title 3.3}
+\subsection{Markov Chain Monte Carlo}
 \lipsum[3]
+\subsection{}

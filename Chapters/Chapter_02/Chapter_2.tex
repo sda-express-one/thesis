@@ -1,4 +1,4 @@
-\section{The Froehlich polaron: Feynman diagrams}
+\section{Froehlich polaron: Feynman diagrams}
 In order to deeply understand a many-body system such as the Froehlich polaron it is necessary to use a more powerful formalism 
 derived from quantum field theory, we will first breafly describe Green's functions as an effective mean to describe meaningful quantities of 
 our system and we will then shift to the \textbf{Matsubara imaginary time} formalism, much more useful in the context of Diagrammatic Monte Carlo.
@@ -351,12 +351,15 @@ with $P_j$ j-th variable in the permutation $P$.\\
 The correct order of permutation depends on the the time arguments ordering, for this reason it is possible to rewrite \ref{G_0_n-order} 
 taking into account these considerations:
 \begin{equation}
-        G^{(n)}_0(j_1\cdots j_{2n})=(-1)^n\sum_{P\in S_{2n}}(\pm)^{P}_{B,F}\theta(\gamma_{P_1}-\gamma_{P_2})\cdots\theta(\gamma_{P_{n-1}}-\gamma_{P_n})\times\langle l_{P_1}(\gamma_{P_1})\cdots l_{P_{2n}}(\gamma_{P_{2n}})\rangle.
-        \label{G_permutations}
+\begin{split}
+    G^{(n)}_0(j_1\cdots j_{2n})=(-1)^n&\sum_{P\in S_{2n}}(\pm)^{P}_{B,F}\theta(\gamma_{P_1}-\gamma_{P_2})\cdots\theta(\gamma_{P_{n-1}}-\gamma_{P_n})\\
+    &\times\langle l_{P_1}(\gamma_{P_1})\cdots l_{P_{2n}}(\gamma_{P_{2n}})\rangle.
+\end{split}
+\label{G_permutations}
 \end{equation}
 We can now take the derivative with respect to one of the time variables of $G^{(n)}_0$ and use the equation of motion:
 \begin{equation}
-    \left[-\frac{\partial}{\partial\tau_1}G^{(n)_0}\right]_{2nd-term}=-(-1)^n\langle T_\tau\left[H_0,c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n}(\tau_n')\cdots c^\dagger_{I\nu_1}(\tau_1')\right]\rangle
+    \left[-\frac{\partial}{\partial\tau_1}G^{(n)_0}\right]_{2nd-term}=-(-1)^n\left\langle T_\tau\left[H_0,c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n}(\tau_n')\cdots c^\dagger_{I\nu_1}(\tau_1')\right]\right\rangle
 \end{equation}
 \\
 We know focus on the case where $\tau_i$ is next to $\tau_j'$, two terms like this are present in \ref{G_permutations}, one where $\tau_i<\tau_j'$ and one where 
@@ -406,15 +409,6 @@ containing products of single particle non-interacting Green's functions, the fi
     \end{vmatrix}_{B,F},\hspace{1.5cm}\text{$i$ $\equiv$ $(\nu_i,\tau_i)$}
 \end{equation}
 where the result is given as a determinant for fermions and as a permanent for bosons.
-%\subsection{Perturbative expansion for Green's functions}
-%Given a system with an Hamiltonian which can be written as
-%\begin{equation}
-%    H=H_0+V,
-%\end{equation}
-%with $H_0$ diagonizable and $V$ perturbation, the single particle Green's function for the full system reads as 
-%\begin{equation}
-%    -G(\mathbf{k},\tau)=\langle c_k(\tau)
-%\end{equation}
 \subsection{Green's functions for the Froehlich Hamiltonian}
 We may now consider the Froehlich Hamiltonian previously defined in \ref{Froehlich_cubic_k_anisotropic} using the new imaginary time formalism,
 defining the non-interacting Hamiltonian $H^{cFr}_0$ as 
@@ -456,6 +450,12 @@ In the same way, it is possible to find an explicit form for the phonon free pro
     D_0(\mathbf{q}j,\tau)=-\langle 0|a_\mathbf{q}(\tau)a^\dagger_\mathbf{q}|0\rangle=-e^{-\omega_{jLO}\tau},\hspace{1cm}\tau\ge0,
 \end{equation}
 which is again a simple exponential function.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1.0]{interaction_vertex.pdf}
+    \caption{Feynman diagrams of the electron-phonon interaction.}
+    \label{fig:interaction_vertex}
+\end{figure}
 We now take into consideration the interaction part of the Froehlich Hamiltonian:
 \begin{equation}
     V=\sum_{\mathbf{k},\mathbf{q}j}c^\dagger_{\mathbf{k+q}}c_{\mathbf{k}}\left[V^{cFr}_\mathbf{q}a_\mathbf{q}+V^{*cFr}_\mathbf{q}a^\dagger_\mathbf{-q}\right],
@@ -463,13 +463,7 @@ We now take into consideration the interaction part of the Froehlich Hamiltonian
 \end{equation}
 The basic Feynman diagram that describes this interaction is an interaction between two free electron propagators (one with momentum 
 $\mathbf{k}$ gets annihilated and one with momentum $\mathbf{k+q}$ gets created) and a free phonon propagator which can either be annihilated (momentum 
-$\mathbf{q}$) or created (momentum $\mathbf{-q}$), the strength of the interaction at the vertex is given by $|V_\mathbf{q}|$.
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{interaction_vertex.pdf}
-    \caption{Feynman diagrams of the electron-phonon interaction.}
-    \label{fig:interaction_vertex}
-\end{figure}
+$\mathbf{q}$) or created (momentum $\mathbf{-q}$), the strength of the interaction at the vertex is given by $|V_\mathbf{q}|$ (\ref{fig:interaction_vertex}).\\
 We have now obtained the fundamental building blocks which can be used to obtain the total Green's function for the Froehlich polaron 
 $G(\mathbf{k},\tau)$, a generic one-electron Matsubara Green's function for the polaron is written as \cite{mishchenko2000diagrammatic}
 \begin{equation}
@@ -482,7 +476,7 @@ necessary to use the interaction picture and thus transform the operators:
 \end{equation}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{diagram_order_4_2.pdf}
+    \includegraphics[scale=0.55]{diagram_order_4_2.pdf}
     \caption{Order 4 diagram.}
     \label{fig:diagram_order_4_2}
 \end{figure}
@@ -507,17 +501,17 @@ by an external factor (the difference between a connected and disconnected diagr
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.745]{diagram_order_4_1.pdf}
+    \includegraphics[scale=0.738]{diagram_order_4_1.pdf}
     \caption{Order 4 diagram.}
     \label{fig:diagram_order_4_1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{diagram_order_4_3.pdf}
+    \includegraphics[scale=0.58]{diagram_order_4_3.pdf}
     \caption{Order 4 diagram.}
     \label{fig:diagram_order_4_3}
 \end{figure}
-Using Wick theorem, the product of $n$ chronologically ordered operators $\{\tau_1,\tau_2,...,\tau_n\}$ can be evaluated as the sum 
+Using Wick's theorem, the product of $n$ chronologically ordered operators $\{\tau_1,\tau_2,...,\tau_n\}$ can be evaluated as the sum 
 of products of pairs of operators, such that it is possible to expand the Green's function as an infinite series of terms of the following form:
 \begin{equation}
     G(\mathbf{k},\tau)=-\sum_{n=0,2,4...}^{+\infty}\sum_{\xi_n}\int d\tau_1\cdots\int d\tau_n D_n^{\xi_n}(\mathbf{k},\tau;x_1,...,x_n),
@@ -539,7 +533,36 @@ $D_2(\mathbf{k},\tau;x_1,x_2,)$ can thus be represented using Green's function a
 \end{equation}
 which translates to
 \begin{equation}
-    D_2(\mathbf{k},\tau;x_1,x_2,)=|V^{cFr}(qj)|^2e^{-\omega_{jLO}(\tau_2-\tau_1)}e^{-\epsilon(\mathbf{k})(\tau-\tau_2)}e^{-\epsilon(\mathbf{k-q})(\tau_2-\tau_1))}e^{-\epsilon(\mathbf{k})\tau_1}.
+    D_2(\mathbf{k},\tau;x_1,x_2,)=|V^{cFr}(qj)|^2e^{-\omega_{jLO}(\tau_2-\tau_1)}e^{-\epsilon(\mathbf{k})(\tau-\tau_2)}e^{-\epsilon(\mathbf{k-q})(\tau_2-\tau_1)}e^{-\epsilon(\mathbf{k})\tau_1}.
 \end{equation}
-It should be noted that in our computation instead of \ref{GF_polaron_series} the result without the - sign will be taken: this is just a convention 
-used in order to obtain a definite positive distribution, it does not alter the physical significance of the calculated Green's functions.
+It should be noted that in our computation instead of \ref{GF_polaron_series} the result without the minus sign will be taken: this is just a convention 
+used in order to obtain a definite positive distribution for the Monte Carlo sampling and it does not affect the physical significance of the calculated Green's functions.\\
+Having seen the one-electron Green's function we now introduce another related Green's function: the one-electron $N$-phonons Green's function 
+$G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau)$. Differently from the one-elecron Green's function, the one-electron $N$-phonons Green's function is a more complex object consisting of 
+$N$ phonons and one electron, and better describes the polaron physics, expecially if the strength of the interaction is intense.\\
+Its expression, using Wick's theorem, can be written as \cite{hahn2018diagrammatic}:
+\begin{equation}
+    G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau)=\left\langle 0|a_{\mathbf{\tilde{q}}_1}(\tau)...a_{\mathbf{\tilde{q}}_N}(\tau)c_{\mathbf{p}}(\tau)c^\dagger_{\mathbf{p}}a_{\mathbf{\tilde{q}}_N}...a_{\mathbf{\tilde{q}}_1} |0\right\rangle,
+\end{equation}
+where $\mathbf{p}=\mathbf{k}-\sum_{j=1}^N\mathbf{\tilde{q}}_j$.\\
+It is worth noting that $G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}},\tau)$ will only take into account connected one-electron $N$-phonons Green's functions since in the other cases the external 
+phonons can just be neglected. The related expansion can be given as:
+\begin{equation}
+\begin{split}
+        G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau)=&\sum_{n=0,2,4...}^{+\infty}\sum_{\xi_n}\int d\mathbf{\tilde{q}}_1\cdots \int d\mathbf{\tilde{q}}_N \cdot \\
+         &\cdot\int d\tau_1\cdots\int d\tau_n D_n^{\xi_n}(\mathbf{k},\sum_j\mathbf{\tilde{q}}_j,\tau;x_1,...,x_n),
+\end{split}
+\label{GF_N_polaron_series}
+\end{equation}
+where the minus sign has been dropped.
+\begin{figure}[H]
+    \includegraphics[scale = 0.55]{diagram_order_2_N2.pdf}
+    \caption{Order 2 diagram with one external phonon.}
+    \label{fig:diagram_order_2_N2}
+\end{figure}
+It is thus useful to consider the full function $P(\mathbf{k},\tau)$ defined as follows:
+\begin{equation}
+    P(\mathbf{k},\tau)=G(\mathbf{k},\tau)+\sum_{N=1}^{+\infty}G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau),
+\end{equation}
+which more accurately describes our polaron model, including both the "free" polaron and its interaction with the phonon cloud.
+
