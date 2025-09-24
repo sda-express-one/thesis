@@ -54,9 +54,9 @@ where $p$ is the probability measure \cite{fehske2007computational}.\\
 An approximate estimate for the value $I$ is obtained by producing an independent sequence of random event $\omega_i$ according to the probability 
 law $p$ with value
 \begin{equation}
-    I_N=E(X_N)=\frac{1}{N}\sum_{i=1}^NX(\omega_i),
+    \bar{I}_N=E(X_N)=\frac{1}{N}\sum_{i=1}^NX(\omega_i),
 \end{equation}
-with $I_N$ the arithmetic mean of $N$ random events.\\
+with $\bar{I}_N$ the arithmetic mean of $N$ random events.\\
 Given the fact that $I_N$ is just an estimate of the expectation value $\langle I \rangle$, it is important to estimate its deviation 
 from the exact value, to this reason we introduce the \textbf{Chebyshev's inequality} \cite{becca2017quantum}, which states that no more 
 than $1/k^2$ of the distribution values can be more than $k$ standard deviations from the mean value:
@@ -69,10 +69,159 @@ In the case of $N$ independent random variable for which
 \begin{equation}
     P(x_1,x_2,...,x_N)=P(x_1)P(x_2)...P(x_N)
 \end{equation}
-holds true, 
+holds true, it is possible to consider a new random variable $z$ which is the sum of the $N$ original random variables. If the random variables 
+$X_i$ have generic distribution functions, then the distribution function of the sum has a complicated form, the important consideration is 
+that, under very broad assumptions, it is possible to obtain an asymptotically exact form for the distribution function of $z$ when the number 
+$N$ of independent variables becomes very large.\\
+Given
+\begin{equation}
+    \bar{x}_N=\frac{1}{N}\sum_{i=0}^Nx_i,
+\end{equation}
+both the expectation value and the variance of $\bar{x}_N$ can be easily computed, since all the $N$ terms of the sum give an identical 
+contribution equal to $\langle x\rangle$, resulting in 
+\begin{equation}
+    \langle \bar{x}_N\rangle = \langle x \rangle.
+\end{equation}
+This results holds also in the case where the $N$ random variables $x_i$ are not independent.\\
+The variance of $\bar{x}_N$ is easily obtained in the following way: 
+\begin{equation}
+    \sigma^2_{\bar{x}_N}=\langle \bar{x}^2_N\rangle -\langle \bar{x}_N\rangle^2=\frac{\sigma^2}{N}.
+\end{equation}
+We thus have for $N\to\infty$ the random variable $\bar{x}_N$ which has a very narrow distribution centered about the true expectation 
+value of the random variable $X$ (noting that $\sigma^2_{\bar{x}_N}\to0$). This result is called the \textbf{weak law of large numbers}.\\
+With the \textbf{central limit theorem} instead we obtain the asymptotic probability distribution of the sum $z$ of a large number of random 
+variables which are independent and equally distributed.\\
+Let us define the random variable $Y$ as
+\begin{equation}
+    Y=\frac{1}{\sqrt{N}}\sum_{i=1}^Ny_i=\sqrt{N}(\bar{x}_N-\langle x \rangle),
+\end{equation}
+which has the expectation value
+\begin{equation}
+    \langle Y \rangle=0.
+\end{equation}
+The characteristic function of $Y$ is given by
+\begin{equation}
+    \phi_Y(t)=\left[\phi_y\left(\frac{t}{\sqrt{N}}\right)\right]^N,
+\end{equation}
+assuming that all the $y_i$ are independent and identically distributed.\\
+Expanding the characteristic function up to second order and taking the limit for $N\to\infty$ we get:
+\begin{equation}
+    \lim_{N\to\infty}\phi_Y(t)=\exp\left(-\frac{\sigma^2t}{2}\right),
+\end{equation}
+which is the characteristic function of a gaussian random variable:
+\begin{equation}
+    P(Y)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp{\left(-\frac{Y^2}{2\sigma^2}\right)},
+\end{equation}
+and we obtain for $\bar{x}_N=\langle x \rangle + Y/\sqrt{N}$ the same gaussian distribution with mean $\langle x \rangle$ and variance 
+$\sigma^2/N$.\\
+Having now stated these necessary elements from probability and statistics it is easy to see how a direct Monte Carlo method works: we directly 
+employ random numbers to compute quantities, exploiting the fact that given $N$ iterations and $N\to\infty$, we will obtain a convergent solution 
+for the modelled problem. The big issue is, of course, representing the investigated phenomenon in a way that makes it possible to use 
+random numbers.
 \subsection{Monte Carlo integration}
-\lipsum[2]
-
+The Monte Carlo integration method is a technique specifically employed to compute integrals. Consider a generic integral of a smooth generic function 
+$f(\mathbf{x})$ of vector $\mathbf{x}$ and d components:
+\begin{equation}
+    I=\int f(\mathbf{x})d\mathbf{x},
+\end{equation}
+in Monte Carlo integration we recast this integral in the following way using a probability distribution $p(x)$, ($\int p(x)=1$):
+\begin{equation}
+    \left\langle \frac{f(\mathbf{x})}{p(\mathbf{x})}\right\rangle =\int\frac{f(\mathbf{x})}{p(\mathbf{x})}p(\mathbf{x})d\mathbf{x} = \int f(\mathbf{x})d\mathbf{x}.
+\end{equation}
+The integral recast in this form is the expectation value of the function $f(\mathbf{x})$ divided by the probability distribution $p(\mathbf{x})$. 
+The central limit theorem then implies that it is possible to estimate the integral $I$ (deterministic) as the average value of $f(x)$ over a large number of
+sampling of the random variable $\mathbf{x}_i$ with distribution $p(\mathbf{x})$:
+\begin{equation}
+    I\approx I_N=\frac{1}{N}\sum_{i=1}^N\frac{f(\mathbf{x}_i)}{p(\mathbf{x}_i)},
+\end{equation}
+where the random variables $\mathbf{x}_i$ are sampled according to $p(\mathbf{x}_i)$.\\
+For large $N$ $I_N$ is normally distributed with mean equal to $I$ and variance $\sigma^2/N$ computed as 
+\begin{equation}
+    \sigma^2=\left \langle \left(\frac{ f(\mathbf{x})}{p(\mathbf{x})}\right)^2  \right\rangle-\left\langle \frac{f(\mathbf{x})}{p(\mathbf{x})} \right\rangle^2,
+\end{equation}
+thus for $N\to+\infty$ $I_N$ tends to the deterministic value $I$.\\
+It is now relevant to address the main issue with this method: generating configurations $\mathbf{x}_i$ that are distributed according to 
+$p(\mathbf{x})$ and then compute $f(\mathbf{x}_i/p(\mathbf{x}_i))$. When it is possible to directly generate samples from $p(\mathbf{x})$ 
+we are employing \textbf{direct MC sampling}, this is possible if we are using a uniform or exponential distribution (or other similar simple distributions).
+The samples generated with this method are independent, but we are limited in the type of distribution that can be used, which could make the convergence to the 
+exact value extremely slow.\\
+The simplest way to show the direct sampling method for integrals is through the computation of $\pi$: suppose that we have a square of side 1 and, inside it, 
+the quadrant of a circle (of radius 1). It is known from high school geometry that:
+\begin{equation}
+    \frac{\pi}{4}=\frac{1}{4}\frac{\pi(1)^2}{(1)^2}=\frac{1}{4}\frac{A_{\text{quadrant}}}{A_{\text{square}}},
+\end{equation}
+from which it follows that we can compute the value of $\pi$ from the ratio between the two areas.
+We now express the areas in terms of integrals
+\begin{equation}
+    \frac{\pi}{4}=\frac{\int_{\text{circle}}dxdy}{\int_{\text{square}}dxdy}=\int_{\text{square}}f(x,y)p(x,y)dxdy,
+\end{equation}
+with
+\begin{equation}
+    p(x,y)=\frac{1}{\int_{\text{square}}dxdy}
+\end{equation}
+and $f(x,y)$ defined in the following way:
+\begin{equation}
+    f(x,y)=
+    \begin{cases}
+    1\hspace{1cm},\text{if }\sqrt{x^2+y^2}<1\\
+    0\hspace{1cm},\text{otherwise}.    
+    \end{cases}
+\end{equation}
+Since $p(x,y)$ is non-negative and normalized, it can be treated as a probability distribution. We can thus say that
+\begin{equation}
+    \frac{\pi}{4}\approx \frac{1}{N}\sum_{i=1}^N f(x_i,y_i),
+\end{equation}
+the obtained result can be interpreted visually considering that we are filling the total area of the square with randomly distributed dots 
+and counting how many of them end inside the circle compared to the total.
+This simple method can be used (at least in theory) to compute every possible integral, nevertheless using a uniform distribution may 
+result impractical when estimating functions that have sharp peaks: in this cases most of the guesses made end up "outside" the region of interest 
+and do not contribute to the estimation of the integral. Of course, this problem become more and more relevant the more dimensions we have.\\
+In this cases, it is appropriate to use as a probability function that has a similar shape with respect to the target function we want to 
+integrate, consider the following one-dimensional case:
+\begin{equation}
+    I=\int_{a}^{b}f(x)dx,
+\end{equation}
+where $f(x)$ has a sharp peak in a limited interval between $a$ and $b$ and is close to 0 everywhere else. Operating in the same 
+way as before we obtain the following expression:
+\begin{equation}
+    I=\int_{a}^{b}\frac{f(x)}{p(x)}p(x)dx,
+\end{equation}
+and we can approximate the integral as
+\begin{equation}
+    I\approx I_N=\frac{1}{N}\sum_{i=1}^N\frac{f(x_i)}{p_(x_i)},
+\end{equation}
+while the variance of our estimation is found as 
+\begin{equation}
+    s^2=\frac{1}{N}\sum_{i=1}^N\left[\frac{f(x_i)}{p(x_i)}\right]^2-\left[\frac{1}{N}\sum_{i=1}^N\frac{f(x_i)}{p(x_i)}\right]^2,
+\end{equation}
+analyzing the expression for the variance estimator it becomes clear that it is minimized if $p(x)$ is chosen to be as close as 
+possible to the target function $f(x)$, with the best result $s^2=0$ obtained for $p(x) = cf(x)$ (which would mean that it is possible to analytically 
+integrate $f(x)$). This means that with a careful choice of the probability distribution it is possible to minimize the statistical fluctuations 
+of our estimate and thus obtain the same accuracy with a smaller number of samples $N$.\\
+Since multiple algorithms have been studied in order to build pseudonumber generators in the interval $(0,1)$ that are efficient, provide long periods 
+for sequences of values and have uniform distribution in $n$-dimensional spaces (for example the Mersenne-Twister algorithm, used in this thesis \cite{matsumoto1998mersenne}), 
+it is important to find ways to sample from other more complex (continuous) distributions $p(x)$, the easiest way to do so is through \textbf{CDF inversion} 
+(cumulative density function inversion), which, as the name suggests, can be used when the analytical form of the cumulative distribution 
+$P(x)$ is known.\\
+Choosing for example the exponential distribution 
+\begin{equation}
+    \exp{\left(x;\lambda\right)}=\lambda e^{-\lambda x}\hspace{1cm}\text{for}\hspace{0.2cm}x>0, 
+\end{equation}
+for which we can obtain the expression for the cumulative density function easily:
+\begin{equation}
+    P(x)=\int_{0}^{x}\lambda e^{-\lambda x}dx = 1-e^{-\lambda x}.
+\end{equation}
+We now solve for $x$ to obtain
+\begin{equation}
+    x=-\frac{1}{\lambda}\log{(1-P(x))}.
+\end{equation}
+Since by definition the image of $P(x)$ is $[0,1]$, we can substitute it in the equation with the standard uniform random variable defined 
+in $[0,1]$ $r$:
+\begin{equation}
+    x=-\frac{1}{\lambda}\log{(1-r)},
+\end{equation}
+and we obtain a random variable $x$ that follows the exponential distribution $p(x;\lambda)$.
 \subsection{Markov Chain Monte Carlo}
-\lipsum[3]
+The procedure illustrated in the previous section only works when an analytical expression for the cumulative distribution exists, 
+this is not true in general
 \subsection{}
