@@ -1,4 +1,4 @@
-\section{Diagrammatic Monte Carlo}
+\section{The Diagrammatic Monte Carlo method}
 \subsection{The Monte Carlo sampling method}
 The Monte Carlo method is not a specific technique, but rather a wide set of similar methods which employs probability to solve problems 
 that are otherwise too complex for an analytic solution and too resource demanding to solve with a numerical method.\\
@@ -223,5 +223,143 @@ in $[0,1]$ $r$:
 and we obtain a random variable $x$ that follows the exponential distribution $p(x;\lambda)$.
 \subsection{Markov Chain Monte Carlo}
 The procedure illustrated in the previous section only works when an analytical expression for the cumulative distribution exists, 
-this is not true in general
-\subsection{}
+this is not true in general and a different method is thus needed for a general distribution $p(x)$. To this scope \textbf{Markov chains} are 
+used.\\
+Let us define the random vector $\mathbf{X}$ as a sequence of $n$ random samples that are drawn one after the other:
+\begin{equation}
+    \mathbf{X}=\left(X_1,X_2,...,X_n\right),
+\end{equation}
+we call this vector an uncorrelated chains if each one of the variables $x_i$ are independent and thus uncorrelated, the probability of 
+obtaining the chain $\mathbf{X}$ is then given by the product of the individual elements of the chain:
+\begin{equation}
+    P_n(\mathbf{X})=P_1(X_1)P_2(X_2)\cdots P_n(X_n).
+\end{equation}
+In a Markov chain this is not true and the random samples are correlated: a sequence of samples is said to be Markovian if the conditional 
+probability of each sample of the sequence satisfies
+\begin{equation}
+    P(X_i|X_{i-1}...X_1)=P(X_i|X_{i-1}).
+\end{equation}
+This means that the probability of $X_i$ only depends on the previous element $X_{i-1}$ (and nothing else), with the exception of the first 
+element of the chain. This means that the order of the variables is important in the determination of the probability 
+of the full random vector:
+\begin{equation}
+    P_n(X_1,X_2,...,X_n)=P_1(X_1)P(X_2|X_1)\cdots P(X_n|X_{n-1})
+\end{equation}
+where $P(X_i|X_{i-1})$ is the transition probability from $X_{i-1}$ to $X_i$.
+We define $p_i^{(1)}$ ($\sum_i p_i^{(1)}=1$) the initial probability and $P(X_i|X_j)=P_{ij}$ the transition probability from $j$ to $i$. The transition 
+probabilities are normalized for each $j$ such that $\sum_i P_{ij}=1$, in this way for every $k$ step $\sum_k p_i^{(k)}=1$ is obtained (note that, in continuous 
+distribution, the sum is replaced by an integral).\\
+Apart from the (obvious) normalization constraint, the single probabilities $p_i^{(k)}$ at the step $k$ (which are steps in time) are in 
+general different from the probabilities $p_i^{(k-1)}$, the important mathematical result that is obtained under very general assumptions is that, 
+after a necessary relaxation time that is different from system to system, the distribution relaxes to a stationary state $p_i$ which satisfies the 
+relation
+\begin{equation}
+    p_i=\sum_{j}P_{ij}p_j
+\end{equation}
+for every $k$ step in the simulation.\\
+The conditions required for this to happen are:
+\begin{itemize}
+    \item \textbf{connectedness}: every configuration of the distribution that we want to obtain must be accessible from any other configuration of the system in a finite number of steps.
+    \item \textbf{no periodicity}: which means that, after having visited a specific configuration, it must be false that the same configuration will be accessible again only after 
+    $nk$ steps with $n$ positive integer and $k$ fixed.
+\end{itemize}
+A Markov chain that satisfies these two conditions is called \textbf{ergodic}.\\
+Since the objective is to obtain a target stationary distribution $p_i$, we need a mean to do so starting from a more generic distribution (such as the uniform distribution 
+in $[0,1]$), which means that a specific expression for the transition probabilities $P_{ij}$ is needed. The solution proposed 
+by Metropolis \cite{metropolis1953equation} is to require the following relation for the transition probability $P_{ij}$ to be true:
+\begin{equation}
+    P_{ij}p_j=P_{ji}p_i,
+    \label{detailed_balance condition}
+\end{equation}
+which is the \textbf{detailed balance condition}. This means that the probability of transitioning from $j$ to $i$ is the same as 
+the probability of transitioning from $i$ to $j$. This relation can be demonstrated using the \textbf{Master equation}:
+\begin{equation}
+    p_i^{(k)}-p_{i}^{(k-1)}=-\sum_{j}P_{ji}p_{i}^{(k-1)}+\sum_{j}P_{ij}p_{j}^{(k-1)},
+    \label{master_equation}
+\end{equation}
+the stationary condition is obtained for
+\begin{equation}
+    p_i^{(k)}=p_{i}^{(k-1)}=p_i,
+\end{equation}
+From this it follows that 
+\begin{equation}
+    \sum_jP_{ji}p_i=\sum_jP_{ij}p_j,
+\end{equation}
+for every $i$, $j$ pair.\\
+An obvious solution to this equation is found if \ref{detailed_balance condition} holds.\\
+%Let us now go to the continuous case, we substitute $p_i$ with $p(X)$ with $X$ configuration, $p_j$ with $p(X')$ and $P_{ij}$ with 
+%$P(X,X')$. The detailed balance condition becomes:
+%\begin{equation}
+%    P(X',X)p(X)=P(X,X')p(X'),
+%\end{equation}
+%we now recast the transition probability $P(X,X')$ in the form 
+%\begin{equation}
+%    P(X',X)=\omega_{XX'}A_{XX'},
+%\end{equation}
+%with $A_{XX'}$ acceptance probability, which has a value between 0 and 1 for each couple $X$ and $X'$, and $\mathbf{\omega}$ symmetric matrix 
+%($\omega_{XX'}=\omega_{X'X}$), with values between 0 and 1 and with the property $\Sigma_{X'}\omega_{XX'}=1$.\\
+%If we substitute this form for the transition probability in the detailed balance equation we obtain
+%\begin{equation}
+%    \frac{A_{XX'}}{A_{X'X}}=\frac{p(X')}{p(X)},
+%\end{equation}
+We now recast the transition probability matrix $P_{ij}$ in the form
+\begin{equation}
+    P_{ij}=T_{ij}A_{ij},
+\end{equation}
+where $T_{ij}$ is the symmetric matrix $(T_{ij}=T_{ji})$ of the trial transition proposal probabilities with the additional properties 
+$0\le T_{ij}\le 1$ and $\Sigma_i T_{ij}=1$, while $A_{ij}$ are the elements of the acceptance matrix, whose form is 
+\begin{equation}
+    A_{ij}=\min{\left\{1,\frac{p_i}{p_j}\right\}}\hspace{1cm}i\neq j.
+\end{equation}
+Using this configuration we can show that the condition of detailed balance is obeyed by assuming $p_i<p_j$ (we are not posing any constraint 
+on the system by doing this since the choice of the indexes is arbitrary) and observing that
+\begin{equation}
+    P_{ij}=T_{ij}\frac{p_i}{p_j}=T_{ji}\frac{p_i}{p_j}=T_{ji}\cdot 1\cdot\frac{p_i}{p_j}=P_{ji}\frac{p_i}{p_j},
+\end{equation}
+from which \ref{detailed_balance condition} follows.\\
+The complete algorithm, known as the \textbf{Metropolis algorithm}, proposes a new $i$ state given the present $j$ with trial transition 
+probability $T_{ij}$, then uses the $A_{ij}$ elements of the acceptance matrix to accept $i$ or reject it (and thus keep $j$). Whether the new $i$ state 
+is accepted on rejected depends on the uniform random variable defined in $[0,1]$ $r$: if $r<A_{ij}$ $i$ is accepted, otherwise it 
+is rejected.
+\begin{figure}[H]
+    \includegraphics[scale=0.8]{Metropolis_algo.jpg}
+    \caption{Schematic representation of the Metropolis algorithm procedure.}
+    \label{fig:Metropolis}
+\end{figure}
+It is possible to generalize the algorithm to one that does not have a symmetric trial transition probability matrix $T_{ij}$.\\
+Given a generic acceptance ratio $R_{ij}$ such that $A_{ij}=\min\left\{1,R_{ij}\right\}$ defined as:
+\begin{equation}
+    R_{ij}=\frac{S_{ij}}{1+\frac{T_{ij}p_j}{T_{ji}p_i}},
+\end{equation}
+with $S_{ij}$ non-negative symmetric matrix.\\
+If $S_{ij}$ is chosen to be:
+\begin{equation}
+    S_{ij}=
+    \begin{cases}
+        1+\frac{T_{ji}p_i}{T_{ij}p_j},\hspace{1cm}T_{ij}p_j\ge T_{ji}p_i,\\
+        1+\frac{T_{ij}p_j}{T_{ji}p_i},\hspace{1cm}T_{ji}p_1\ge T_{ij}p_j,
+    \end{cases}
+\end{equation}
+the \textbf{Metropolis-Hasting algorithm} is obtained with acceptance ratio $R_{ij}$:
+\begin{equation}
+    R_{ij}=\frac{T_{ji}p_i}{T_{ij}p_j}.
+\end{equation}
+In the special case where we want to obtain a random variable $X$ distributed as a generic continuous function $f(x)$ (not necessarily 
+normalized) using as a prior distribution a known distribution $h(x)$, we may identify the trial transition probability from a state $x$ to 
+a state $x'$ with
+\begin{equation}
+    T_{x'x}=h(x')dx
+\end{equation}
+independent on the current state $x$, the acceptance ratio $R_{x'x}$ then becomes
+\begin{equation}
+    R_{x'x}=\frac{T_{xx'}p_{x'}}{T_{x'x}p_{x}}=\frac{h(x)dxf(x')dx}{h(x')dxf(x)dx}=\frac{h(x)f(x')}{h(x')f(x)},
+\end{equation}
+with acceptance probability $A_{x'x}$:
+\begin{equation}
+    A_{x'x}=\min{\left\{1,\frac{h(x)f(x')}{h(x')f(x)}\right\}}.
+    \label{acceptance_prob_distrib}
+\end{equation}
+Using the above formulation (easily generalizable at least in theory to $N$ dimensions) it is possible to sample random variable from any generic continuous 
+unnormalized function. The main drawbacks of this method are the fact that a relaxation to the stationary distribution is necessary (and the number of steps required is 
+not known a priori) and that the obtained samples are correlated.
+\subsection{aaaaaaaaaaaaa}
