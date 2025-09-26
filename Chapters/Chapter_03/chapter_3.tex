@@ -8,7 +8,7 @@ This method is an \textit{iterative stochastic procedure}, or in layman terms, a
 order to produce an extremely large number of measurements from which it is possible to build an estimate for a determined quantity 
 using the \textbf{central limit theorem} and the law of large numbers, and stochastic: it uses random numbers to obtain all sorts of distributions, 
 usually through a precisely defined set of rules using a \textbf{Markov chain}.\\
-It is in fact possible, using a Monte Carlo method, to estimate the ground state of the time-independent Schroedinger equation \cite{benedict2019quantum}
+It is in fact possible, using a Monte Carlo method, to estimate the ground state of the time-independent Schroedinger equation \cite{gubernatis2016quantum}
 \begin{equation}
     -\nabla^2\psi(x,y,z)=\left[E-U(x,y,z)\right]\psi(x,y,z)
 \end{equation}
@@ -144,7 +144,13 @@ It is now relevant to address the main issue with this method: generating config
 $p(\mathbf{x})$ and then compute $f(\mathbf{x}_i/p(\mathbf{x}_i))$. When it is possible to directly generate samples from $p(\mathbf{x})$ 
 we are employing \textbf{direct MC sampling}, this is possible if we are using a uniform or exponential distribution (or other similar simple distributions).
 The samples generated with this method are independent, but we are limited in the type of distribution that can be used, which could make the convergence to the 
-exact value extremely slow.\\
+exact value extremely slow.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{Pi_MC.png}
+    \caption{Graphical representation of $\pi$ estimation using the simple direct Monte Carlo integration method.}
+    \label{fig:MC_pi_estimation}
+\end{figure}
 The simplest way to show the direct sampling method for integrals is through the computation of $\pi$: suppose that we have a square of side 1 and, inside it, 
 the quadrant of a circle (of radius 1). It is known from high school geometry that:
 \begin{equation}
@@ -172,7 +178,7 @@ Since $p(x,y)$ is non-negative and normalized, it can be treated as a probabilit
     \frac{\pi}{4}\approx \frac{1}{N}\sum_{i=1}^N f(x_i,y_i),
 \end{equation}
 the obtained result can be interpreted visually considering that we are filling the total area of the square with randomly distributed dots 
-and counting how many of them end inside the circle compared to the total.
+and counting how many of them end inside the circle compared to the total.\\
 This simple method can be used (at least in theory) to compute every possible integral, nevertheless using a uniform distribution may 
 result impractical when estimating functions that have sharp peaks: in this cases most of the guesses made end up "outside" the region of interest 
 and do not contribute to the estimation of the integral. Of course, this problem become more and more relevant the more dimensions we have.\\
@@ -263,13 +269,13 @@ The conditions required for this to happen are:
     \item \textbf{no periodicity}: which means that, after having visited a specific configuration, it must be false that the same configuration will be accessible again only after 
     $nk$ steps with $n$ positive integer and $k$ fixed.
 \end{itemize}
-A Markov chain that satisfies these two conditions is called \textbf{ergodic}.\\
+A Markov chain that satisfies these two conditions is called \textbf{ergodic} \cite{gubernatis2016quantum}.\\
 Since the objective is to obtain a target stationary distribution $p_i$, we need a mean to do so starting from a more generic distribution (such as the uniform distribution 
 in $[0,1]$), which means that a specific expression for the transition probabilities $P_{ij}$ is needed. The solution proposed 
 by Metropolis \cite{metropolis1953equation} is to require the following relation for the transition probability $P_{ij}$ to be true:
 \begin{equation}
     P_{ij}p_j=P_{ji}p_i,
-    \label{detailed_balance condition}
+    \label{detailed_balance_condition}
 \end{equation}
 which is the \textbf{detailed balance condition}. This means that the probability of transitioning from $j$ to $i$ is the same as 
 the probability of transitioning from $i$ to $j$. This relation can be demonstrated using the \textbf{Master equation}:
@@ -286,7 +292,7 @@ From this it follows that
     \sum_jP_{ji}p_i=\sum_jP_{ij}p_j,
 \end{equation}
 for every $i$, $j$ pair.\\
-An obvious solution to this equation is found if \ref{detailed_balance condition} holds.\\
+An obvious solution to this equation is found if \ref{detailed_balance_condition} holds.\\
 %Let us now go to the continuous case, we substitute $p_i$ with $p(X)$ with $X$ configuration, $p_j$ with $p(X')$ and $P_{ij}$ with 
 %$P(X,X')$. The detailed balance condition becomes:
 %\begin{equation}
@@ -316,14 +322,15 @@ on the system by doing this since the choice of the indexes is arbitrary) and ob
 \begin{equation}
     P_{ij}=T_{ij}\frac{p_i}{p_j}=T_{ji}\frac{p_i}{p_j}=T_{ji}\cdot 1\cdot\frac{p_i}{p_j}=P_{ji}\frac{p_i}{p_j},
 \end{equation}
-from which \ref{detailed_balance condition} follows.\\
+from which \ref{detailed_balance_condition} follows.\\
 The complete algorithm, known as the \textbf{Metropolis algorithm}, proposes a new $i$ state given the present $j$ with trial transition 
 probability $T_{ij}$, then uses the $A_{ij}$ elements of the acceptance matrix to accept $i$ or reject it (and thus keep $j$). Whether the new $i$ state 
-is accepted on rejected depends on the uniform random variable defined in $[0,1]$ $r$: if $r<A_{ij}$ $i$ is accepted, otherwise it 
+is accepted or rejected depends on the uniform random variable defined in $[0,1]$ $r$: if $r<A_{ij}$ $i$ is accepted, otherwise it 
 is rejected.
 \begin{figure}[H]
+    \centering
     \includegraphics[scale=0.8]{Metropolis_algo.jpg}
-    \caption{Schematic representation of the Metropolis algorithm procedure.}
+    \caption{Schematic representation of the Metropolis algorithm procedure \cite{gubernatis2016quantum}.}
     \label{fig:Metropolis}
 \end{figure}
 It is possible to generalize the algorithm to one that does not have a symmetric trial transition probability matrix $T_{ij}$.\\
@@ -343,23 +350,91 @@ If $S_{ij}$ is chosen to be:
 the \textbf{Metropolis-Hasting algorithm} is obtained with acceptance ratio $R_{ij}$:
 \begin{equation}
     R_{ij}=\frac{T_{ji}p_i}{T_{ij}p_j}.
+    \label{metropolis-hastings_discrete}
 \end{equation}
 In the special case where we want to obtain a random variable $X$ distributed as a generic continuous function $f(x)$ (not necessarily 
 normalized) using as a prior distribution a known distribution $h(x)$, we may identify the trial transition probability from a state $x$ to 
 a state $x'$ with
 \begin{equation}
-    T_{x'x}=h(x')dx
+    T_{x'x}=\pi(x')dx
 \end{equation}
 independent on the current state $x$, the acceptance ratio $R_{x'x}$ then becomes
 \begin{equation}
-    R_{x'x}=\frac{T_{xx'}p_{x'}}{T_{x'x}p_{x}}=\frac{h(x)dxf(x')dx}{h(x')dxf(x)dx}=\frac{h(x)f(x')}{h(x')f(x)},
+    R_{x'x}=\frac{T_{xx'}p_{x'}}{T_{x'x}p_{x}}=\frac{\pi(x)dxf(x')dx}{\pi(x')dxf(x)dx}=\frac{\pi(x)f(x')}{\pi(x')f(x)},
+    \label{metropolis-hastings-continuous}
 \end{equation}
 with acceptance probability $A_{x'x}$:
 \begin{equation}
-    A_{x'x}=\min{\left\{1,\frac{h(x)f(x')}{h(x')f(x)}\right\}}.
+    A_{x'x}=\min{\left\{1,\frac{\pi(x)f(x')}{\pi(x')f(x)}\right\}}.
     \label{acceptance_prob_distrib}
 \end{equation}
 Using the above formulation (easily generalizable at least in theory to $N$ dimensions) it is possible to sample random variable from any generic continuous 
 unnormalized function. The main drawbacks of this method are the fact that a relaxation to the stationary distribution is necessary (and the number of steps required is 
 not known a priori) and that the obtained samples are correlated.
-\subsection{aaaaaaaaaaaaa}
+\subsection{Diagrammatic Quantum Monte Carlo}
+In Chapter 2 we have seen that the polaron model can be solved by perturbatively expanding the related Green's function (which is a 
+solution to the equation of motion of the system) in the imaginary time formalism. Since the Green's function in this formalism can be cast 
+in a form that makes it real and non-negative, it can be sampled as if it were a distribution using the methods provided by Markov Chain Monte Carlo.\\
+For this reason, we need a method to ergodically represent all the possible configurations of the polaron system. This approach can be used in many different condensed 
+matter physics where a similar expansion is possible, provided that the weight of negative diagrams (which in our specific case do not appear, but are generally present in fermionic 
+systems) does not inficiate the errors of the estimated quantity \cite{gull2011continuous}.\\
+Given a function represented as \ref{GF_polaron_series} (without the minus sign) it is possible to sample it as a distribution $Q(\left\{y\right\})$ 
+which depends on a set of variable $y$:
+\begin{equation}
+    Q(\left\{y\right\})=\sum_{n=0}^{+\infty}\sum_{\xi_n}\int dx_1 \cdots \int dx_n D_n(\xi_n,{y},x_1,...,x_n),
+\end{equation}
+with $\{y\}$ external variables and $\{x_i\}$ internal variables (to be integrated out).\\
+Using the Metropolis-Hastings algorithm it is possible to sample variables from this distribution and in the limit of a large number of 
+samples retrieve the full function up to a normalization constant $C$ with no approximations:
+\begin{equation}
+    Q_i(\{y\})=C\hspace{0.2cm} G(\mathbf{k},\tau).
+\end{equation}
+The fundamental difference with respect to an usual Monte Carlo integration is the fact that the parameter space of internal variables 
+varies between different iterations of the simulation: ways to model transitions between these different states together with the correct trial transition probability 
+are required.\\
+In order to do so, a number of elementary updates are defined such that there are at least enough to satisfy the ergodicity requirement \cite{gubernatis2016quantum} for the 
+Markov chain which relaxes to the target distribution (the system under study). The Metropolis-Hastings algorithm in DMC uses as acceptance probabilities for transitions 
+between two different states characterized by the variables $i=\left\{y_i,\xi_i,\mathbf{x}_i\right\}$ and $i=\left\{y_j,\xi_j,\mathbf{x}_j\right\}$ respectively the relative weight of the two 
+diagrams.\\
+In fact, given the two diagrams $D_{n_i}(i)$ and $D_{n_j}(j)$ (which may be different in the value of one or more variables, whether internal or external, and more importantly in the \textit{number} 
+of internal variables if the rank of the two diagrams is different), the acceptance ratio $R_{ij}$ is proportional to:
+\begin{equation}
+    R_{ij}\propto \frac{D_{n_i}(i)}{D_{n_j}(j)}= \frac{C\hspace{0.2cm}D_{n_i}^*(i)}{C\hspace{0.2cm}D_{n_j}^*(j)}=\frac{D_{n_i}^*(i)}{D_{n_j}^*(j)},
+\end{equation}
+where the $D_{n_k}^*(k)$ are the properly normalized weights, different from the weights of the generated distribution up to a normalization constant \cite{HahnThomas2017DqMC}.\\
+In the case of negative diagrams, the acceptance ratio is performed on the absolute values of the weights. Operating in this way, however, we expose ourselves 
+to the \textbf{negative sign problem}: when we want to compute an observable $O$ from the Monte Carlo simulation, whether it be the (normalized) distribution 
+or any other quantity of interest, we must take into account the negative weights:
+\begin{equation}
+    O = O_N =\left(\frac{1}{N}\sum_{i=1}^N |O_i(D(i))|\right)\left(\frac{N^+-N^-}{N}\right)^{-1}=\frac{1}{N^+-N^-}\sum_{i=1}^N |O_i(D(i))|,
+\end{equation}
+and the variance of the Monte Carlo estimate diverges for $N^+ - N^-\approx 0$.\\
+Two basic classes of elementary updates can be recognized \cite{van2010diagrammatic}\cite{mishchenko2000diagrammatic}:
+\begin{itemize}
+    \item \textbf{class I updates}: they change one or more variables (internal or external), the new variables $\mathbf{x}$ are proposed using a suitable
+    distribution $\pi(\mathbf{x})$ (some distribution might be more suited than others depending on the specific system), and the acceptance ratio is computed using 
+    the standard Metropolis-Hastings algorithm (\ref{metropolis-hastings_discrete} and \ref{metropolis-hastings-continuous} depending on the type of variable and prior 
+    distribution)
+    \item \textbf{class II updates}: in this class of updates the order of the diagram is changed, and thus the number of internal variables is increased or 
+    reduced. Considering an update where the order of the diagram is increased, the new $m$ internal variables are sampled from a distribution $\rho(\mathbf{x})$ 
+    and the acceptance ratio $R_{ij}$ is computed as follows:
+    \begin{equation}
+        R_{ij}=\frac{p_A}{p_B}\frac{D_{n_i=n_j+m}(i)}{\rho(x_1,...,x_n)D_{n_j}(j)},
+    \end{equation}
+    where $p_A$ and $p_B$ are the so-called \textbf{context factors} that take into account the ways it is possible to transition from state $A$ to 
+    state $B$ and thus depends on how the processes are organized (it does not usually reduce to the simple relation $p_A/p_B=1$) \cite{fehske2007computational}. The 
+    opposite process which reduces the order of the diagram from $n$ to $n-m$ is found to be 
+    \begin{equation}
+        R_{ji}=\frac{1}{R_{ij}},
+    \end{equation}
+    in agreement with the detailed balance requirement.
+\end{itemize}
+Employing these rules and carefully crafting prior distributions and acceptance ratios, it is possible to sample a distribution that is 
+equal up to a normalization constant a Green's function in imaginary time formalism, provided that it can be expanded in a similar way to \ref{GF_expansion_integral}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{Diag_MC_algo.jpg}
+    \caption{Diagrammatic Monte Carlo algorithm procedure \cite{HahnThomas2017DqMC}.}\
+    \label{fig:diag_MC_algo}
+\end{figure}
+The specific updates, however, greatly vary between different systems considering issues such as ergodicity requirements, context factors and the sign problem.
