@@ -1,0 +1,176 @@
+\section{Diag MC for the Froehlich Polaron}
+In chapter 2 we have seen that is possible to perturbatively expand the Matsubara Green's function for the Froehlich polaron 
+in a series of integrals \ref{GF_expansion_integral}, while in chapter 3 we have shown that series of this type can be computed 
+using a special type of Markov chain Monte Carlo called Diagrammatic Monte Carlo which is able to take into account all the possible 
+perturbative expansions of the full function and sample from it.\\
+We now focus on the specific Diagrammatic Monte Carlo technique employed for the Froehlich Polaron case. Let us consider the 
+Froehlich Hamiltonian $H^{cFr}$ in the specific case of a single anisotropic electron band and multiple phonon modes. We take into account 
+the non-interacting term
+\begin{equation}
+    H^{cFr}_0=\sum_{\mathbf{k}}\left(\frac{k^2}{2m(\hat{k})}-\mu\right)c^\dagger_{\mathbf{k}}c_{\mathbf{k}}+\sum_{\mathbf{q}j}\omega_{jLO}a^\dagger_{\mathbf{q}j}a_{\mathbf{q}j},
+\end{equation}
+where we are only taking into account the electron polaron (the only difference in the hole polaron case would be negative electron energy dispersion). The chemical potential 
+$\mu$ is put inside the electron term as a renormalization constant (\textbf{fictitious potential renormalization} \cite{mishchenko2000diagrammatic})\cite{fehske2007computational} which can be tuned in order to obtain a non-divergent distribution that decays 
+as an exponential for long $\tau$ in the stationary limit.\\\
+The interaction term reads:
+\begin{equation}
+    V^{cFR}=\sum_{\mathbf{k},\mathbf{q}j}c^\dagger_{\mathbf{k+q}}c_{\mathbf{k}}\left(V^{cFr}_{\mathbf{q}j}a_q+V^{*cFr}_{\mathbf{q}j}a^\dagger_{-\mathbf{q}}\right),
+\end{equation}
+where the interaction vertex $V^{cFr}$ has formula
+\begin{equation}
+    V^{cFr}_{\mathbf{q}j}=\frac{i}{q}\frac{4\pi}{\Omega_0}\left(\frac{1}{2\omega_{jLO}V_{BvK}}\right)^{1/2}\frac{p_j}{\epsilon^{\infty}}.
+\end{equation}
+We need a technique to translate the Green's functions defined in chapter 2 to the formalism of Diagrammatic Monte Carlo. To this aim 
+we identify the stationary distribution $Q(\left\{y\right\})$ with the two Green's function of interest: the one-electron Green's function 
+$G(\mathbf{k},\tau)$, where no external phonon lines are present:
+\begin{equation}
+\begin{split}
+    G(\mathbf{k},\tau)=\sum_{n=0,2,4,...}^{+\infty}\sum_{\xi_n}\int d\tau_1\cdots \int d\tau_n\int d\mathbf{q}_1 \frac{V_{q_1j_1}}{(2\pi)^3}\cdots\int d\mathbf{q}_{n/2}\frac{V_{q_{n/2}j_{n/2}}}{(2\pi)^3} \\
+    \times D_n^{\xi_n}(\mathbf{k},\tau;\tau_1,...,\tau_{n},\mathbf{q}_1,...,\mathbf{q}_{n/2},j_1,...,j_{n/2}),
+\end{split}
+\end{equation}
+and $P(\mathbf{k},\tau)$, a function that is the sum of the single electron Green's function and all the possible one-electron $N$-phonons Green's function 
+configurations (weighted accordingly):
+\begin{equation}
+    P(\mathbf{k},\tau)=G(\mathbf{k},\tau)+\sum_{N=1}^{+\infty}G^{(N)}(\mathbf{k}\tilde{\mathbf{q}}_1,...,\tilde{\mathbf{q}}_N, j_1,...,j_N,\tau),
+\end{equation}
+where $G^{(N)}(\mathbf{k},\tau)$ is diagrammatically expanded in 
+\begin{equation}
+\begin{split}
+   &G^{(N)}(\cdots)=\sum_{\xi_n}\int d\tau_1\cdots \int d\tau_n\int d\mathbf{q}_1\frac{V_{q_1j_1}}{(2\pi)^3}\cdots\int d\mathbf{q}_{n/2}\frac{V_{q_{n/2}j_{n/2}}}{(2\pi)^3}\\
+    &\times D_n^{\xi_n}(\mathbf{k},\tilde{\mathbf{q}}_1,...,\tilde{\mathbf{q}}_N,\tilde{j}_1,...,\tilde{j}_N,\tau;\tau_1,...,\tau_n,\mathbf{q}_1,...,\mathbf{q}_{n/2},j_1,...,j_{n/2}).
+\end{split}
+\end{equation}
+It is now important to distinguish between external variables ${y}$ and the internal ones $\{x_1,...,x_n\}$. We identify them as
+\begin{equation}
+\begin{split}
+    \{&y\}\to \{\mathbf{k},\tilde{\mathbf{q}}_1,\tilde{j}_1,...,\tilde{\mathbf{q}}_N,\tilde{j}_N, \tau \},\\
+    &n\to \{0,2,4,...\},\\
+    \{&x_1,...,x_n\}\to \{\tau_1,...,\tau_n, \mathbf{q}_1, j_1,..., \mathbf{q}_{n/2}, j_{n/2}\}.
+\end{split}
+\end{equation}
+The algorithm that computes our simulation must satisfy the ergodicity requirement of Markov chain Monte Carlo: for this reason it 
+is necessary to implement updates that change the external variables $\{y\}$, the internal ones $\{x_i\}$, and the order of the diagram 
+$n$.\\
+We start by saying that no updates have been implemented in order to sample from the free electron momentum $\mathbf{k}$, which will be fixed 
+for each individual simulation: this was made in order to have a more precise control about the region of $k-space$ that we want to simulate, in particular 
+the $\mathbf{k}=0$ point where the electron is at the bottom (top) of the conduction (valence) band.\\
+The chemical potential $\mu$ is also implemented in the simulations as a normalizing factor, in this way a free electron propagator 
+becomes:
+\begin{equation}
+    G_0(\mathbf{k},\tau)\to G_0(\mathbf{k}, \mu, \tau)=e^{-(\epsilon(\mathbf{k})-\mu)\tau},
+\end{equation}
+the effect of which can be easily reversed by rescaling the result.\\
+Due to the finite memory of computers, it is then necessary to fix for each simulation a maximum imaginary time value $\tau_{max}$, a maximum 
+internal order $n_{max}$ (the number of internal phonon propagators would be $n_{max}/2$) and a maximum number of external phonon propagators $N_{max}$.\\
+Having decided this, it is then necessary to state the electron effective mass on the three main axes $m^*_{x}$, $m^*_{y}$ and $m^*_{z}$ together with 
+the number of phonon modes that couple to the electron band $n_{ph}$ together with their energy $\omega_{jLO}$ and their phonon mode polarities 
+$p_j$ or another equivalent quantity from which their value can be recovered \cite{de2023high}.\\
+Other quantities that needs to be specified are the size of the unit cell $\Omega_0$, the size of the Born-von Karman cell $V_{BvK}$, the optical 
+dielectric tensor (a scalar in the case of cubic materials) $\epsilon_{\infty}$, the number of thermalization steps $N_{relax}$ set to achieve the 
+stationary distribution condition and the number of simulation steps $N_{steps}$.\\
+It is now important to define how the diagram was effectively modelled in the computer: to this aim three data structures were 
+defined.
+The \textbf{Vertex}: this data structure encapsulates all the data which describes the vertices of the electron-phonon interaction (also the diagram beginning and end)
+together with all the relevant information about the associated phonon propagator, its components are:
+\begin{itemize}
+    \item $\tau_i$, the imaginary time value of the vertex, 0 and $\tau$ for the extrema
+    \item \textbf{type}, integer parameter which differentiates between extrema (0), internal phonon vertices (+1 for outgoing phonon propagators 
+    and -1 for incoming ones), external phonon vertices (+2 for outgoing phonon propagators and -2 for incoming ones).
+    \item \textbf{linked}, integer value which shows to which other vertex the current vertex is linked to and thus the length of the 
+    phonon propagator (whether we have an internal or external one).
+    \item $\mathbf{q}_i$, the three momentum components of the free phonon propagator which is created or annihilated at the vertex.
+    \item \textbf{index}, the phonon mode which is involved in the electron-phonon interaction at the vertex. 
+\end{itemize}
+The \textbf{Propagator}: this data structure represents the free electron propagators, it is defined by the three electron momentum components 
+$\mathbf{k}_i$.\\
+The \textbf{Effective\_Mass}: this data structure represents the effective mass $m^*_i(\hat{k})$ of the electron for each electron propagator $\mathbf{k}_i$, 
+it is computed using the formula in \ref{effective_mass_anisotropic_relation}.\\
+At the start of each simulation, an array of dimension $n_{max}+2N_{max}+2$ of Vertex data type is created, while an array of dimension 
+$n_{max}+2N_{max}+1$ is created for the Propagator and Effective\_Mass data type. At the beginning of the simulation all the single elements of the three data types 
+are initialized to default values with the exception of the first 2 Vertex elements and the first Propagator and Effective\_Mass 
+element: the latter two are initialized using the $\mathbf{k}$ value given as input and by computing the related effective mass (default to 
+1 in the case that $\mathbf{k}=0$), while the $\tau$ values of the first two Vertex elements are initialized to 0 and $\tau$ respectively, where 
+$\tau$ is retrieved using the \textbf{Diagram Length} update, which will be explained in detail in the following section.
+\subsection{Updates}
+Updates are necessary to obtain a Markov chain for the system which is ergodic, there is no single way to implement them in order to 
+achieve this aim and different choices have been proposed about the way new parameters are proposed and how updates are implemented 
+\cite{mishchenko2000diagrammatic}\cite{hahn2018diagrammatic}, here it is thus shown just a proposal that is sufficient but is nevertheless not 
+necessarily the best or fastest choice.\\
+The first update that is described is the \textbf{Diagram Length} update (class I), which updates the length of the last electron propagator: it thus changes the +
+value of the external variable $\tau$.\\
+Since the last electron propagator is a free electron propagator, which decays exponentially with $\tau$ as
+\begin{equation}
+    G_0(\mathbf{k},\tilde{\mathbf{q}}_1,...,\tilde{\mathbf{q}}_N,\tau)=\exp{ \left\{-\left(\frac{p^2}{2m^*(\hat{p})}-\sum_{j}\omega_{jLO}n_{jph}-\mu \right)(\tau-\tau_{last})\right\}},
+    \label{free_propagator_electron_final}
+\end{equation}
+with $\tau_{last}$ time of last vertex before the diagram end, and where we have:
+\begin{equation}
+\begin{split}
+    \mathbf{p}=\mathbf{k}-\sum_{i=0}^N\tilde{\mathbf{q}}_i,\\
+    \sum_j n_{jph}=N,
+\end{split}
+\end{equation}
+with $N$ total number of external phonons in the current diagram and $j$ phonon mode index.\\
+The weight ratio between two diagrams with length $\tau$ and $\tau'$ thus becomes:
+\begin{equation}
+    \frac{D_n(\cdots,\tau')}{D_n(\cdots,\tau)}=\frac{e^{-\Delta E (\tau'-\tau_{last})}}{e^{-\Delta E (\tau-\tau{last})}},
+    \label{weights_diagram_length}
+\end{equation}
+where $\Delta E$ is the computed energy in \ref{free_propagator_electron_final}.\\
+If we thus take an exponential distribution as the proposal distribution for new values of the imaginary time value $\tau'$ built as follows
+\begin{equation}
+    \tau'=\tau_{last}-\frac{\log{\left(1-r\right)}}{\Delta E},
+\end{equation}
+with $r$ uniform random variable in $[0,1]$ we obtain a new value that is always accepted apart from the case where $\tau'>\tau_{max}$. In fact the acceptance ratio is
+\begin{equation}
+    R_{\tau'\tau}=\frac{\exp{\left(\tau;\tau_{last},\Delta E\right)}e^{-\Delta E(\tau'-\tau_{last})}}{\exp{\left(\tau';\tau_{last},\Delta E\right)}e^{-\Delta E (\tau-\tau_{last})}}=\frac{\Delta E e^{-\Delta E(\tau-\tau_{last})}e^{-\Delta E (\tau'-\tau_{last})}}{\Delta E e^{-\Delta E(\tau'-\tau_{last})}e^{-\Delta E (\tau-\tau_{last})}}=1,
+\end{equation}
+which is always accepted.\\
+The next update to be described is the \textbf{add internal phonon}, a class II update. The new (internal) variables that have to be proposed 
+are the time value of the outgoing vertex $\tau'$, the time value of the incoming vertex $\tau''$, the phonon mode index $j$ and the phonon propagator 
+momentum $\mathbf{q}$. If proposing the diagram means that $n+2>n_{max}$ maximum allowed internal order, then the update is rejected.\\
+An electron propagator (from the first one to the last for a total of $n+1$ possible choices) is chosen at random, then the value of $\tau'$ is generated 
+using a uniform distribution between $\tau_{left}$ and $\tau_{right}$ vertices of the chosen free electron propagator.\\
+The phonon mode $j$ is then chosen at random between the ones given in input, and the value of the second vertex of the phonon propagator $\tau''$ is generated using the
+following exponential distribution
+\begin{equation}
+    P(\tau''|\tau',j)=\tau'-\frac{\log(1-r)}{\omega_{jLO}},
+\end{equation}
+where $\tau''$ is not restrained to any particular free electron propagator. The update is straight-up rejected if $\tau''>\tau$ length of the 
+full diagram or if it is too close to another vertex ($|\tau''-\tau_i|<10^{-9}$).\\
+The phonon momentum values $\mathbf{q}$ are then proposed using a probability $P(\mathbf{q}|\tau',\tau'',j)$ dependent on a gaussian distribution with 
+mean $0$ and variance $(\tau''-\tau')^{-1}$.\\
+The ratio of the two diagrams are
+\begin{equation}
+\begin{split}
+    &\frac{D_{(n+2)}(\mathbf{k},\tau,...,\tau',\tau'',\mathbf{q},...)}{D_{n}(\mathbf{k},\tau,...)}=\\
+    =&\exp{\left\{-\left(\sum_i\epsilon(\mathbf{k}_i-\mathbf{q})-\epsilon(\mathbf{k}_i)\Delta\tau_i-\omega_{LO}(\tau''-\tau')\right)\right\}}|V_{\mathbf{q}j}|^2d\tau'd\tau''\frac{d\mathbf{q}}{(2\pi)^3},
+\end{split}
+\end{equation}
+where the sum over $i$ is extended over all the phonon propagators between the two phonon vertices $\tau'$ and $\tau''$, while $\Delta\tau_i$ is computed as $\tau_i-\tau_{i-1}$ where the two 
+extrema are $\tau'$ and $\tau''$. The infinitesimal are required because they are not cancelled in the ratio since they are new proposed variables.\\
+The full distribution from which the new values are sampled is written as
+\begin{equation}
+\begin{split}
+    &P(\tau',\tau'',\mathbf{q})=P(\tau')P(\tau''|\tau',j)P(\mathbf{q}|\tau',\tau'',j)=\\
+    &=\underbracket[1.5pt][3pt]{\frac{1}{\tau_{right}-\tau_{left}}}_{P(\tau')}\underbracket[1.5pt][3pt]{\omega_{jLO}e^{-\omega_{jLO}(\tau''-\tau')}}_{P(\tau''|\tau',j)}
+    \underbracket[1.5pt][3pt]{\left(\frac{\tau''-\tau'}{2\pi}\right)^{3/2}e^{-\frac{q^2}{2}(\tau''-\tau')}}_{P(\mathbf{q}|\tau',\tau'',j)}.
+\end{split}
+\end{equation}
+The acceptance ratio thus becomes:
+\begin{equation}
+    R_{add}=\frac{p_A}{p_B}\frac{D_{n+2}(\mathbf{k},\tau,...,\tau',\tau'',\mathbf{q},...)}{D_n(\mathbf{k},\tau,...)P(\tau',\tau'',\mathbf{q})},
+\end{equation}
+the context factors $p_A$ and $p_B$ take into account the number of free electron propagators from which a vertex can be generated and the total number of internal phonon propagators 
+which can be removed, their ratio is
+\begin{equation}
+    \frac{p_A}{p_B}=\frac{p_{(rem\hspace{2pt}int)}}{p_{(add\hspace{2pt}int)}}\frac{n+2N+1}{n/2+1},
+\end{equation}
+for example at order $n=2$ and 1 external phonon we can choose from $2+2\cdot1+1=5$ electron propagators, while to go back to 
+order 2 from order $n+2=4$ we can choose between $2/2+1=2$ phonon propagators. The two variables $p_{(rem\hspace{2pt}int)}$ and 
+$p_{(add\hspace{2pt}int)}$ measure the probability of choosing the add internal and remove internal updates in the main Monte Carlo simulation.\\
+The \textbf{remove internal phonon} is also a class II update, no new parameters are proposed but instead a random phonon propagator with 
+vertices at $\tau'$ and $\tau''$ and momentum $\mathbf{q}$ is chosen to be removed. The update is automatically rejected if the internal order $n=0$ and 
+is accepted with acceptance ratio $R_{rem}=1/R_{add}$ calculated for the add internal phonon update.\\
+\subsection{Collected quantities and exact estimators}
