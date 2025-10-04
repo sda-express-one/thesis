@@ -1,2 +1,61 @@
 \addcontentsline{toc}{section}{Appendix}
 \section*{Appendix}
+All the simulations have been performed using the code in \cite{github_repo}, in order to use it you have to 
+include in the compiler list the files \textbf{main.cpp}, \textbf{Diagram.cpp}, \textbf{GreenFuncNph.cpp}, \textbf{GreenFuncNphBands.cpp}, 
+\textbf{MC\_Benchmarking.cpp} and \textbf{progressbar.cpp}. The program was compiled in a Windows machine using the mingw64 g++ compiler 
+and in a Linux machine using the native GNU/GCC compiler.\\
+Three text files must be included in order to start the simulation, \textbf{simulation\_parameters.txt}, \textbf{simulation\_settings.txt} and 
+\textbf{simulations\_probabilities\_MC.txt}.\\
+The main options of \textbf{simulation\_parameters.txt} are:
+\begin{itemize}
+    \item \textbf{type}: set "bands" for anisotropic multi-phonon mode calculations.
+    \item \textbf{thermalization\_steps}: number of relaxation steps performed.
+    \item \textbf{simulation\_steps}: number of MC steps performed.       
+    \item \textbf{max\_tau\_value}: maximum allowed tau value in the simulation.
+    \item \textbf{dimensions}: number of dimensions of the system to simulate (3).
+    \item \textbf{kx}: $k_x$ momentum.
+    \item \textbf{ky}: $k_y$ momentum.
+    \item \textbf{kz}: $k_z$ momentum.
+    \item \textbf{chemical\_potential}: fictitious renormalization potential (provide negative values).
+    \item \textbf{max\_internal\_order}: maximum number of allowed internal phonon propagator is half this quantity (provide even values).
+    \item \textbf{max\_num\_ext\_phonon}: maximum number of allowed external phonon propagators.
+    \item \textbf{num\_bands}: number of degenerate electronic bands (1).
+    \item \textbf{num\_phonon\_modes}: number of phonon modes (1 or more).
+    \item \textbf{phonon\_mode(i)}: energy of the $i$th phonon mode (starting from 0 to n-1), values must be provided in Hartree (atomic units).
+    \item \textbf{dielectric\_response(i)}: dielectric response of $i$th phonon mode using atomic units.
+    \item \textbf{mx}: effective band mass along $k_x$.
+    \item \textbf{my}: effective band mass along $k_y$.
+    \item \textbf{mz}: effective band mass along $k_z$.
+    \item \textbf{V\_1BZ}: unit cell volume (not necessary, can be set to 1 since the Froehlich model assumes the continuum hypothesis).
+    \item \textbf{V\_BvK}: Born-von Karman cell volume (set to 1).
+    \item \textbf{diel\_const}: $\epsilon_\infty$ in atomic units.
+\end{itemize}
+The main options of \textbf{simulation\_settings.txt} are:
+\begin{itemize}
+    \item \textbf{exact\_GF}: boolean, computes the Green's function with the exact estimator
+    \item \textbf{num\_points}: number of points for which the exact GF is evaluated, spacing depends on max\_tau\_value.
+    \item \textbf{selected\_order}: number $N$ of external phonons for which the exact GF is computed, if the value is negative the GF is computed for all $N$. 
+    \item \textbf{histo}: boolean, computes the Green's function using the histogram method.
+    \item \textbf{bins\_(histogram)}: number of bins of the histogram, width depends on max\_tau\_value.
+    \item \textbf{gs\_energy}: boolean, computes the ground state energy with the exact estimator.
+    \item \textbf{cutoff\_tau\_(gs\_energy)}: tau value cutoff for which the ground state energy is computed (lower bound).
+    \item \textbf{effective\_mass}: boolean, computes the polaron effective masses with the exact estimator.
+    \item \textbf{cutoff\_tau\_(mass)}: same as for the energy cutoff.
+    \item \textbf{write\_diagram}: boolean, method to print and visualize computed diagram, automatically disabled if simulation\_steps>25000.
+    \item \textbf{time\_benchmark}: boolean, computes the average time each update takes and the average time per iteration.
+    \item \textbf{stats}: boolean, collects statistics about MC simulation (average order, number of external phonons, number of internal phonons, order 0 diagrams).
+    \item \textbf{cutoff\_tau\_stats}: tau value cutoff for which statistics is computed (lower bound).
+    \item \textbf{fix\_tau\_value}: boolean, fixes length of diagrams to max\_tau\_value (and changes update probabilities accordingly), useful to compute ground state energy and effective masses.
+    \end{itemize}
+The options of \textbf{simulation\_probabilities\_MC.txt} are:
+\begin{itemize}
+    \item \textbf{prob\_length}: diagram length update probability.
+    \item \textbf{prob\_add\_internal}: add internal phonon update probability.
+    \item \textbf{prob\_remove\_internal}: remove internal phonon update probability.
+    \item \textbf{prob\_add\_external}: add external phonon update probability.
+    \item \textbf{prob\_remove\_internal}: remove external phonon update probability.
+    \item \textbf{prob\_swap}: swap update probability.
+    \item \textbf{prob\_shift}: shift update probability (currently not working properly).
+    \item \textbf{prob\_stretch}: stretch update probability.
+\end{itemize}
+If the probabilities given in input do not add to 1, they are properly normalized.
