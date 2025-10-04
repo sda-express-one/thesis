@@ -435,13 +435,13 @@ which for $\tau'=0$ becomes
 The Matsubara Green's function for a free electron propagator assumes the simple form of an exponential function, which can be easily sampled.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1.5]{free_el_propagator.pdf}
+    \includegraphics[scale=1]{free_el_propagator.pdf}
     \caption{Feynman diagram of the free electron propagator together with its Green's function.}
     \label{fig:el_prop_free}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1.5]{free_ph_propagator.pdf}
+    \includegraphics[scale=1]{free_ph_propagator.pdf}
     \caption{Feynman diagram of the free phonon propagator together with its Green's function.}
     \label{fig:ph_prop_free}
 \end{figure}
@@ -566,4 +566,53 @@ It is thus useful to consider the full function $P(\mathbf{k},\tau)$ defined as 
     P(\mathbf{k},\tau)=G(\mathbf{k},\tau)+\sum_{N=1}^{+\infty}G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau),
 \end{equation}
 which more accurately describes our polaron model, including both the "free" polaron and its interaction with the phonon cloud.
+\subsection{Green's function: retrieving physical quantities}
+From the treatment of the Green's function performed up to now it is not immediately clear which physical information is stored inside 
+the polaron's Green's function. We begin by reminding what the 1-electron Green's function is defined as
+\begin{equation}
+    G(\mathbf{k})=\left\langle 0| c_\mathbf{k}(\tau)c^\dagger_\mathbf{k}    |0 \right\rangle,
+\end{equation}
+with $c_\mathbf{k}(\tau)=e^{H\tau}c_\mathbf{k}e^{-H\tau}$, we can expand the Green's function as \cite{mishchenko2000diagrammatic}
+\begin{equation}
+    G(\mathbf{k},\tau)=\sum_{\nu}|\langle\nu |c^\dagger_{\mathbf{k}}|0\rangle|^2e^{-(E_\nu(\mathbf{k})-E_0)\tau},
+\end{equation}
+with $|\nu\rangle$ a complete set of eigenstates of the Froehlich Hamiltonian for a given momentum $\mathbf{k}$ such that
+\begin{equation}
+    H|\nu(\mathbf{k})\rangle=E_\nu(\mathbf{k})|\nu(\mathbf{k})\rangle.
+\end{equation}
+Given that the ground state energy in our case $E_0$ is exactly 0 (electron at the ground state energy and no phonon excitations for $T=0$), we can neglect this term.\\
+We can then rewrite the Green's function in terms of the spectral function $g_\mathbf{k}(\omega)$:
+\begin{equation}
+\begin{split}
+    &G(\mathbf{k},\tau)=\int_0^{+\infty}d\omega g_\mathbf{k}(\omega)e^{-\omega\tau},\\
+    &g_\mathbf{k}(\omega)=\sum_\nu \delta[\omega-E_\nu(\mathbf{k})]|\langle\nu |c^\dagger_\mathbf{k}|0\rangle|^2.
+\end{split}
+\end{equation}
+The spectral function $g_\mathbf{k}(\omega)$ is defined to have poles at frequencies for which a stable quasiparticle state exists. For this 
+reason if a stable polaron exists for a given $\mathbf{k}$ we will have
+\begin{equation}
+    g_\mathbf{k}(\omega)=Z_0^\mathbf{k}\delta[\omega-E(\mathbf{k})]+...
+\end{equation}
+where $Z_0^\mathbf{k}$ is the overlap between the polaronic state and the free electron one:
+\begin{equation}
+    Z_0^\mathbf{k}=|\langle\text{polaron }(\mathbf{k})|\text{ free electron }(\mathbf{k})\rangle|^2.
+\end{equation}
+It can also be demonstrated that, if the polaron is at the ground state, for large $\tau$ values the $Z$ factor and its energy can 
+be retrieved:
+\begin{equation}
+    G(\mathbf{k},\tau\gg \omega^{-1})\xrightarrow{}Z_0^\mathbf{k}e^{-E_P(\mathbf{k})\tau},
+\end{equation}
+The same thing can be done with $P(\mathbf{k},\tau)$ sum of all the possible 1-electron $N$-phonons Green's functions, 
+we have $Z_N^\mathbf{k}$ defined as:
+\begin{equation}
+    Z_N^\mathbf{k}(\tilde{\mathbf{q}}_1,...,\tilde{\mathbf{q}}_N)=|\langle \text{polaron }(\mathbf{k})|\text{ free electron }(\mathbf{p})+\text{ free phonons }(\tilde{\mathbf{q}}_1,...,\tilde{\mathbf{q}_N})\rangle|^2,
+\end{equation}
+from which it follows that
+\begin{equation}
+    G^N(\mathbf{k},\tau\gg\omega^{-1},\tilde{\mathbf{q}}_1,...,\tilde{\mathbf{q}}_N)=Z_N^\mathbf{k}e^{-E_P(\mathbf{k})\tau}.
+\end{equation}
+and the formula for $P(\mathbf{k},\tau)$ is retrieved:
+\begin{equation}
+    P(\mathbf{k},\tau)=\sum_{N}Z_N^\mathbf{k}e^{-E_P(\mathbf{k})\tau}.
+\end{equation}
 
