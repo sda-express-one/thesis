@@ -303,10 +303,13 @@ where the coupling parameter is given as
 \end{equation}
 It is possible to rewrite the coupling parameter in terms of the dimensionless coupling strength $\alpha$:
 \begin{equation}
-\begin{split}
-    &V_\mathbf{q}=i\left(\frac{4\pi\alpha}{V}\right)^{1/2}\frac{1}{q},\\
-    &\alpha=\frac{2\pi e^2}{\hbar\gamma\omega}\sqrt{\frac{2m^*\omega}{\hbar}}=\frac{1}{2}\left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)\frac{e^2}{\hbar\omega}\sqrt{\frac{2m^*\omega}{\hbar}}.
-\end{split}
+    \alpha=\frac{2\pi e^2}{\hbar\gamma\omega}\sqrt{\frac{2m^*\omega}{\hbar}}=\frac{1}{2}\left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)\frac{e^2}{\hbar\omega}\sqrt{\frac{2m^*\omega}{\hbar}},
+    \label{froehlich_param}
+\end{equation}
+and the coupling parameter (or interaction strength) is found as
+\begin{equation}
+    V_\mathbf{q}=i\left(\frac{2\sqrt{2}\pi\alpha}{V}\right)^{1/2}\frac{1}{q}.
+    \label{simple_froehlich_coupling_strength}
 \end{equation}
 If we now identify $\omega$ with $\omega_{LO}$ angular frequency of the longitudinal optical phonon modes (the modes that effectively 
 couple with the electron), we obtain the final form of the \text{Froehlich Hamiltonian}:
@@ -369,14 +372,22 @@ second order perturbation theory energy then becomes:
 evaluating the sum over the $q$ wavevectors we arrive at 
 \begin{equation}
     E_{\mathbf{k}P}=\frac{k^2}{2m^*}-\frac{\alpha\omega_{LO}\sqrt{2m^*\omega_{LO}}}{k}\arcsin{\frac{k}{\sqrt{2m^*\omega_{LO}}}},
+    \label{weak_limit_inproceedings}
 \end{equation}
-which for $k\ll\sqrt{2m^*\omega_{LO}}$ yields
+with $\alpha$ adimensional parameter defined as (using atomic units) \cite{de2023high}
+\begin{equation}
+    \alpha=\left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)\left(\frac{m^*}{2\omega_{LO}}\right)^{1/2}
+    \label{adimensional_sFr}
+\end{equation}
+where $\epsilon_\infty$ is the optical dielectric constant (purely electronic) and $\epsilon_0$ the static dielectric constant (independent from $\omega$ and $\mathbf{q}$).\\
+\ref{weak_limit_inproceedings} for $k\ll\sqrt{2m^*\omega_{LO}}$ yields
 \begin{equation}
     E_{\mathbf{k}P}=\frac{k^2}{2m^*}-\alpha\omega_{LO}.
 \end{equation}
 The polaron effective mass $m^*_P$ is given by:
 \begin{equation}
     m^*_P=\frac{m^*}{\left(1-\frac{\alpha}{6}\right)}.
+    \label{polaron_mass_sFr_perturbation}
 \end{equation}
 From the equation it clearly results that the polaron effective mass diverges for $\alpha\to 6^-$ and is negative for $\alpha>6$. This 
 clearly signals that perturbation theory does not correctly describe the physical system at strong couplings.
@@ -532,4 +543,126 @@ with $m^*_x$, $m^*_y$ and $m^*_z$ effective mass values on the three cartesian a
 Alternatively, the following formula for the electron energy as a function of $k$ can be employed:
 \begin{equation}
     \epsilon(\mathbf{k})=\frac{\sigma}{2}\left(\frac{k^2_x}{m^*_x}+\frac{k_y^2}{m^*_y}+\frac{k_z^2}{m^*_z}\right).
+    \label{anisotropic_electron_band_mass}
 \end{equation}
+For the scope of this thesis, we will rearrange the coupling strength term in \ref{coupling_strength_anisotropic} in a way that makes it more similar to 
+the coupling strength of the original Froehlich model.\\
+To this aim we introduce the adimensional coupling term $\alpha(\hat{\mathbf{q}})$ as \cite{de2023high} 
+\begin{equation}
+    \alpha(\hat{\mathbf{q}})=\frac{4\pi}{\sqrt{2}\Omega_0}\left(\frac{m^*(\hat{\mathbf{q}})}{\omega_{jLO}}\right)^{1/2}\left(\frac{p_{jLO}}{\epsilon_\infty\omega_{jLO}}\right)^{2},
+    \label{coupling_alpha_anisotropic}
+\end{equation}
+which can be rewritten in a similar form to \ref{adimensional_sFr}:
+\begin{equation}
+    \alpha(\hat{\mathbf{q}})=\frac{1}{\epsilon_j^*}\left(\frac{m^*(\hat{\mathbf{q}})}{2\omega_{jLO}}\right)^{1/2}
+\end{equation}
+with $\epsilon^*_j$ dielectric response of the phonon mode defined as 
+\begin{equation}
+    \epsilon^*_j=\frac{4\pi}{\Omega_0}\left(\frac{p_j{LO}}{\epsilon_\infty\omega_{jLO}}\right)^2.
+\end{equation}
+The following relation is also true \cite{guster2021frohlich}:
+\begin{equation}
+    \frac{1}{\epsilon_\infty}=\frac{1}{\epsilon_0}+\sum_j\frac{1}{\epsilon^*_j}
+\end{equation}
+In this way the coupling strength term, similarly to \ref{simple_froehlich_coupling_strength}, can be rewritten as
+\begin{equation}
+    V^{cFr}(qj)=\frac{i}{q}\left(\frac{2\sqrt{2}\pi}{\Omega_0V_{BvK}}\frac{\omega_{jLO}^{3/2}}{m(\hat{\mathbf{q}})^{1/2}}\alpha(\hat{\mathbf{q}})\right)^{1/2},
+\end{equation}
+which is not dependent on the orientation of $\mathbf{q}$ since the $\hat{\mathbf{q}}$-dependent terms (the effective mass) gets simplified.\\
+It is possible to use perturbation theory to compute the ground state energy of the polaron with an anisotropic electron band and multiple phonon modes, 
+in fact, at the lowest order of perturbation theory we get \cite{de2023high}
+\begin{equation}
+    E_P(0)=-\sum_j \frac{\sigma}{\sqrt{2}\Omega_0}\int_{4\pi}d\hat{\mathbf{q}}(m^*(\hat{\mathbf{q}}))^{1/2}(\omega_{jLO}(\hat{\mathbf{q}}))^{-3/2}\left(\frac{p_{jLO}}{\epsilon_\infty}\right)^2,
+\end{equation}
+which, using the expression for $\alpha(\hat{\mathbf{q}})$ in \ref{coupling_alpha_anisotropic}, becomes
+\begin{equation}
+    E_P(0)=-\sigma\sum_j\left \langle  \alpha_j(\hat{\mathbf{q}}) \right \rangle_{\hat{\mathbf{q}}}\omega_{jLO}.
+\end{equation}
+If we rewrite
+\begin{equation}
+    \alpha_j=\langle\alpha_j(\hat{\mathbf{q}})\rangle_{\hat{\mathbf{q}}}=\left\langle (m^*(\hat{\mathbf{q}}))^{1/2} \right\rangle_{\hat{\mathbf{q}}} \frac{1}{\epsilon^*_j}\frac{1}{\sqrt{2\omega_{jLO}}}
+\end{equation}
+we obtain the final formula for the polaron ground state energy (for a conduction band):
+\begin{equation}
+    E_P(0)=-\left \langle  (m^*(\hat{\mathbf{q}}))^{1/2} \right\rangle_{\hat{\mathbf{q}}} \left(\sum_j\frac{\sqrt{\omega_{jLO}}}{\epsilon^*_j\sqrt{2}}\right).
+\end{equation}
+The effective mass of the polaron can also be retrieved in perturbation theory, we start by observing that, up to the second order \cite{guster2021frohlich}
+\begin{equation}
+    E_P(\mathbf{k})=E_P(0)+\frac{\sigma}{2}\left(\frac{k^2_x}{m^*_{Px}}+\frac{k^2_y}{m^*_{Py}}+\frac{k^2_z}{m^*_{Pz}}\right),
+\end{equation}
+from which it follows that
+\begin{equation}
+    \frac{1}{m^*_{Pi}}=\frac{1}{m^*_i}+\sigma\left(\frac{d^2\Sigma(\mathbf{k},\epsilon(\mathbf{k}))}{dk_i^2}\right)_{k=0},
+\end{equation}
+with $\Sigma(\mathbf{k},\epsilon(\mathbf{k}))$ the energy variation exclusively due to electron-phonon coupling (the component due to the electron band 
+is not included). We now define
+\begin{equation}
+    I_P(\mathbf{k},\omega_{jLO},m^*_i)=\int\frac{d^3q}{4\pi q^2}\frac{1}{\sigma\left(\epsilon(\mathbf{k})-\epsilon(\mathbf{k-q})-\omega_{jLO}\right)},
+\end{equation}
+with $\epsilon(\mathbf{k})$ given as \ref{anisotropic_electron_band_mass}, we thus get
+\begin{equation}
+    \Sigma(\mathbf{k},\epsilon(\mathbf{k}))=\frac{\sigma}{\pi}\sum_j\frac{\omega_{jLO}}{\epsilon^*_j}I_P(\mathbf{k},\omega_{jLO},m^*_i).
+\end{equation}
+For $\mathbf{k}=0$ we have \cite{guster2021frohlich}
+\begin{equation}
+\begin{split}
+    &I_P(0,\omega_{jLO},m^*_i)=(\omega_{jLO})^{-1/2}I_P(0,1,m^*_i),\\
+    &\left(\frac{\partial^2I_P}{\partial k_i^2}\right)_{k=0}=-2\left(\frac{\partial^2I_P}{\partial \omega_{jLO}\partial m^*_i}\right)_{k=0,\omega=1}\sum_j\frac{1}{\epsilon^*_j}\frac{1}{\sqrt{2\omega_{jLO}}},
+\end{split}
+\end{equation}
+which, combined, give the result
+\begin{equation}
+    \left(\frac{d^2\Sigma(\mathbf{k},\epsilon(\mathbf{k}))}{dk^2_i}\right)_{k=0}=\frac{\sigma}{\pi}\left(\frac{\partial I_P}{\partial m^*_i}\right)_{k=0,\omega=1}\sum_j\frac{1}{\epsilon^*_j}\frac{1}{\sqrt{2\omega_{jLO}}}.
+\end{equation}
+The obtained expression clearly shows the decomposition between the band dispersion (from the electronic band masses $m^*_i$) and the 
+and the phonon modes, in fact, for the electron polaron (conduction band) we have:
+\begin{equation}
+    I_P(0,1,m^*_i)=\int\frac{d^3q}{4\pi q^2}\frac{1}{\frac{1}{2}\left(\frac{q_x^2}{2m_x^*}+\frac{q_y^2}{2m_y^*}+\frac{q_z^2}{2m^*_z}\right)+1},
+\end{equation}
+separating the $\mathbf{q}_i$ components in their radial and angular parts following \ref{anisotropic_electron_band_mass} we obtain:
+\begin{equation}
+    I_P(0,1,m^*_i)=\frac{\pi}{\sqrt{2}}\langle m^{*1/2}\rangle.
+\end{equation}
+We thus obtain the expression for the polaron effective mass
+\begin{equation}
+    \frac{1}{m^*_{Pi}}=\frac{1}{m_i^*}-\frac{\partial \left\langle m^{*1/2}\right \rangle}{\partial m^*_i}\sum_j\frac{1}{\epsilon^*_j}\frac{1}{\sqrt{2\omega_{jLO}}},
+\end{equation}
+which, for an isotropic effective band mass, reduces to the expression in \ref{polaron_mass_sFr_perturbation}.\\
+In the non-degenerate anisotropic uniaxial case, which describes cubic materials with conduction band gaps in $X$ or $L$, where we 
+have $m^*_x=m^*_y=m^*_\perp$ and the ratio $\mu^*$ defined as 
+\begin{equation}
+    \mu^*=\frac{m^*_\perp}{m^*_z},
+\end{equation}
+the square root of the average electronic effective mass becomes 
+\begin{equation}
+    \left\langle m^{*1/2}\right\rangle=m^*_\perp S(\mu^*-1)
+\end{equation}
+with $S(x)$ defined as 
+\begin{equation}
+    S(x)=\begin{cases}
+        \frac{\arcsin{(x^{1/2})}}{x^{1/2}},\hspace{10pt}x>0,\\
+        \frac{\arcsin{(-x)^{-1/2}}}{(-x)^{1/2}},\hspace{8pt}x<0,
+    \end{cases}
+\end{equation}
+we obtain the following expression for the polaron effective mass: for $m^*_{P\perp}$ we have
+\begin{equation}
+    \begin{split}
+        &m^*_{P\perp}=m^*_{\perp}\left(1-\frac{1}{f_\perp(\mu^*)}\sum_j\alpha_{j}\right)^{-1},\\
+        &f_\perp(\mu^*)=4(1-\mu^*)\left[1-\frac{(\mu^*)^{1/2}}{S(\mu^*-1)}\right]^{-1},
+    \end{split}
+\end{equation}
+while for $m^*_{Pz}$ we obtain
+\begin{equation}
+\begin{split}
+    &m^*_{Pz}=m^*_z\left(1-\frac{1}{f_z(\mu^*)}\sum_j\alpha_j\right)^{-1},\\
+    &f_z(\mu^*)=2\frac{1-\mu^*}{\mu^*}\left[\frac{(\mu^*)^{-1/2}}{S(\mu^*-1)}-1\right]^{-1}.
+\end{split}
+\end{equation}
+The limit for which the perturbation approach breaks down is different from the isotropic limit of $\alpha=6$ \cite{guster2021frohlich} and depends on the value 
+for which $f_\perp(\mu^*)$ and $f_z(\mu^*)$ equal $\sum_j\alpha_j$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.75]{polaron_mass_bd_guster.jpg}
+    \caption{Polaron effective mass breakdown limit in the uniaxial case \cite{guster2021frohlich}.}
+    \label{fig:polaron_eff_mass_bd_guster}
+\end{figure}
