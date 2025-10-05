@@ -1,0 +1,36 @@
+\addcontentsline{toc}{section}{Introduction}
+\section*{Introduction}
+\markboth{Introduction}{}
+In Condensed Matter Physics, polarons are coherent states that are formed when an electron (or a hole) couples to a phonon bath in an ionic material (specifically the optical phonons): 
+this usually happens at the bottom of the conduction band for the electron polaron and at the top of the valence band for hole polarons and leads to a renormalization of the electron 
+ground state energy and effective mass.\\
+This coupling can not be described using standard ab-initio methods such as DFT, which decouples the ionic degrees of freedom from the electronic ones using 
+the Born-Oppenheimer approximation and uses the former to provide an energy landscape for the electrons, and thus the formalism provided by Quantum Many Body theory 
+is necessary to understand the physics underlying the phenomenon under study.\\
+Two different models for the polaron exist: the Froehlich polaron \cite{frohlich1954electrons}, which assumes that the characteristic size $d$ of the electron with its phonon cloud, 
+which together form the polaron, is much greater than the lattice spacing $a$ of the material, and the Holstein polaron \cite{holstein1959studies} which is suitable to describe 
+polarons where the actual crystalline arrangement of the material can not be neglected (and thus $d$ is of the order of the lattice parameter).\\
+In this thesis we will be focusing on the first case, and we will provide a way to compute relevant quantities about Froehlich polarons in a range 
+of real materials using the Diagrammatic Monte Carlo method. For this scope, a model which includes anisotropies in the electron band and multiple phonon modes 
+will be provided.\\
+Here the organization of the thesis is briefly explained:
+\begin{itemize}
+    \item In Chapter 1 the standard Froehlich model is presented and it is explained how its Hamiltonian is derived together with the main techniques to 
+    solve it. It is then explained how this relatively simple model can be generalized to have multiple anisotropic electronic bands 
+    and multiple optical phonon modes without altering the basic features of the model from which it was derived.
+    \item In Chapter 2 the main Many-Body techniques employed to make the Froehlich model treatable using the Diagrammatic Monte Carlo 
+    method are explained: this includes using Green's functions as solutions for the Froehlich Hamiltonian together with the Matsubara imaginary time 
+    formalism and Wick's theorem to perturbatively expand the interacting Green's function in an integral series of non-interacting terms. In this way it becomes 
+    possible to use Feynman diagrams to solve the model, with the added bonus of obtaining a Green's function that is real and non-negative (thanks to the imaginary time 
+    formalism).
+    \item In Chapter 3 the Monte Carlo method is explained, from Monte Carlo integration to Markov chain Monte Carlo, a technique which can 
+    be used to obtain random samples distributed as a target distribution, even if it unnormalized, using the Metropolis-Hastings algorithm. Markov chain Monte Carlo is at the basis 
+    of the Diagrammatic Monte Carlo method, which also needs to implement ways to add or remove internal variables (since we are describing a system 
+    which can be described as an expansion of terms each with a different weight).
+    \item  In Chapter 4 the implementation of the algorithm is discussed: the basic features of the DMC simulation, the way free electron propagators 
+    and free phonon propagators were modelled in the computer, the updates that were implemented in order to obtain an ergodic simulation, and the main estimators 
+    that were used in order to obtain the results, among these the most important are the exact ground state energy estimator and the exact 
+    effective mass estimator.
+    \item In Chapter 5 the results obtained together with the input parameters employed are compared to the same quantities computed with different methods (namely 
+    the perturbative method for generalized cubic Froehlich and the Feynman variational approach).
+\end{itemize}

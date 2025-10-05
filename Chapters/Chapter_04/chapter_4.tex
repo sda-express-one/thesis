@@ -151,7 +151,7 @@ The ratio of the two diagrams are
 \begin{equation}
 \begin{split}
     &\frac{D_{(n+2)}(\mathbf{k},\tau,...,\tau',\tau'',\mathbf{q},...)}{D_{n}(\mathbf{k},\tau,...)}=\\
-    =&\exp{\left\{-\left(\sum_i\epsilon(\mathbf{k}_i-\mathbf{q})-\epsilon(\mathbf{k}_i)\Delta\tau_i-\omega_{LO}(\tau''-\tau')\right)\right\}}|V_{\mathbf{q}j}|^2d\tau'd\tau''\frac{d\mathbf{q}}{(2\pi)^3},
+    =&\exp{\left\{-\left(\sum_i\epsilon(\mathbf{k}_i-\mathbf{q})-\epsilon(\mathbf{k}_i)\Delta\tau_i-\omega_{LO}(\tau''-\tau')\right)\right\}}|V_{\mathbf{q}j}|^2d\tau'd\tau''\frac{\Omega_0}{(2\pi)^3}d\mathbf{q},
 \end{split}
 \end{equation}
 where the sum over $i$ is extended over all the phonon propagators between the two phonon vertices $\tau'$ and $\tau''$, while $\Delta\tau_i$ is computed as $\tau_i-\tau_{i-1}$ where the two 
@@ -228,7 +228,7 @@ Let us start with the first case, we have
 \begin{split}
     &\frac{D_{n+2}(\mathbf{k},\tau,...,\tau',\tau'',\tilde{\mathbf{q}},...)}{D_n(\mathbf{k},\tau,...)}=\\
     =&\exp\left\{-\left(\sum_{i_1}\left[\epsilon(\mathbf{k}_{i_1}-\tilde{\mathbf{q}})-\epsilon(\mathbf{k}_{i_1})\right]\Delta\tau_{i_1}+\sum_{i_2}\left[\epsilon(\mathbf{k}_{i_2}-\tilde{\mathbf{q}})-\epsilon(\mathbf{k}_{i_2})\right]\Delta\tau_{i_2}\right)\right\}\\
-    &\cdot\exp{\left\{\left(-\omega_{jLO}(\tau-\tau''+\tau')\right)\right\}}|V_{\tilde{q}j}|^2d\tau'd\tau''\frac{d\tilde{\mathbf{q}}}{(2\pi)^3},
+    &\cdot\exp{\left\{\left(-\omega_{jLO}(\tau-\tau''+\tau')\right)\right\}}|V_{\tilde{q}j}|^2d\tau'd\tau''\frac{\Omega_0}{(2\pi)^3}d\tilde{\mathbf{q}},
 \end{split}
 \end{equation}
 where $i_1$ indexes a sum over the propagators below $\tau'$, $i_2$ one over the propagators above $\tau''$, and $\Delta\tau_{i_1}$, $\Delta\tau_{i_2}$ 

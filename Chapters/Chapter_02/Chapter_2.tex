@@ -458,7 +458,7 @@ which is again a simple exponential function.
 \end{figure}
 We now take into consideration the interaction part of the Froehlich Hamiltonian:
 \begin{equation}
-    V=\sum_{\mathbf{k},\mathbf{q}j}c^\dagger_{\mathbf{k+q}}c_{\mathbf{k}}\left[V^{cFr}_\mathbf{q}a_\mathbf{q}+V^{*cFr}_\mathbf{q}a^\dagger_\mathbf{-q}\right],
+    V=\sum_{\mathbf{k},\mathbf{q}j}c^\dagger_{\mathbf{k+q}}c_{\mathbf{k}}\left[V^{cFr}(qj)a_\mathbf{q}+V^{*cFr}(qj)a^\dagger_\mathbf{-q}\right],
     \label{polaron_interacting}
 \end{equation}
 The basic Feynman diagram that describes this interaction is an interaction between two free electron propagators (one with momentum 
@@ -491,7 +491,7 @@ In the interaction picture the Green's function for the Froehlich polaron assume
     G(\mathbf{k},\tau)=-\left\langle 0 \left| T_\tau\left[c_{I\mathbf{k}}(\tau)c^\dagger_\mathbf{k}\exp{\left(-\int_0^{+\infty}V_I(\tau')d\tau'\right)}\right]\right|0\right\rangle_{\text{conn}},
 \end{equation}
 where the expectation value is restricted to connected diagrams, which means that no integral over the internal variables $d\tau_i'$ can be represented 
-by an external factor (the difference between a connected and disconnected diagram is easily recognazible in \ref{fig:diagram_order_4_2} and 
+by an external factor (the difference between a connected and disconnected diagram is easily recognizable in \ref{fig:diagram_order_4_2} and 
 \ref{fig:diagram_disconnected}).
 \begin{figure}[H]
     \centering
