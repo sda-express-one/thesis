@@ -1,8 +1,8 @@
 \section{Froehlich polaron: Feynman diagrams}
 In order to deeply understand a many-body system such as the Froehlich polaron it is necessary to use a more powerful formalism 
-derived from quantum field theory, we will first breafly describe Green's functions as an effective mean to describe meaningful quantities of 
+derived from quantum many body theory, we will first briefly introduce Green's functions as an effective mean to describe meaningful quantities of 
 our system and we will then shift to the \textbf{Matsubara imaginary time} formalism, much more useful in the context of Diagrammatic Monte Carlo.
-At the end of this journey the connection between the Froehlich polaron and Feynman diagrams will be explicated. In this section of the thesis 
+At the end of this journey the connection between the Froehlich polaron and Feynman diagrams will be explicated. %In this section of the thesis 
 we will use the convention $\hbar=1$.
 \subsection{Green's function formalism}
 Green functions are useful objects to perturbatively solve systems that are really hard to correctly treat in any other way \cite{bruus2004many}.\\
@@ -14,8 +14,8 @@ If we take for example a time-dependent Schroedinger equation in the following w
 with the non-interacting diagonizable term $H_0$ and the perturbation $V$. It is possible to define the corresponding Green's functions as:
 \begin{equation}
 \begin{split}
-    \left[i\partial_t -H_0(\mathbf{r})\right]G_0(\mathbf{r},\mathbf{r}';t,t')&=\delta(\mathbf{r}-\mathbf{r}')\delta(t-t'),\\
-    \left[i\partial_t -H_0(\mathbf{r})-V(\mathbf{r})\right]G(\mathbf{r},\mathbf{r}';t,t')&=\delta(\mathbf{r}-\mathbf{r}')\delta(t-t').
+    &\left[i\partial_t -H_0(\mathbf{r})\right]G_0(\mathbf{r},\mathbf{r}';t,t')=\delta(\mathbf{r}-\mathbf{r}')\delta(t-t'),\\
+    &\left[i\partial_t -H_0(\mathbf{r})-V(\mathbf{r})\right]G(\mathbf{r},\mathbf{r}';t,t')=\delta(\mathbf{r}-\mathbf{r}')\delta(t-t').
 \end{split}
     %\left[E-H_0(\mathbf{r})\right]G_0(\mathbf{r},\mathbf{r}',E)=\delta(\mathbf{r}-\mathbf{r'}),\hspace{0.5cm}with\hspace{0.5cm}G_0(\mathbf{r},\mathbf{r}')=G_0(\mathbf{r}',\mathbf{r}).
 \end{equation}
@@ -81,7 +81,7 @@ Focusing now on a many-body system the Green's function is defined as
     G^R(\mathbf{r}\sigma t,\mathbf{r}'\sigma't')=-i\theta(t-t')\langle[\psi_\sigma(\mathbf{r},t),\psi^\dagger_{\sigma'}(\mathbf{r}',t')]_{B,F}\rangle,
 \end{equation}
 where $[,]_{B,F}$ is the commutator $[,]$ for bosons and the anticommutator $\{,\}$ for fermions.\\
-In the case of translation-invariant system (such as lattices) Green's functions can only depend on $\mathbf{r}-\mathbf{r}'$ and 
+In the case of translation-invariant systems (such as lattices) Green's functions can only depend on $\mathbf{r}-\mathbf{r}'$ and 
 it is natural to adopt the usual $\mathbf{k}$ formalism:
 \begin{equation}
 \begin{split}
@@ -125,11 +125,11 @@ such that the system is non-interacting for $t\to\pm\infty$ and goes back to \re
 \end{equation}
 In this setup, it is natural to suppose that the ground state of the interacting system $|\Phi_0\rangle$ evolves continuously starting from 
 the ground state of the non-interacting one $|\Psi_0\rangle$.\\
-We introduce the Dirac representation the operators, for the interaction term of the Hamiltonian we have
+We introduce the interaction representation for the operators, for the interaction term of the Hamiltonian we have
 \begin{equation}
     V_{I}e^{-\alpha |t|} = e^{iH_0t}Ve^{-iH_0t}e^{-\alpha|t|},
 \end{equation}
-the time-evolution operator in the Dirac representation is written as
+the time-evolution operator in the interaction representation is written as
 \begin{equation}
     U_{I\alpha}(t,t_0)=\sum_{n_0}^\infty \frac{1}{n!}(-i)^n \int_{t_0}^t dt_1\cdots\int_{t_0}^t dt_n e^{-\alpha(|t_1|+...+|t_n|)}T_t\left[V_I(t_1)\cdots V_I(t_n)\right],
     \label{t-evolution-perturbatively}
@@ -147,7 +147,7 @@ from this it follows that
     i\frac{d}{dt}|\psi_{I\alpha}(t\pm\infty)\rangle = 0,
 \end{equation}
 which means that the state is time-independent. We can thus take the ground state of the non-interacting system as the ground state for the 
-interacting system when $t\to\pm\infty$, the expression at the two times can differ up to a phase factor:
+interacting one when $t\to\pm\infty$, the expression at the two times can differ up to a phase factor:
 \begin{equation}
     |\psi_{I\alpha}(t\to-\infty)\rangle=|\Psi_0\rangle,\hspace{1cm}|\psi_{I\alpha}(t\to\infty)\rangle=e^{i\phi}|\Psi_0\rangle.
 \end{equation}
@@ -157,7 +157,7 @@ operator
     |\psi_{I\alpha}(t)\rangle=U_I(t,-\infty)|\Psi_0\rangle,
 \end{equation}
 at $t=0$ the interaction is completely switched on. Moreover, if the switching on is performed really slowly (adiabatically) it can be 
-excluded that the wavefunction $|\psi_{I\alpha}(t)$ depends on the parameter $\alpha$ and the exact ground state should be computed starting from 
+excluded that the wavefunction $|\psi_{I\alpha}(t)\rangle$ depends on the parameter $\alpha$ and the exact ground state should be computed starting from 
 the non-interacting ground state.\\
 However, since it is required that $\alpha>0$, there is no certainty that the limit
 \begin{equation}
@@ -171,13 +171,13 @@ The statement of the theorem is the following: given a state
     \lim_{\alpha\to 0}\frac{U_{I\alpha}(0,-\infty)|\Psi_0\rangle}{\langle\Psi_0|U_{I\alpha,-\infty}|\Psi_0\rangle}=\lim_{\alpha\to 0}\frac{|\psi_{I\alpha}(0)\rangle}{\langle\Psi_0|\psi_{I\alpha}(0)\rangle}
 \end{equation}
 which exists for every order of the perturbation theory, then this state is an eigenstate $|\Phi_0\rangle$ of the full Hamiltonian $H_0$.\\
-The importance of this system consists on the fact that it fixes the eigenstate during its evolution starting from the non-interacting ground 
+The importance of this theorem consists on the fact that it fixes the eigenstate during its evolution starting from the non-interacting ground 
 state, a further important assumption is thus the requirement that no crossings of the states occur during their evolution from the free states. This is not 
 a problem in our case since in the Froehlich Hamiltonian no transitions of this type occur, differently from what happens, for example, 
 in superconductivity.\\
-Since Green's functions are defined as expectation values of Heisenberg operators, these expectation values should be evaluated over the ground state (at $T=0$), 
+Since Green's functions are defined as expectation values of Heisenberg operators, these expectation values should be evaluated over the ground state (at $T=0$). 
 Using Gell-Mann-Low theorem it was demonstrated that the ground state of the interacting system $|\Phi_0\rangle$ can be retrieved from the non interacting one $|\Psi_0\rangle$, 
-the normalized ground state is
+the normalized ground state is then
 \begin{equation}
     |\Phi_0\rangle_{norm}=\frac{|\Phi_0\rangle}{\left(\langle \Phi_0|\Phi_0\rangle\right)^{1/2}}.
 \end{equation}
@@ -220,10 +220,10 @@ The same argument can be made for a single particle Green's function, obtaining 
 \end{split}
 \end{equation}
 \subsection{Matsubara formalism for imaginary time Green's functions}
-The usual Green's functions are complex objects that are not fit to be used in the Diagrammatic Monte Carlo method since they provides 
+The usual Green's functions are complex-valued objects that are not fit to be used in the Diagrammatic Monte Carlo method since they provide 
 negative values that cannot be easily sampled from a distribution without losing precision.\\
-For this reason we now describe the imaginary time formalism for Green's functions, which is also useful to evaluate system that are 
-at non-zero temperature. The relevant substitution is:
+For this reason we now describe the imaginary time formalism for Green's functions, which is also useful to evaluate systems that are 
+at non-zero temperature. The relevant substitution is the following:
 \begin{equation}
     it\to \tau,
     \label{imaginary_time_substitution}
@@ -231,7 +231,7 @@ at non-zero temperature. The relevant substitution is:
 %it is important to stress that this imaginary time formalism does not have any physical meaning and is just an useful mathematical framework.\\
 the retarded Green's function previously defined in \ref{GF_momentum_space} thus becomes the following Matsubara Green's function:
 \begin{equation}
-    G(\mathbf{k},\sigma\tau,\sigma'\tau')=-\theta(\tau-\tau')\langle [a_{\mathbf{k}\sigma},a^\dagger_{\mathbf{k}'\sigma'}]_{B,F}\rangle
+    G(\mathbf{k},\sigma\tau,\sigma'\tau')=-\theta(\tau-\tau')\langle [a_{\mathbf{k}\sigma},a^\dagger_{\mathbf{k}'\sigma'}]_{B,F}\rangle,
 \end{equation}
 where the thermal average $\langle A(\tau)B(\tau')\rangle$ is defined as:
 \begin{equation}
@@ -250,7 +250,7 @@ and similarly the imaginary time interaction picture as
 \begin{equation}
     A_I(\tau)=e^{\tau H_0}Ae^{-\tau H_0}.
 \end{equation}
-We can define the imaginary time time-evolution operator in the interaction picture as 
+We can define the imaginary time-evolution operator in the interaction picture as 
 \begin{equation}
     U_I(\tau,\tau')=e^{\tau H_0}e^{-(\tau-\tau')H}e^{-\tau'H_0},
 \end{equation}
@@ -290,7 +290,7 @@ and in $\mathbf{k}$ space:
 \end{split}
 \end{equation}
 neglecting the spin $\sigma$ degree of freedom (not relevant for our treatment).\\
-In the non-interacting case the Matsubara single particle Green's functions can be valued in the same way as the retarded Green's functions, 
+In the non-interacting case the Matsubara single particle Green's functions can be evaluated in the same way as the retarded Green's functions, 
 in fact:
 \begin{equation}
     H_0=\sum_{\mathbf{k}}\xi_\mathbf{k}c^\dagger_\mathbf{k}c_\mathbf{k},
@@ -309,12 +309,12 @@ The non-interacting Matsubara Green's function is then defined as
 \end{split}
 \end{equation}
 \subsection{Equation of motion and Wick's theorem}
-For a general Green's function the process to find its expression goes through the equation of motion technique, for a general 
+For a general Green's function the process to find its expression goes through the equation of motion technique, for an  
 operator in the imaginary time formalism the time derivative is
 \begin{equation}
     \partial_\tau A(\tau)= \partial(\tau)\left(e^{\tau H}Ae^{-\tau H}\right)=e^{\tau H}[H,A]e^{-\tau H}=[H,A](\tau),
 \end{equation}
-if we derivate with respect to imaginary time a Matsubara Green's function the following result is obtained:
+if we derive with respect to imaginary time a Matsubara Green's function, the following result is obtained:
 \begin{equation}
     -\frac{\partial}{\partial\tau}\left(T_\tau\langle A(\tau)B(\tau')\rangle\right)=\delta(\tau-\tau')\langle(AB-(\pm)_{B,F}BA\rangle)+\langle T_\tau\left([H,A](\tau)B(\tau')\right)\rangle,
 \end{equation}
@@ -331,7 +331,10 @@ We now introduce \textbf{Wick's theorem}, an important result which states that 
 systems $G_0^{(n)}$ can be factorized into products of single particle Green's functions $G_0$.\\
 The $n$-particle Green's function is defined as:
 \begin{equation}
-    G_0^{(n)}(\nu_1\tau_1,\cdots,\nu_n\tau_n;\nu_1'\tau_1',\cdots\nu_n'\tau_n')=(-1)^n\langle T_\tau \left[c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n'}(\tau_n')\cdots c^\dagger_{I\nu_1'}(\tau_1')\right]\rangle. 
+\begin{split}
+    &G_0^{(n)}(\nu_1\tau_1,\cdots,\nu_n\tau_n;\nu_1'\tau_1',\cdots\nu_n'\tau_n')=\\
+    &=(-1)^n\langle T_\tau \left[c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n'}(\tau_n')\cdots c^\dagger_{I\nu_1'}(\tau_1')\right]\rangle. 
+\end{split}
     \label{G_0_n-order}
 \end{equation}
 This expression is quite complicated and difficult to handle, we first define an easier notation to handle all the operators:
@@ -359,10 +362,13 @@ taking into account these considerations:
 \end{equation}
 We can now take the derivative with respect to one of the time variables of $G^{(n)}_0$ and use the equation of motion:
 \begin{equation}
-    \left[-\frac{\partial}{\partial\tau_1}G^{(n)_0}\right]_{2nd-term}=-(-1)^n\left\langle T_\tau\left[H_0,c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n}(\tau_n')\cdots c^\dagger_{I\nu_1}(\tau_1')\right]\right\rangle
+\begin{split}
+    \left[-\frac{\partial}{\partial\tau_1}G^{(n)_0}\right]&_{2nd-term}=\\
+    &=-(-1)^n\left\langle T_\tau\left[H_0,c_{I\nu_1}(\tau_1)\cdots c_{I\nu_n}(\tau_n)c^\dagger_{I\nu_n}(\tau_n')\cdots c^\dagger_{I\nu_1}(\tau_1')\right]\right\rangle
+\end{split}
 \end{equation}
 \\
-We know focus on the case where $\tau_i$ is next to $\tau_j'$, two terms like this are present in \ref{G_permutations}, one where $\tau_i<\tau_j'$ and one where 
+We now focus on the case where $\tau_i$ is next to $\tau_j'$, two terms like this are present in \ref{G_permutations}, one where $\tau_i<\tau_j'$ and one where 
 $\tau_i>\tau_j'$ (the permutation order is obviously different).\\
 The Green's function is written as 
 \begin{equation}
@@ -382,13 +388,13 @@ We now observe that
 \begin{equation}
     \left[c_{\nu_i}(\tau_i),c^\dagger_{\nu_j'}(\tau_i)\right]_{B,F}=\delta_{\nu_i,\nu_j'},
 \end{equation}
-in the same way, for a couple of terms $c_{\nu_i}(\tau_i)$ and $c_{\nu_j}(\tau_i)$:
+in the same way, for a couple of terms $c_{\nu_i}(\tau_i)$ and $c_{\nu_j}(\tau_i)$ we have:
 \begin{equation}
     \left[c_{\nu_i}(\tau_i),c_{\nu_j}(\tau_i)\right]_{B,F}=0,
 \end{equation}
 and the same is true for two creation operators.\\
 In this way the number of creation and annihilation operators has been reduced by one each and we have demonstrated that a $n$ order Green's function 
-can written in terms of a $n-1$ Green's functions (which is a sum of different terms). For fermionic Green's functions, the sign of $G_0^{n-1}$ 
+can written in terms of a $n-1$ order Green's functions (which is a sum of different terms). For fermionic Green's functions, the sign of $G_0^{n-1}$ 
 depends on the specific $\tau_j'$. Apart from that, the equation of motion is now:
 \begin{equation}
     G^{-1}_{0i}G^{(n)}_0=\sum_{j=1}^n\delta_{\nu_i,\nu_j'}\delta(\tau_i-\tau_j')(\pm1)^x_{B,F}G_0^{(n-1)}(\underbracket[1.5pt][3pt]{\nu_1\tau_1,\cdots,\nu_n\tau_n}_{\mathclap{\text{without $i$}}};\underbracket[1.5pt][3pt]{\nu_1'\tau_1',\cdots,\nu_n'\tau_n'}_{\mathclap{\text{without $j$}}}).
@@ -400,7 +406,7 @@ It is now possible to write the explicit decomposition of the $n$-order Green's 
     G_0^{(n)}=\sum_{i=0}^{n}(\pm)^{i+j}_{B,F}G_0(\nu_1\tau_1,\nu_j'\tau_j')G_0^{(n-1)}(\underbracket[1.5pt][3pt]{\nu_1\tau_1,\cdots,\nu_n\tau_n}_{\mathclap{\text{without $i$}}};\underbracket[1.5pt][3pt]{\nu_1'\tau_1',\cdots,\nu_n'\tau_n'}_{\mathclap{\text{without $j$}}}).
 \end{equation}
 It is clear from the obtained result that this method can be naturally generalized to iteratively obtain any non-interacting $n$-order Green's function as sum of terms only 
-containing products of single particle non-interacting Green's functions, the final result of Wick's theorem is thus obtained:
+containing products of single particle non-interacting Green's functions. The final result of Wick's theorem is thus obtained:
 \begin{equation}
     G_0^{(n)}(1,\cdots,n;n',\cdots,1')=\begin{vmatrix}
         G_0(1,1') & \cdots & G_0(1,n') \\
@@ -419,7 +425,7 @@ defining the non-interacting Hamiltonian $H^{cFr}_0$ as
 Since our model consists of a single electron (hole) in the minimum (maximum) of the conduction (valence) band interacting with a cloud of phonon, we may 
 consider our system to be at zero temperature and the ground state wavefunction $|\Psi_0\rangle$ to be the vacuum:
 \begin{equation}
-    |\Psi_0\rangle=|0\rangle,\hspace{1cm}\langle \cdot \rangle=\langle 0|\cdot|0\rangle
+    |\Psi_0\rangle=|0\rangle,\hspace{1cm}\langle \cdot \rangle=\langle 0|\cdot|0\rangle.
 \end{equation}
 It is then possible to explicitely compute the electron free propagator using \ref{free_propagator}:
 \begin{equation}
@@ -449,28 +455,28 @@ In the same way, it is possible to find an explicit form for the phonon free pro
 \begin{equation}
     D_0(\mathbf{q}j,\tau)=-\langle 0|a_\mathbf{q}(\tau)a^\dagger_\mathbf{q}|0\rangle=-e^{-\omega_{jLO}\tau},\hspace{1cm}\tau\ge0,
 \end{equation}
-which is again a simple exponential function.
+which is again a simple exponential function.\\
+We now take into consideration the interaction part of the Froehlich Hamiltonian:
+\begin{equation}
+    V=\sum_{\mathbf{k},\mathbf{q}j}c^\dagger_{\mathbf{k+q}}c_{\mathbf{k}}\left[V^{cFr}(qj)a_\mathbf{q}+V^{*cFr}(qj)a^\dagger_\mathbf{-q}\right],
+    \label{polaron_interacting}
+\end{equation}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1.0]{interaction_vertex.pdf}
     \caption{Feynman diagrams of the electron-phonon interaction.}
     \label{fig:interaction_vertex}
 \end{figure}
-We now take into consideration the interaction part of the Froehlich Hamiltonian:
-\begin{equation}
-    V=\sum_{\mathbf{k},\mathbf{q}j}c^\dagger_{\mathbf{k+q}}c_{\mathbf{k}}\left[V^{cFr}(qj)a_\mathbf{q}+V^{*cFr}(qj)a^\dagger_\mathbf{-q}\right],
-    \label{polaron_interacting}
-\end{equation}
-The basic Feynman diagram that describes this interaction is an interaction between two free electron propagators (one with momentum 
-$\mathbf{k}$ gets annihilated and one with momentum $\mathbf{k+q}$ gets created) and a free phonon propagator which can either be annihilated (momentum 
-$\mathbf{q}$) or created (momentum $\mathbf{-q}$), the strength of the interaction at the vertex is given by $|V_\mathbf{q}|$ (\ref{fig:interaction_vertex}).\\
+the basic Feynman diagram that describes this interaction is an interaction between two free electron propagators (one with momentum 
+$\mathbf{k}$ gets annihilated and one with momentum $\mathbf{k+q}$ gets created) and a free phonon propagator which can be either annihilated (momentum 
+$\mathbf{q}$) or created (momentum $\mathbf{-q}$), the strength of the interaction at the vertex is given by $V^{cFr}(qj)$ (\ref{fig:interaction_vertex}).\\
 We have now obtained the fundamental building blocks which can be used to obtain the total Green's function for the Froehlich polaron 
 $G(\mathbf{k},\tau)$, a generic one-electron Matsubara Green's function for the polaron is written as \cite{mishchenko2000diagrammatic}
 \begin{equation}
     G(\mathbf{k},\tau-\tau')= -\langle c_\mathbf{k}(\tau)c^\dagger_\mathbf{k}(\tau')\rangle =-\langle 0|c_\mathbf{k}(\tau)c^\dagger_\mathbf{k}(\tau')|0\rangle.
 \end{equation}
 The creation and annihilation operators here defined do not have the simple form described above for the free propagators, it is thus 
-necessary to use the interaction picture and thus transform the operators:
+necessary to use the interaction picture and transform the operators:
 \begin{equation}
     c_{I\mathbf{k}}(\tau)=e^{\tau H^{cFr}_0}c_{\mathbf{k}}e^{-\tau H^{cFr}_0},\hspace{1cm}c^\dagger_{I\mathbf{k}}(\tau)=e^{\tau H^{cFr}_0}c^\dagger_{\mathbf{k}}e^{-\tau H^{cFr}_0}.
 \end{equation}
@@ -489,6 +495,7 @@ necessary to use the interaction picture and thus transform the operators:
 In the interaction picture the Green's function for the Froehlich polaron assumes the form \cite{mishchenko2005diagrammatic}:
 \begin{equation}
     G(\mathbf{k},\tau)=-\left\langle 0 \left| T_\tau\left[c_{I\mathbf{k}}(\tau)c^\dagger_\mathbf{k}\exp{\left(-\int_0^{+\infty}V_I(\tau')d\tau'\right)}\right]\right|0\right\rangle_{\text{conn}},
+    \label{GF_polaron_expansion_00}
 \end{equation}
 where the expectation value is restricted to connected diagrams, which means that no integral over the internal variables $d\tau_i'$ can be represented 
 by an external factor (the difference between a connected and disconnected diagram is easily recognizable in \ref{fig:diagram_order_4_2} and 
@@ -499,9 +506,10 @@ by an external factor (the difference between a connected and disconnected diagr
     \caption{Order 2 diagram.}
     \label{fig:diagram_order_2}
 \end{figure}
+\vspace{1.5cm}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.738]{diagram_order_4_1.pdf}
+    \includegraphics[scale=0.735]{diagram_order_4_1.pdf}
     \caption{Order 4 diagram.}
     \label{fig:diagram_order_4_1}
 \end{figure}
@@ -518,7 +526,7 @@ of products of pairs of operators, such that it is possible to expand the Green'
     \label{GF_polaron_series}
 \end{equation}
 where $n$ indexes the rank of the term (only terms with an even number of internal variables are allowed), $\xi_n$ indexes the topology of the 
-term (which depends on how the phonon lines are arranged, see the difference between \ref{fig:diagram_order_4_1}, \ref{fig:diagram_order_4_2} and 
+term (which depends on how the phonon lines are arranged, see the difference between \ref{fig:diagram_order_4_2}, \ref{fig:diagram_order_4_1} and 
 \ref{fig:diagram_order_4_3}), $x_i$ are the internal variables which index the imaginary times at which a vertex $V^{cFr}(qj)$ is 
 present (and a phonon is created or annihilated), the index $j$ of the phonon mode which interacts with the electron propagators and the momentum $q$ of the created/annihilated 
 phonon line.\\
@@ -538,8 +546,8 @@ which translates to
 It should be noted that in our computation instead of \ref{GF_polaron_series} the result without the minus sign will be taken: this is just a convention 
 used in order to obtain a definite positive distribution for the Monte Carlo sampling and it does not affect the physical significance of the calculated Green's functions.\\
 Having seen the one-electron Green's function we now introduce another related Green's function: the one-electron $N$-phonons Green's function 
-$G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau)$. Differently from the one-elecron Green's function, the one-electron $N$-phonons Green's function is a more complex object consisting of 
-$N$ phonons and one electron, and better describes the polaron physics, expecially if the strength of the interaction is intense.\\
+$G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau)$. Differently from the one-electron Green's function, the one-electron $N$-phonons Green's function is a more complex object consisting of 
+$N$ phonons and one electron, and better describes the polaron physics, especially if the strength of the interaction is intense.\\
 Its expression, using Wick's theorem, can be written as \cite{hahn2018diagrammatic}:
 \begin{equation}
     G^N(\mathbf{k},\sum_{j=1}^N\mathbf{\tilde{q}}_j,\tau)=\left\langle 0|a_{\mathbf{\tilde{q}}_1}(\tau)...a_{\mathbf{\tilde{q}}_N}(\tau)c_{\mathbf{p}}(\tau)c^\dagger_{\mathbf{p}}a_{\mathbf{\tilde{q}}_N}...a_{\mathbf{\tilde{q}}_1} |0\right\rangle,
@@ -570,7 +578,7 @@ which more accurately describes our polaron model, including both the "free" pol
 From the treatment of the Green's function performed up to now it is not immediately clear which physical information is stored inside 
 the polaron's Green's function. We begin by reminding what the 1-electron Green's function is defined as
 \begin{equation}
-    G(\mathbf{k})=\left\langle 0| c_\mathbf{k}(\tau)c^\dagger_\mathbf{k}    |0 \right\rangle,
+    G(\mathbf{k})=\langle 0| c_\mathbf{k}(\tau)c^\dagger_\mathbf{k}    |0 \rangle,
 \end{equation}
 with $c_\mathbf{k}(\tau)=e^{H\tau}c_\mathbf{k}e^{-H\tau}$, we can expand the Green's function as \cite{mishchenko2000diagrammatic}
 \begin{equation}
@@ -600,7 +608,7 @@ where $Z_0^\mathbf{k}$ is the overlap between the polaronic state and the free e
 It can also be demonstrated that, if the polaron is at the ground state, for large $\tau$ values the $Z$ factor and its energy can 
 be retrieved:
 \begin{equation}
-    G(\mathbf{k},\tau\gg \omega^{-1})\xrightarrow{}Z_0^\mathbf{k}e^{-E_P(\mathbf{k})\tau},
+    G(\mathbf{k},\tau\gg \omega^{-1})\xrightarrow{}Z_0^\mathbf{k}e^{-E_P(\mathbf{k})\tau}.
 \end{equation}
 The same thing can be done with $P(\mathbf{k},\tau)$ sum of all the possible 1-electron $N$-phonons Green's functions, 
 we have $Z_N^\mathbf{k}$ defined as:
@@ -615,4 +623,3 @@ and the formula for $P(\mathbf{k},\tau)$ is retrieved:
 \begin{equation}
     P(\mathbf{k},\tau)=\sum_{N}Z_N^\mathbf{k}e^{-E_P(\mathbf{k})\tau}.
 \end{equation}
-

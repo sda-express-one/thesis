@@ -1,5 +1,5 @@
 \section{Diag MC for the Froehlich Polaron}
-In chapter 2 we have seen that is possible to perturbatively expand the Matsubara Green's function for the Froehlich polaron 
+In Chapter 2 we have seen that it is possible to perturbatively expand the Matsubara Green's function for the Froehlich polaron 
 in a series of integrals \ref{GF_expansion_integral}, while in chapter 3 we have shown that series of this type can be computed 
 using a special type of Markov chain Monte Carlo called Diagrammatic Monte Carlo which is able to take into account all the possible 
 perturbative expansions of the full function and sample from it.\\
@@ -9,8 +9,8 @@ the non-interacting term
 \begin{equation}
     H^{cFr}_0=\sum_{\mathbf{k}}\left(\frac{k^2}{2m(\hat{k})}-\mu\right)c^\dagger_{\mathbf{k}}c_{\mathbf{k}}+\sum_{\mathbf{q}j}\omega_{jLO}a^\dagger_{\mathbf{q}j}a_{\mathbf{q}j},
 \end{equation}
-where we are only taking into account the electron polaron (the only difference in the hole polaron case would be negative electron energy dispersion). The chemical potential 
-$\mu$ is put inside the electron term as a renormalization constant (\textbf{fictitious potential renormalization} \cite{mishchenko2000diagrammatic})\cite{fehske2007computational} which can be tuned in order to obtain a non-divergent distribution that decays 
+where we consider only the electron polaron (the only difference in the hole polaron case would be negative electron energy dispersion). The chemical potential 
+$\mu$ is put inside the electron term as a renormalization constant (\textbf{fictitious potential renormalization} \cite{mishchenko2000diagrammatic}\cite{fehske2007computational}) which can be tuned in order to obtain a non-divergent distribution that decays 
 as an exponential for long $\tau$ in the stationary limit.\\\
 The interaction term reads:
 \begin{equation}
@@ -18,10 +18,11 @@ The interaction term reads:
 \end{equation}
 where the interaction vertex $V^{cFr}$ has formula
 \begin{equation}
-    V^{cFr}_{\mathbf{q}j}=\frac{i}{q}\frac{4\pi}{\Omega_0}\left(\frac{1}{2\omega_{jLO}V_{BvK}}\right)^{1/2}\frac{p_j}{\epsilon^{\infty}}.
+    V^{cFr}(qj)=\frac{i}{q}\left(\frac{2\sqrt{2}\pi}{\Omega_0V_{BvK}}\frac{\omega_{jLO}^{3/2}}{m(\hat{\mathbf{q}})^{1/2}}\alpha(\hat{\mathbf{q}})\right)^{1/2}.
+    %V^{cFr}_{\mathbf{q}j}=\frac{i}{q}\frac{4\pi}{\Omega_0}\left(\frac{1}{2\omega_{jLO}V_{BvK}}\right)^{1/2}\frac{p_j}{\epsilon^{\infty}}.
 \end{equation}
 We need a technique to translate the Green's functions defined in chapter 2 to the formalism of Diagrammatic Monte Carlo. To this aim 
-we identify the stationary distribution $Q(\left\{y\right\})$ with the two Green's function of interest: the one-electron Green's function 
+we identify the stationary distribution $Q(\left\{y\right\})$ with the two Green's functions of interest: the one-electron Green's function 
 $G(\mathbf{k},\tau)$, where no external phonon lines are present:
 \begin{equation}
 \begin{split}
@@ -53,7 +54,7 @@ The algorithm that computes our simulation must satisfy the ergodicity requireme
 is necessary to implement updates that change the external variables $\{y\}$, the internal ones $\{x_i\}$, and the order of the diagram 
 $n$.\\
 We start by saying that no updates have been implemented in order to sample from the free electron momentum $\mathbf{k}$, which will be fixed 
-for each individual simulation: this was made in order to have a more precise control about the region of $k-space$ that we want to simulate, in particular 
+for each individual simulation: this was made in order to have a more precise control about the region of $\mathbf{k}$-space that we want to simulate, in particular 
 the $\mathbf{k}=0$ point where the electron is at the bottom (top) of the conduction (valence) band.\\
 The chemical potential $\mu$ is also implemented in the simulations as a normalizing factor, in this way a free electron propagator 
 becomes:
@@ -77,7 +78,7 @@ together with all the relevant information about the associated phonon propagato
     \item $\tau_i$, the imaginary time value of the vertex, 0 and $\tau$ for the extrema
     \item \textbf{type}, integer parameter which differentiates between extrema (0), internal phonon vertices (+1 for outgoing phonon propagators 
     and -1 for incoming ones), external phonon vertices (+2 for outgoing phonon propagators and -2 for incoming ones).
-    \item \textbf{linked}, integer value which shows to which other vertex the current vertex is linked to and thus the length of the 
+    \item \textbf{linked}, integer value which shows to which other vertex the current vertex is linked to, and thus the length of the 
     phonon propagator (whether we have an internal or external one).
     \item $\mathbf{q}_i$, the three momentum components of the free phonon propagator which is created or annihilated at the vertex.
     \item \textbf{index}, the phonon mode which is involved in the electron-phonon interaction at the vertex. 
@@ -97,14 +98,14 @@ Updates are necessary to obtain a Markov chain for the system which is ergodic, 
 achieve this aim and different choices have been proposed about the way new parameters are proposed and how updates are implemented 
 \cite{mishchenko2000diagrammatic}\cite{hahn2018diagrammatic}, here it is thus shown just a proposal that is sufficient but is nevertheless not 
 necessarily the best or fastest choice.\\
-The first update that is described is the \textbf{Diagram Length} update (class I), which updates the length of the last electron propagator: it thus changes the +
+The first update that is described is the \textbf{Diagram Length} update (class I), which updates the length of the last electron propagator: it thus changes the 
 value of the external variable $\tau$.\\
 Since the last electron propagator is a free electron propagator, which decays exponentially with $\tau$ as
 \begin{equation}
     G_0(\mathbf{k},\tilde{\mathbf{q}}_1,...,\tilde{\mathbf{q}}_N,\tau)=\exp{ \left\{-\left(\frac{p^2}{2m^*(\hat{p})}-\sum_{j}\omega_{jLO}n_{jph}-\mu \right)(\tau-\tau_{last})\right\}},
     \label{free_propagator_electron_final}
 \end{equation}
-with $\tau_{last}$ time of last vertex before the diagram end, and where we have:
+with $\tau_{last}$ time of last vertex before the diagram end,  we have:
 \begin{equation}
 \begin{split}
     \mathbf{p}=\mathbf{k}-\sum_{i=0}^N\tilde{\mathbf{q}}_i,\\
@@ -135,7 +136,7 @@ with $r$ uniform random variable in $[0,1]$ we obtain a new value that is always
 which is always accepted.\\
 The next update to be described is the \textbf{add internal phonon}, a class II update. The new (internal) variables that have to be proposed 
 are the time value of the outgoing vertex $\tau'$, the time value of the incoming vertex $\tau''$, the phonon mode index $j$ and the phonon propagator 
-momentum $\mathbf{q}$. If proposing the diagram means that $n+2>n_{max}$ maximum allowed internal order, then the update is rejected.\\
+momentum $\mathbf{q}$. If proposing the diagram means that $n+2>n_{max}$ maximum allowed internal order is true, then the update is rejected.\\
 An electron propagator (from the first one to the last for a total of $n+1$ possible choices) is chosen at random, then the value of $\tau'$ is generated 
 using a uniform distribution between $\tau_{left}$ and $\tau_{right}$ vertices of the chosen free electron propagator.\\
 The phonon mode $j$ is then chosen at random between the ones given in input, and the value of the second vertex of the phonon propagator $\tau''$ is generated using the
@@ -147,7 +148,7 @@ where $\tau''$ is not restrained to any particular free electron propagator. The
 full diagram or if it is too close to another vertex ($|\tau''-\tau_i|<10^{-9}$).\\
 The phonon momentum values $\mathbf{q}$ are then proposed using a probability $P(\mathbf{q}|\tau',\tau'',j)$ dependent on a gaussian distribution with 
 mean $0$ and variance $(\tau''-\tau')^{-1}$.\\
-The ratio of the two diagrams are
+The ratio of the two diagrams is
 \begin{equation}
 \begin{split}
     &\frac{D_{(n+2)}(\mathbf{k},\tau,...,\tau',\tau'',\mathbf{q},...)}{D_{n}(\mathbf{k},\tau,...)}=\\
@@ -155,7 +156,7 @@ The ratio of the two diagrams are
 \end{split}
 \end{equation}
 where the sum over $i$ is extended over all the phonon propagators between the two phonon vertices $\tau'$ and $\tau''$, while $\Delta\tau_i$ is computed as $\tau_i-\tau_{i-1}$ where the two 
-extrema are $\tau'$ and $\tau''$. The infinitesimal are required because they are not cancelled in the ratio since they are new proposed variables.\\
+extrema are $\tau'$ and $\tau''$. The infinitesimals are required because they are not cancelled in the ratio since they are new proposed variables.\\
 The full distribution from which the new values are sampled is written as
 \begin{equation}
 \begin{split}
@@ -183,7 +184,7 @@ $p_{(add\hspace{2pt}int)}$ measure the probability of choosing the add internal 
     \caption{Diagram add/remove internal phonon update.}
 \end{figure}
 The \textbf{remove internal phonon} is also a class II update, no new parameters are proposed but instead a random internal phonon propagator with 
-vertices at $\tau'$ and $\tau''$ and momentum $\mathbf{q}$ is chosen to be removed. The update is automatically rejected if the internal order $n=0$ and 
+vertices at $\tau'$ and $\tau''$ and momentum $\mathbf{q}$ is chosen to be removed. The update is automatically rejected if it is true that the internal order $n=0$ and 
 is accepted with acceptance ratio $R_{rem}=1/R_{add}$ calculated for the add internal phonon update.
 \begin{figure}[H]
     \centering
@@ -221,7 +222,7 @@ The full probability thus becomes:
 It is now important to evaluate the ratio of the two diagrams, two different cases are possible:
 \begin{itemize}
     \item $\tau'<\tau''$, in this case the internal part of the two diagrams is the same
-    \item $\tau'>\tau''$, here the two diagrams are completely different, in particular the free electron propagator all have different momenta.
+    \item $\tau'>\tau''$, here the two diagrams are completely different, in particular the free electron propagators all have different momenta.
 \end{itemize}
 Let us start with the first case, we have
 \begin{equation}
@@ -272,7 +273,7 @@ the acceptance ratio of the update is simply given by the ratio between the 2 di
     &=\exp\left\{-\left(\epsilon(\mathbf{k}_{el}+c_1\mathbf{q}_1-c_2\mathbf{q}_2)-\epsilon(\mathbf{k}_{el})-(c_1\omega_{j_1LO}-c_2\omega_{j_2LO})\right)(\tau_2-\tau_1)\right\},
 \end{split}
 \end{equation}
-where $c_1$ and $c_2$ are integer variables that store the type of the vertex ($c_i=+1$ for an outgoing vertex, linked to a vertex with time $\tau'>\tau_i$, -1 for an incoming one with $\tau'<\tau_i$).\\
+where $c_1$ and $c_2$ are integer variables that store the type of the vertex ($c_i=+1$ for an outgoing vertex, linked to a vertex with time $\tau'>\tau_i$, $-1$ for an incoming one with $\tau'<\tau_i$).\\
 The next class I update is the \textbf{shift phonon} update: in this update a single phonon interaction vertex $\tau_i$ is shifted between 
 the two adjacent phonon vertices $\tau_{left}$ and $\tau_{right}$. Given $\mathbf{k}_{i-1}$ and $\mathbf{k}_i$ the momenta of the two free electron propagators 
 that are linked to the phonon vertex we have that the new imaginary time value $\tau_i'$ is found as
@@ -284,22 +285,22 @@ where the value of $\Delta E$ is retrieved with the following relation
     \Delta E =\epsilon(\mathbf{k}_{i})+\epsilon(\mathbf{k}_{i-1})-c_i\omega_{j_iLO},
 \end{equation}
 where $c_i$ is the phonon vertex type (+1 for outgoing vertices, -1 for incoming ones). The update is always accepted as long that the new proposed value 
-is not too close to the two extrema $<10^{-9}$.\\
+is not too close to the two extrema ($<10^{-9}$).\\
 The last update that was implemented is the \textbf{stretch diagram} update (class I). In this update the whole diagram is stretched or compressed
-like a spring: each electron propagator, together with the phonon propagators whose vertices are to the left and to the right of said propagator.\\
+like a spring: each electron propagator, together with the phonon propagators that are active at the two selected times $\tau_i$ and $\tau_{i+1}$.\\
 The imaginary time value of each vertex is shifted (from the first vertex with time value $\tau_1$ to the last $\tau_{2n+1}=\tau$ length of the diagram, while the first vertex at 0 is of course fixed) 
 using the following formula:
 \begin{equation}
     \tau'_i=\tau'_{i-1}-\frac{\log{(1-r)}}{\epsilon(\mathbf{k}_{i-1})-\mu+\sum_j\omega_{jLO}n_j},
 \end{equation}
-where $n_j$ is the number of phonon propagator with mode $j$ that are "active" at the index $j$ (they were created to the left of the 
+where $n_j$ is the number of phonon propagator with mode $j$ that are active at the index $j$ (they were created to the left of the 
 $i$ vertex and and annihilated to the right of it). The update is rejected only if each new proposed value $\tau_i'$ is too close to the previously proposed 
 vertex $\tau_{i-1}'$ or if $\tau_i'\ge\tau_{i+1}$ next vertex in the diagram.\\
 The full simulation decides which of the 8 updates to choose based on a uniform random variable $r$ in $[0,1]$.
 \subsection{Collected quantities and MC estimators}
 After having implemented the features of the Diagrammatic Monte Carlo simulation, methods to collect results and analyze them are necessary. 
 The simplest estimator that can be built is an \textbf{histogram method} to reconstruct the shape of the Green's function that we are simulating: 
-A fixed number of bins $N_{bins}$ from 0 to $\tau_{max}$ is set at the beginning of the simulation such as every bin has width $\Delta\tau=\tau_{max}/N_{bins}$ and is centered at the value
+a fixed number of bins $N_{bins}$ from 0 to $\tau_{max}$ is set at the beginning of the simulation such as every bin has width $\Delta\tau=\tau_{max}/N_{bins}$ and is centered at the value
 $\tau_{j}=j\tau_{max}/N_{bins}+\Delta\tau/2$ with $j$ integer between 0 and $N_{bins}-1$.\\
 After every iteration of the simulation, the diagram length $\tau_k$ is given as input to the histogram: if the value $\tau_k$ falls in the range  
 $(\tau_{j}-\Delta\tau/2,\tau_j+\Delta\tau/2)$ the number of counts $n_j$ is updated by 1.\\
@@ -312,9 +313,8 @@ have the simple exponential form
 \begin{equation}
     D_0(\mathbf{k},\tau)=e^{-(\epsilon(\mathbf{k})-\mu)\tau},
 \end{equation}
-since we know how to integrate this function we can use the integral value $I_0$ of the zero order diagrams to reconstruct the correct normalization factor-
-the integral value $I_0$ is the following
- is computed:
+since we know how to integrate this function we can use the integral value $I_0$ of the zero order diagrams to reconstruct the correct normalization factor.
+The following integral value $I_0$ is then computed:
 \begin{equation}
     I_0=\int_{0}^{\tau_{max}}e^{-(\epsilon(\mathbf{k})-\mu)\tau}d\tau=\frac{1-e^{-(\epsilon(\mathbf{k})-\mu)\tau_{max}}}{\epsilon(\mathbf{k})-\mu},
 \end{equation}
@@ -323,15 +323,15 @@ and the Green's function has the value
     P(\mathbf{k},\tau_j)=\frac{n_jI_0}{N_0\Delta\tau},
 \end{equation}
 with $N_0$ number of 0-order diagrams in the simulation.\\
-Although that it is possible to estimate the \textbf{ground state energy} $E_P(0)$ of the polaron (also known as the \textbf{zero-point renormalization} or \textbf{ZPR}), by 
+Although it is possible to estimate the \textbf{ground state energy} $E_P(0)$ of the polaron (also known as the \textbf{zero-point renormalization} or \textbf{ZPR}), by 
 fitting an exponential function to the Green's function estimated as previously mentioned for large $\tau$ values \cite{fehske2007computational}, we can build an exact estimator 
 that is able to compute a value for the ground state energy that has no discretization errors (due to the finite width of the bins in the histogram).\\
 The estimator follows from these considerations \cite{mishchenko2000diagrammatic}: given a quantity $A$ specified by the diagrammatic expansion 
 \begin{equation}
     A=\sum_{\nu}D_A(\nu),
 \end{equation}
-with $D_A(\nu)$ diagrams for which the quantity $A$ is computed, $\nu$ internal variables of the histogram with summation over discrete variables and 
-integration over continuous ones, and a similar quantity $B=\sum_{\nu}D_B(\nu)$ defined similarly, it is possible to estimate the ratio of the 
+with $D_A(\nu)$ diagrams for which the quantity $A$ is computed, $\nu$ internal variables of the diagram with summation over discrete variables and 
+integration over continuous ones, and a quantity $B=\sum_{\nu}D_B(\nu)$ defined similarly, it is possible to estimate the ratio of the 
 two quantities as 
 \begin{equation}
 \begin{split}
@@ -346,7 +346,7 @@ in the external parameters. For the ground state energy this reduces to
 \begin{equation}
     Q_\nu=\frac{P(\mathbf{k},(1+\lambda)\tau)}{P(\mathbf{k},\tau)}\to \exp{\left(-\lambda E_P(\mathbf{k})\tau\right)}
 \end{equation}
-for large $\tau$ values and $lambda$ small parameter. If we approximate the exponential with a Taylor expansion in $\lambda$ we get
+for large $\tau$ values and $\lambda$ small parameter. If we approximate the exponential with a Taylor expansion in $\lambda$ we get
 \begin{equation}
     \exp{\left(-\lambda E_P(\mathbf{k})\tau\right)}=1-\lambda E_P(\mathbf{k})\tau+O(\lambda^2).
     \label{lambda_energy_estimator}
@@ -356,7 +356,7 @@ The quantity $Q_\nu$ can be diagrammatically expanded as
     Q_\nu=\frac{D_A(\nu)}{D_B(\nu)}=\frac{D_{n_\nu}^{\xi_{n_\nu}}(\mathbf{k},(1+\lambda)\tau,\nu)}{D_{n_\nu}^{\xi_{n_\nu}}(\mathbf{k},\tau,\nu)},
 \end{equation}
 where the $\nu$ are the (same) internal variables up to a $\lambda$ scaling factor.\\
-Expliciting the ratio we get
+Explicitly, we get the following ratio:
 \begin{equation}
     Q_\nu=(1+\lambda)^n\left\{\prod_{l}\exp{\left(-\epsilon(\mathbf{k}_l)\Delta\tau_l\right)}\prod_{m}\exp{\left(-\omega_{jLO}\Delta\tau_m\right)}\right\},
     \label{decomposition_estimator_energy}
@@ -368,7 +368,7 @@ If we now impose $\lambda\to 0$ we get
 \end{equation}
 which, when compared with \ref{lambda_energy_estimator}, gives the explicit expression for the energy estimator
 \begin{equation}
-    E_P(\mathbf{k})=\left\langle \frac{1}{\tau_k} \left(\sum_l\epsilon(\mathbf{k}_l)\Delta\tau_l-\sum_m\omega_{jLO}\Delta\tau_m-n_k\right) \right\rangle_{MC}\hspace{1cm}\tau_k\to+\infty
+    E_P(\mathbf{k})=\left\langle \frac{1}{\tau_k} \left(\sum_l\epsilon(\mathbf{k}_l)\Delta\tau_l-\sum_m\omega_{jLO}\Delta\tau_m-n_k\right) \right\rangle_{MC}.\hspace{1cm}\tau_k\to+\infty
     \label{energy_estimator_MC}
 \end{equation}
 The ground state energy $E_P(0)$ is found for $\mathbf{k}=0$.\\
@@ -378,8 +378,8 @@ has the same symmetry properties of the electron effective mass from which it is
     \frac{1}{m^*_P(\hat{\mathbf{k}})}=\left(\frac{d^2 E_P(\mathbf{k})}{d{\mathbf{k}^2}}\right)_{\mathbf{k}=0}.
 \end{equation}
 While an effective mass exact estimator for the isotropic case has been derived \cite{mishchenko2000diagrammatic}, no attempts at defining it for the anisotropic 
-case have been tried (at least to my knowledge). For this reason the following estimator has been developed: it should not be interpreted 
-as a definite result and a more accurate expression is for sure obtainable.\\
+case have been tried (at least to the current knowledge). For this reason the following estimator has been developed: it should not be interpreted 
+as a definitive result and a more accurate expression is for sure obtainable.\\
 We begin by noting that
 \begin{equation}
 \begin{split}
@@ -398,14 +398,14 @@ The ratio can be explicited in a similar way as it was done in \ref{decompositio
     \label{decomposition_estimator_mass}
 \end{equation}
 The first electronic effective mass in this expression is problematic: the fact that $\lambda\to 0$ in the limit does not help with the evaluation since the mass only depends on the orientation of 
-the momentum, for $\mathbf{k}\to 0$ (which is quite common) the expression is not defined without determining a clear $lambda$ value. For this reason 
+the momentum, for $\mathbf{k}\to 0$ (which is quite common) the expression is not defined without determining a clear $\lambda$ value. For this reason 
 we employ the approximation
 \begin{equation}
     m^*\left({\frac{\mathbf{k}_l+\lambda\mathbf{e}}{\sqrt{k^2_l+\lambda^2}}}\right)\approx m(\hat{\mathbf{e}}).
     \label{effective_mass_approx}
 \end{equation}
 Using this expression \ref{decomposition_estimator_mass} becomes solvable at the price of losing accuracy. Given that conduction band minima usually have a prolate effective mass 
-($m^*_x=m^*_y=m^*_{\perp}<m^*_z$) this means that our estimation sets an upper bound for the computed $m^*_z$ and a lower bound for $m^*_\perp$. In the case $m_x<m_y<m_z$ the behaviour 
+($m^*_x=m^*_y=m^*_{\perp}<m^*_z$) this means that our estimation sets a lower bound for the computed $m^*_z$ and an upper bound for $m^*_\perp$. In the case $m_x<m_y<m_z$ the behaviour 
 of $m_y$ is not defined a priori.\\
 Given \ref{effective_mass_approx}, \ref{decomposition_estimator_mass} becomes:
 \begin{equation}
@@ -421,6 +421,7 @@ which for $\lambda\to 0$ becomes
 Combining this equation with \ref{effective_mass_taylor} and identifying the corresponding $\lambda$ terms, we see that
 \begin{equation}
     \frac{1}{m^*_P(\hat{\mathbf{e}})}=\frac{1}{m^*(\hat{\mathbf{e}})} - \frac{1}{m^*(\hat{\mathbf{e}})^2}\left \langle \frac{1}{\tau_k}\left(\sum_l(\mathbf{k}_l\cdot\hat{\mathbf{e}})\Delta\tau_l\right)^2   \right \rangle_{MC}.
+    \label{eff_mass_estimator_new}
 \end{equation}
 The formula for $m_{Px}^*$, $m_{Py}^*$ and $m_{Pz}^*$ are retrieved for $\hat{\mathbf{e}}=\hat{x}$, $\hat{\mathbf{e}}=\hat{y}$ and $\hat{\mathbf{e}}=\hat{z}$ respectively.\\
 The last exact estimator which is shown is the Green's function exact estimator, which removes the discretization error in the Green's function 
@@ -436,7 +437,7 @@ same as previously done for the histogram method), we can define a Monte Carlo e
     P(\mathbf{k},\tau_j)=\left\langle  \frac{1}{\Delta\tau}\frac{D_{n_k}(\mathbf{k},\tau_k,...)}{D_{n_k}(\mathbf{k},\tau_j,...)} \theta\left(\left|\tau_k-\tau_j\right|-\frac{\Delta\tau}{2}\right)\right\rangle_{MC},
 \end{equation}
 where $\theta(\cdots)$ is the Heaviside step function, which takes into account only $\tau_k$ values that are inside the interval $(\tau_j-\frac{\Delta\tau}{2},\tau_j+\frac{\Delta\tau}{2})$.\\
-In alternative, an estimator for $G^{(N)}(\mathbf{k},\tau_j)$ which only takes into account Diagrams with $N$ external phonons can be defined:
+In alternative, an estimator for $G^{(N)}(\mathbf{k},\tau_j)$ which only takes into account diagrams with $N$ external phonons can be defined:
 \begin{equation}
     G^{(N)}(\mathbf{k},\tau_j)=\left\langle  \frac{1}{\Delta\tau}\frac{D_{n_k}(\mathbf{k},\tau_k,...)}{D_{n_k}(\mathbf{k},\tau_j,...)} \theta\left(\left|\tau_k-\tau_j\right|-\frac{\Delta\tau}{2}\right)\delta_{N_k,N}\right\rangle_{MC},
 \end{equation}

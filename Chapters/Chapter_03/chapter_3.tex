@@ -1,13 +1,13 @@
 \section{The Diagrammatic Monte Carlo method}
 \subsection{The Monte Carlo sampling method}
-The Monte Carlo method is not a specific technique, but rather a wide set of similar methods which employs probability to solve problems 
+The Monte Carlo method is not a specific technique, but rather a wide set of similar methods which employ probability to solve problems 
 that are otherwise too complex for an analytic solution and too resource demanding to solve with a numerical method.\\
 The basic idea behind Monte Carlo is to use a statistical approach in the resolution of difficult integral and differential equations 
 \cite{metropolis1949monte} by the means of a precisely defined set of rules and a random number generator.\\
-This method is an \textit{iterative stochastic procedure}, or in layman terms, a procedure that is iterative: it needs to be applied many times in 
-order to produce an extremely large number of measurements from which it is possible to build an estimate for a determined quantity 
+This method is an \textit{iterative stochastic procedure}, or in layman terms, a technique that is iterative: it needs to be applied many times in 
+order to produce an extremely large number of measurements from which it is possible to build an estimate for a determined quantity, 
 using the \textbf{central limit theorem} and the law of large numbers, and stochastic: it uses random numbers to obtain all sorts of distributions, 
-usually through a precisely defined set of rules using a \textbf{Markov chain}.\\
+usually through a precisely defined set of rules with a \textbf{Markov chain}.\\
 It is in fact possible, using a Monte Carlo method, to estimate the ground state of the time-independent Schroedinger equation \cite{gubernatis2016quantum}
 \begin{equation}
     -\nabla^2\psi(x,y,z)=\left[E-U(x,y,z)\right]\psi(x,y,z)
@@ -21,7 +21,7 @@ thus introducing a fictitious imaginary time-dependence. In this way $u(x,y,z,t)
     \frac{\partial u}{\partial \tau}=\nabla^2u-Uu,
 \end{equation}
 which can be framed in a Monte Carlo representation as a set of weighted particles which independently perform a random walk with an 
-exponential decay in imaginary time with a rate governed by the energy eigenvalue $E$, together with a particle distribution which can be used 
+exponential decay in imaginary time and a rate governed by the energy eigenvalue $E$, together with a particle distribution which can be used 
 to determine an estimate for the wavefunction $\psi(x,y,z)$.\\
 Note that the transformation performed on the wavefunction (first done by Fermi) is exactly the already seen transformation used for the Matsubara Green's 
 functions \ref{imaginary_time_substitution}, which turns the standard time-dependent Schroedinger equation
@@ -38,13 +38,13 @@ We list three main types of Monte Carlo simulations \cite{thijssen2007computatio
     \item \textbf{Direct Monte Carlo}, where the generation of random numbers directly models a physical system (usually with a random walk) 
     without directly defining the complexities which characterizes it. An example is the aforementioned model to solve the ground state of 
     the Schroedinger equation.
-    \item \textbf{Monte Carlo integration}, a method that is specifically used to compute hard integrals using random numbers.
+    \item \textbf{Monte Carlo integration}, a method that is specifically used to compute hard integrals with random numbers.
     \item \textbf{Markov chain Monte Carlo}, which generates the distribution of a system using a Markov chain. This method is used to study the properties of classical and quantum systems.
 \end{itemize}
 \subsection{Direct Monte Carlo}
 In direct Monte Carlo the expectation value $\langle I\rangle$ of a variable is estimated, which means that we compute its mean. In 
-order to do so the deterministic problem must be recast in a probabilistic form. $\langle I\rangle$ is a number, in particular it can be seen as 
-the result of an integral.\\
+order to do so the deterministic problem must be recast in a probabilistic form. Since $\langle I\rangle$ is a number, it can be seen as 
+the result of an integration.\\
 Given $X$ a random variable defined on a set $\Omega$, we can define $\langle I\rangle$ as the expectation value $E(X)$ of the random variable.
 In statistics, the expectation value $E(X)$ and the variance $\sigma^2(X)$ have the following definitions:
 \begin{equation}
@@ -57,7 +57,7 @@ law $p$ with value
     \bar{I}_N=E(X_N)=\frac{1}{N}\sum_{i=1}^NX(\omega_i),
 \end{equation}
 with $\bar{I}_N$ the arithmetic mean of $N$ random events.\\
-Given the fact that $I_N$ is just an estimate of the expectation value $\langle I \rangle$, it is important to estimate its deviation 
+Given the fact that $I_N$ is just an estimate of the expectation value $\langle I \rangle$, it is important to also provide an estimation of its deviation 
 from the exact value, to this reason we introduce the \textbf{Chebyshev's inequality} \cite{becca2017quantum}, which states that no more 
 than $1/k^2$ of the distribution values can be more than $k$ standard deviations from the mean value:
 \begin{equation}
@@ -119,7 +119,7 @@ employ random numbers to compute quantities, exploiting the fact that given $N$ 
 for the modelled problem. The big issue is, of course, representing the investigated phenomenon in a way that makes it possible to use 
 random numbers.
 \subsection{Monte Carlo integration}
-The Monte Carlo integration method is a technique specifically employed to compute integrals. Consider a generic integral of a smooth generic function 
+The Monte Carlo integration method is a technique specifically developed to compute integrals. Consider a generic integral of a smooth generic function 
 $f(\mathbf{x})$ of vector $\mathbf{x}$ and d components:
 \begin{equation}
     I=\int f(\mathbf{x})d\mathbf{x},
@@ -141,7 +141,7 @@ For large $N$ $I_N$ is normally distributed with mean equal to $I$ and variance 
 \end{equation}
 thus for $N\to+\infty$ $I_N$ tends to the deterministic value $I$.\\
 It is now relevant to address the main issue with this method: generating configurations $\mathbf{x}_i$ that are distributed according to 
-$p(\mathbf{x})$ and then compute $f(\mathbf{x}_i/p(\mathbf{x}_i))$. When it is possible to directly generate samples from $p(\mathbf{x})$ 
+$p(\mathbf{x})$ and then computing $f(\mathbf{x}_i/p(\mathbf{x}_i))$. When it is possible to directly generate samples from $p(\mathbf{x})$ 
 we are employing \textbf{direct MC sampling}, this is possible if we are using a uniform or exponential distribution (or other similar simple distributions).
 The samples generated with this method are independent, but we are limited in the type of distribution that can be used, which could make the convergence to the 
 exact value extremely slow.
@@ -169,8 +169,8 @@ and $f(x,y)$ defined in the following way:
 \begin{equation}
     f(x,y)=
     \begin{cases}
-    1\hspace{1cm},\text{if }\sqrt{x^2+y^2}<1\\
-    0\hspace{1cm},\text{otherwise}.    
+    1,\hspace{1cm}\text{if }\sqrt{x^2+y^2}<1\\
+    0,\hspace{1cm}\text{otherwise}.    
     \end{cases}
 \end{equation}
 Since $p(x,y)$ is non-negative and normalized, it can be treated as a probability distribution. We can thus say that
@@ -180,9 +180,9 @@ Since $p(x,y)$ is non-negative and normalized, it can be treated as a probabilit
 the obtained result can be interpreted visually considering that we are filling the total area of the square with randomly distributed dots 
 and counting how many of them end inside the circle compared to the total.\\
 This simple method can be used (at least in theory) to compute every possible integral, nevertheless using a uniform distribution may 
-result impractical when estimating functions that have sharp peaks: in this cases most of the guesses made end up "outside" the region of interest 
-and do not contribute to the estimation of the integral. Of course, this problem become more and more relevant the more dimensions we have.\\
-In this cases, it is appropriate to use as a probability function that has a similar shape with respect to the target function we want to 
+result impractical when estimating functions that have sharp peaks: in this case most of the guesses made end up "outside" the region of interest 
+and do not contribute to the estimation of the integral. Of course, this problem becomes more and more relevant the more dimensions we have.\\
+In these cases, it is appropriate to use as a probability function that has a similar shape with respect to the target function we want to 
 integrate, consider the following one-dimensional case:
 \begin{equation}
     I=\int_{a}^{b}f(x)dx,
@@ -246,7 +246,7 @@ probability of each sample of the sequence satisfies
     P(X_i|X_{i-1}...X_1)=P(X_i|X_{i-1}).
 \end{equation}
 This means that the probability of $X_i$ only depends on the previous element $X_{i-1}$ (and nothing else), with the exception of the first 
-element of the chain. This means that the order of the variables is important in the determination of the probability 
+element of the chain. From this it follows that the order of the variables is important in the determination of the probability 
 of the full random vector:
 \begin{equation}
     P_n(X_1,X_2,...,X_n)=P_1(X_1)P(X_2|X_1)\cdots P(X_n|X_{n-1})
@@ -318,7 +318,7 @@ $0\le T_{ij}\le 1$ and $\Sigma_i T_{ij}=1$, while $A_{ij}$ are the elements of t
     A_{ij}=\min{\left\{1,\frac{p_i}{p_j}\right\}}\hspace{1cm}i\neq j.
 \end{equation}
 Using this configuration we can show that the condition of detailed balance is obeyed by assuming $p_i<p_j$ (we are not posing any constraint 
-on the system by doing this since the choice of the indexes is arbitrary) and observing that
+on the system by doing this since the choice of the indices is arbitrary) and observing that
 \begin{equation}
     P_{ij}=T_{ij}\frac{p_i}{p_j}=T_{ji}\frac{p_i}{p_j}=T_{ji}\cdot 1\cdot\frac{p_i}{p_j}=P_{ji}\frac{p_i}{p_j},
 \end{equation}
@@ -333,13 +333,12 @@ is rejected.
     \caption{Schematic representation of the Metropolis algorithm procedure \cite{gubernatis2016quantum}.}
     \label{fig:Metropolis}
 \end{figure}
-It is possible to generalize the algorithm to one that does not have a symmetric trial transition probability matrix $T_{ij}$.\\
-Given a generic acceptance ratio $R_{ij}$ such that $A_{ij}=\min\left\{1,R_{ij}\right\}$ defined as:
+It is possible to generalize the algorithm to one that does not have a symmetric trial transition probability matrix $T_{ij}$:
+given a generic acceptance ratio $R_{ij}$ such that $A_{ij}=\min\left\{1,R_{ij}\right\}$ defined as
 \begin{equation}
     R_{ij}=\frac{S_{ij}}{1+\frac{T_{ij}p_j}{T_{ji}p_i}},
 \end{equation}
-with $S_{ij}$ non-negative symmetric matrix.\\
-If $S_{ij}$ is chosen to be:
+with $S_{ij}$ non-negative symmetric matrix, if $S_{ij}$ is chosen to be:
 \begin{equation}
     S_{ij}=
     \begin{cases}
@@ -368,16 +367,16 @@ with acceptance probability $A_{x'x}$:
     A_{x'x}=\min{\left\{1,\frac{\pi(x)f(x')}{\pi(x')f(x)}\right\}}.
     \label{acceptance_prob_distrib}
 \end{equation}
-Using the above formulation (easily generalizable at least in theory to $N$ dimensions) it is possible to sample random variable from any generic continuous 
+Using the above formulation (easily generalizable at least in theory to $N$ dimensions) it is possible to sample random variables from any generic continuous 
 unnormalized function. The main drawbacks of this method are the fact that a relaxation to the stationary distribution is necessary (and the number of steps required is 
 not known a priori) and that the obtained samples are correlated.
 \subsection{Diagrammatic Quantum Monte Carlo}
 In Chapter 2 we have seen that the polaron model can be solved by perturbatively expanding the related Green's function (which is a 
 solution to the equation of motion of the system) in the imaginary time formalism. Since the Green's function in this formalism can be cast 
 in a form that makes it real and non-negative, it can be sampled as if it were a distribution using the methods provided by Markov Chain Monte Carlo.\\
-For this reason, we need a method to ergodically represent all the possible configurations of the polaron system. This approach can be used in many different condensed 
-matter physics where a similar expansion is possible, provided that the weight of negative diagrams (which in our specific case do not appear, but are generally present in fermionic 
-systems) does not inficiate the errors of the estimated quantity \cite{gull2011continuous}.\\
+To this objective, we need a method to ergodically represent all the possible configurations of the polaron system. This approach can be used in many different condensed 
+matter physics systems where a similar expansion is possible, provided that the weight of negative diagrams (which in our specific case do not appear, but are generally present in fermionic 
+systems) does not hinder the accuracy of the estimated quantity \cite{gull2011continuous}.\\
 Given a function represented as \ref{GF_polaron_series} (without the minus sign) it is possible to sample it as a distribution $Q(\left\{y\right\})$ 
 which depends on a set of variable $y$:
 \begin{equation}
@@ -402,7 +401,7 @@ of internal variables if the rank of the two diagrams is different), the accepta
     R_{ij}\propto \frac{D_{n_i}(i)}{D_{n_j}(j)}= \frac{C\hspace{0.2cm}D_{n_i}^*(i)}{C\hspace{0.2cm}D_{n_j}^*(j)}=\frac{D_{n_i}^*(i)}{D_{n_j}^*(j)},
 \end{equation}
 where the $D_{n_k}^*(k)$ are the properly normalized weights, different from the weights of the generated distribution up to a normalization constant \cite{HahnThomas2017DqMC}.\\
-In the case of negative diagrams, the acceptance ratio is performed on the absolute values of the weights. Operating in this way, however, we expose ourselves 
+When negative-valued diagrams are present, the acceptance ratio is performed on the absolute values of the weights. Operating in this way, however, we expose ourselves 
 to the \textbf{negative sign problem}: when we want to compute an observable $O$ from the Monte Carlo simulation, whether it be the (normalized) distribution 
 or any other quantity of interest, we must take into account the negative weights:
 \begin{equation}
@@ -422,7 +421,7 @@ Two basic classes of elementary updates can be recognized \cite{van2010diagramma
         R_{ij}=\frac{p_A}{p_B}\frac{D_{n_i=n_j+m}(i)}{\rho(x_1,...,x_n)D_{n_j}(j)},
     \end{equation}
     where $p_A$ and $p_B$ are the so-called \textbf{context factors} that take into account the ways it is possible to transition from state $A$ to 
-    state $B$ and thus depends on how the processes are organized (it does not usually reduce to the simple relation $p_A/p_B=1$) \cite{fehske2007computational}. The 
+    state $B$ and thus depend on how the processes are organized (it does not usually reduce to the simple relation $p_A/p_B=1$) \cite{fehske2007computational}. The 
     opposite process which reduces the order of the diagram from $n$ to $n-m$ is found to be 
     \begin{equation}
         R_{ji}=\frac{1}{R_{ij}},
@@ -430,7 +429,7 @@ Two basic classes of elementary updates can be recognized \cite{van2010diagramma
     in agreement with the detailed balance requirement.
 \end{itemize}
 Employing these rules and carefully crafting prior distributions and acceptance ratios, it is possible to sample a distribution that is 
-equal up to a normalization constant a Green's function in imaginary time formalism, provided that it can be expanded in a similar way to \ref{GF_expansion_integral}.
+equal up to a normalization constant a Green's function in imaginary time formalism, provided that it can be expanded in a similar way to \ref{GF_polaron_expansion_00}.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.8]{Diag_MC_algo.jpg}

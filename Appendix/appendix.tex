@@ -3,8 +3,8 @@
 \markboth{Appendix}{}
 All the simulations have been performed using the code in \cite{github_repo}, in order to use it you have to 
 include in the compiler list the files \textbf{main.cpp}, \textbf{Diagram.cpp}, \textbf{GreenFuncNph.cpp}, \textbf{GreenFuncNphBands.cpp}, 
-\textbf{MC\_Benchmarking.cpp} and \textbf{progressbar.cpp}. The program was compiled in a Windows machine using the mingw64 g++ compiler 
-and in a Linux machine using the native GNU/GCC compiler.\\
+\textbf{MC\_Benchmarking.cpp} and \textbf{progressbar.cpp}, the \textbf{Eigen} library is also required and its main directory must be present in the DQMC directory (otherwise specify the path in the include files).\\ 
+The program was compiled in a Windows machine using the mingw64 g++ compiler and in a Linux machine using the native GNU/GCC compiler.\\
 Three text files must be included in order to start the simulation, \textbf{simulation\_parameters.txt}, \textbf{simulation\_settings.txt} and 
 \textbf{simulations\_probabilities\_MC.txt}.\\
 The main options of \textbf{simulation\_parameters.txt} are:

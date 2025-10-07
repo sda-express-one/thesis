@@ -1,1 +1,23 @@
-\section{Conclusions}
+\addcontentsline{toc}{section}{Conclusions}
+\section*{Conclusions}
+\markboth{Conclusions}{}
+In this thesis we have seen how the Diagrammatic Monte Carlo approach can be used to simulate polaronic states inside real cubic 
+materials and obtain estimates about the renormalization of the ground state energy of conduction band minima and about the polaron 
+effective masses in a range of isotropic and anisotropic materials.\\ 
+In Chapter 1 the failures of the Born-Oppenheimer approximation in modelling polaronic states were first presented, then the basic Froehlich model 
+was derived and illustrated, together with the main approaches that are used to solve it. Then the generalized Froehlich model was illustrated, with a focus 
+in particular on the non-degenerate anisotropic electron band case. Some analytical solution techniques were provided for this model.\\
+In Chapter 2 the formalism provided by Quantum Many Body theory was used to obtain a Green's function (which is the solution to the Hamiltonian) which 
+could be treated with Diagrammatic Monte Carlo, in particular by employing the Matsubara imaginary time formalism, which gets rid of the complex nature of the original 
+Green's function and obtains a real non-negative representation, and using Wick's theorem, which allows us to treat the original interacting 
+Green's function as a perturbative infinite series of non-interacting Green's functions and interaction vertices (both easy to evaluate).\\
+In Chapter 3 the Monte Carlo method was explained illustrating the basic features of this numerical method, which depends on estimating 
+expectation values of given quantities. Then the direct Monte Carlo method was briefly described, which directly models the investigated system, then the integration method, 
+used to compute hard integrals, and the Markov chain Monte Carlo, a tool capable of generating random samples distributed as a target distribution after 
+a given relaxation time using the Metropolis-Hastings algorithm. The Markov chain Monte Carlo method is at the basis of the Diagrammatic Monte Carlo approach, which 
+extensively uses it to compute transitions from different diagrams using suitable updates.\\
+In Chapter 4 the algorithm used for the Froehlich polaron simulation was discussed, from the way the free propagators and vertices were stored in the computer to the procedure used for 
+each one of the implemented updates. The main estimators which can be used to retrieve information about the Green's function were also described.\\
+In Chapter 5 the obtained results for a range of real materials were shown, together with the input data and basic information about the procedure which was undertaken.\\
+The work done in this thesis can be used as a starting point for a more complete and complex simulation that takes into account degenerate electronic bands, electronic band anharmonicity and phonon mode 
+anisotropy in order to simulate the electron and hole polarons in a wider range of materials.

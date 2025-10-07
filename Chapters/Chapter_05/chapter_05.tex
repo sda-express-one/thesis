@@ -1,1 +1,112 @@
-\section{Results and methods}
+\section{Methods and results}
+The program developed was used to simulate the electron polaron of a range of cubic materials (zincblende and rocksalt structrures) both with 
+isotropic (CBM at $\Gamma$) and anisotropic (CBM at $X$ point or along the $X-\Gamma$ high symmetry line) electronic band structure. For each one 
+of them one single  phonon mode was considered since from the phonon band structure only one longitudinal optical mode is retrieved \cite{guster2021frohlich}.
+\subsection{Input data}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \hline
+        Material & $a$ (bohr) & edge & $m^*_\perp$ & $m^*_z$ & $\omega_{LO}$ (meV) & $\epsilon_\infty$ & $\epsilon_0$ & $\langle\alpha\rangle$\\
+        \hline
+        \hline
+        AlAs-zb & $10.825$ & $X$ & $0.243$ & $0.897$ & $47.3$ & $9.49$ & $11.51$ & $0.184$ \\
+        AlP-zb & $10.406$ & $X$ & $0.252$ & $0.809$ & $59.9$ & $8.12$ & $10.32$ & $0.184$ \\
+        GaN-zb & $8.598$ & $\Gamma$ & $0.144$ & $0.144$ & $86.0$ & $6.13$ & $11.00$ & $0.345$ \\
+        GaP-zb & $10.294$ & $X^*$ & $0.230$ & $1.062$ & $48.6$ & $10.50$ & $12.53$ & $0.152$ \\
+        SiC-zb & $8.227$ & $X$ & $0.228$ & $0.677$ & $117.0$ & $6.97$ & $10.30$ & $0.280$ \\
+        ZnSe-zb & $10.833$ & $\Gamma$ & $0.089$ & $0.089$ & $29.3$ & $7.35$ & $10.73$ & $0.276$ \\
+        \hline        
+    \end{tabular}
+    \caption{Input values used for the simulations from \cite{miglio2020predominance} and \cite{guster2021frohlich}, the coupling strength are given as 
+    averages over the solid angle $4\pi$.}
+    \label{tab:inputs_params}
+\end{table}
+The 6 simulated materials were AlAs, AlP, GaN, GaP, SiC and ZnSe: the values of their effective masses, phonon energy, cell size, static dielectric tensor 
+and optical dielectric tensor were computed with first-principle methods using GGA-PBE retrieved from \cite{miglio2020predominance} and \cite{guster2021frohlich} (Supplementary data). 
+Their values are visible in \ref{tab:inputs_params} together with the computed average coupling strength as reference, which was found as 
+\begin{equation}
+    \langle\alpha\rangle=\left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)^{-1}\sqrt{\frac{\langle m^*(\hat{\mathbf{q}})\rangle}{2\omega_{LO}}}.
+\end{equation}
+All the simulated electron polarons originated from an electron band which was isotropic (in $\Gamma$) or anisotropic uniaxial (in $X$ or in $X^*$, which is a short-hand notation for the high symmetry line
+$X-\Gamma$), the longitudinal optical phonon energy were between the values of $30$meV and $117$meV covering an order of magnitude.\\
+The lattice parameter (and thus the volume, computed as $a^3/4$) is reported for completeness even if it is by no means necessary in the simulation, in agreement 
+with the large polaron approximation proper of the used Froehlich model.\\
+The dielectric response $\epsilon^*$, which in the case of a single optical phonon mode simply reduces to 
+\begin{equation}
+    \epsilon^*=\left(\frac{1}{\epsilon_\infty}-\frac{1}{\epsilon_0}\right)^{-1},
+\end{equation}
+is independent of the nuclear masses since both $\epsilon_\infty$ (purely electronic) and $\epsilon_0$ (static) are. It measures the ionicity of the material and thus 
+the strength of the electron-phonon coupling: for $\epsilon^*\to+\infty$ there is no coupling: this is the case for covalent materials such as diamond-C and diamond-Si where 
+no polarization is possible between the atoms in the basis and $\epsilon_\infty=\epsilon_0$.
+\subsection{Methods}
+For each one of the studied materials 20 independent simulations were performed in order to get an estimation together with an error, 
+the estimate was computed with a simple mean while the error with the formula for the sample variance:
+\begin{equation}
+    \bar{x}=\frac{1}{20}\sum_i x_i,\hspace{2cm}\Delta x=\sqrt{\frac{\sum_i\left(x_i-\bar{x}\right)^2}{19}}.
+\end{equation}
+The simulations were performed using a fixed $\tau$ value in order to have better-converged results for the ground state energy and the polaron 
+effective masses. The $\tau$ value was set to 2000 for AlAS, AlP, SiC and ZnSe, 3000 for GaP, 10000 for GaN. As a rule of thumb, it is always better 
+to have a greater fixed $\tau$ value for energy and effective mass computation, especially if the energy of the optical phonon is small or the coupling strength is high. This 
+of course means that the computation times are inevitably longer.
+For effective masses, in the isotropic case only the computed value for $m^*_{Px}$ were used for the result, in the anisotropic case only $m^*_{Px}$ ($m^*_\perp$) and $m^*_{Pz}$.
+\subsection{Results}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \hline
+        material & DMC (meV) & Froehlich (meV) & Feynman avg (meV)\\
+        \hline
+        \hline
+        AlAs-zb & $-10.52\pm0.11$ & $-8.8$ & $-9.6$ \\
+        AlP-zb & $-15.83\pm0.19$ &  $-14.0$ & $-15.1$ \\
+        GaN-zb & $-30.11\pm0.42$ & $-29.6$ & $-29.7$ \\
+        GaP-zb & $-8.59\pm0.24$ & -$7.4$ & $-8.3$ \\ 
+        SiC-zb & $-34.72\pm0.42$ & $-32.7$ & $34.8$ \\
+        ZnSe-zb & $-8.66\pm0.09$ & $-8.1$ & $-8.1$ \\
+        \hline
+    \end{tabular}
+    \caption{Obtained polaron ground state energy with DMC ($0$ is the reference for the conduction band minimum), the values for Froehlich and Feynman were retrieved from \cite{guster2021frohlich}.}
+    \label{tab:gs_obtained}
+\end{table}
+The results obtained for the ground state energy of the polaron (or Zero-Point Renormalization ZPR) are shown in \ref{tab:gs_obtained} together with the values computed with 
+a generalized Froehlich formalism and the average (in the anisotropic case) values obtained with the Feynman variational approach, the values are to be interpreted as 
+a renormalization of the conduction band minimum (and thus are all negative). The data obtained shows that all the computed parameters are estimated to be lower than 
+what is found with the Feynman technique, as it should be since this is a variational technique which provides with an upper bound to the renormalization energy. In the case of an anisotropic electronic band, 
+the Feynman result was found as 
+\begin{equation}
+    E^F_{Pavg}=\frac{2E^F_{P\perp}+E^F_{Pz}}{3}.
+\end{equation}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        \hline
+         & \multicolumn{2}{|c|}{DMC} & \multicolumn{2}{|c|}{Froehlich} & \multicolumn{2}{|c|}{Feynman} \\
+        \hline
+        \hline
+        material & $m^*_{P\perp}$ (a.u.) & $m^*_{Pz}$ (a.u.) & $m^*_{P\perp}$ (a.u.) & $m^*_{Pz}$ (a.u.) & $m^*_{P\perp}$ (a.u.) & $m^*_{Pz}$ (a.u.) \\
+        \hline
+        AlAs-zb & $0.2564$ & $0.9256$ & $0.2518$ & $0.9155$ & $0.2490$ & $0.9409$ \\
+        AlP-zb & $0.2689$ & $0.8423$ & $0.2637$ & $0.8322$ & $0.2602$ & $0.8574$ \\
+        GaN-zb & $0.1541$ & $0.1541$ & $0.1523$ & $0.1523$ & $0.1518$ & $0.1518$ \\
+        GaP-zb & $0.2413$ & $1.0894$ & $0.2367$ & $1.0786$ & $0.2343$ & $1.1086$ \\
+        SiC-zb & $0.2450$ & $0.7089$ & $0.2409$ & $0.7007$ & $0.2372$ & $0.7235$ \\
+        ZnSe-zb & $0.0977$ & $0.0977$ & $0.0936$ & $0.0936$ & $0.09344$ & $0.0934$ \\
+        \hline
+    \end{tabular}
+    \caption{Obtained polaron effective masses using DMC, the values for Froehlich and Feynman were retrieved from \cite{guster2021frohlich}.}
+    \label{tab:eff_mass_polarons}
+\end{table}
+In \ref{tab:eff_mass_polarons} instead the polaron effective masses are shown (error estimations are not given since they are so small they can be neglected), as it can be seen 
+in this case the situation is more varied and it is not clear which one of the computed values better estimates the actual polaron effective mass, 
+also considering that for DMC we have employed the approximation \ref{effective_mass_approx} to obtain \ref{eff_mass_estimator_new}. Nevertheless the results obtained are still consistent 
+with the symmetry of the model and with the values provided by the other approaches.
+
+
+
+
+%BaO-rs & 10.566 & $X$ & 0.380 & 1.197 & 47.3 & 4.21 & 92.43 & 2.812 \\
+%BN-zb & 6.746 & $X$ & 0.299 & 0.895 & 161.0 & 4.52 & 6.69 & 0.422 \\
